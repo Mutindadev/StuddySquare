@@ -5,7 +5,8 @@
       "label": "Auto Setup Environment",
       "type": "shell",
       "windows": {
-        "command": "setup.bat"
+        "command": "cmd",
+        "args": ["/c", "dart pub global activate fvm && fvm use && flutter pub get"]
       },
       "linux": {
         "command": "chmod +x setup.sh && ./setup.sh"
