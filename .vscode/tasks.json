@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Auto Setup Environment",
+      "type": "shell",
+      "windows": {
+        "command": "cmd",
+        "args": ["/c", "dart pub global activate fvm && fvm use && flutter pub get"]
+      },
+      "linux": {
+        "command": "chmod +x setup.sh && ./setup.sh"
+      },
+      "osx": {
+        "command": "chmod +x setup.sh && ./setup.sh"
+      },
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      },
+      "problemMatcher": [],
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}
