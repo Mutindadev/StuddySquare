@@ -117,7 +117,6 @@ StudySquare/
 ├── README.md
 └── pubspec.yaml
 
-
 ---
 
 ## 🧠 Expected Outcomes
@@ -135,6 +134,7 @@ StudySquare/
 ## 🧩 App Wireframes
 
 **Core Screens:**
+
 - Login Screen  
 - Home Screen  
 - Program Listing Screen  
@@ -184,5 +184,57 @@ By combining structured learning, progress tracking, and community engagement, i
 
 ---
 
+## 🛠️ Development Setup
 
+### Prerequisites
 
+- [SDKMAN](https://sdkman.io/) for Java version management
+- [FVM](https://fvm.app/) for Flutter version management
+
+### Quick Setup
+
+1. Clone the repository
+2. Run the setup script:
+
+   ```bash
+   # On macOS/Linux
+   chmod +x setup.sh
+   ./setup.sh
+   
+   # On Windows
+   setup.bat
+   ```
+
+### Manual Setup
+
+1. Install correct Flutter version:
+
+   ```bash
+   fvm install
+   fvm use
+   ```
+
+2. Install correct Java version (in android directory):
+
+   ```bash
+   sdk env install
+   sdk env
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   flutter pub get
+   ```
+
+### Running the App
+
+```bash
+flutter run
+```
+
+## 📋 Version Requirements
+
+- **Flutter**: 3.35.3 (managed by FVM)
+- **Java**: 21.0.8-tem (managed by SDKMAN)
+- **Dart SDK**: ^3.9.2
