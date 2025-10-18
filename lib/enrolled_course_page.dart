@@ -4,6 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'quiz_page.dart';
 import 'mini_project_page.dart';
 
+// StudySquare official colors from Figma design
+const Color primaryBlue = Color(0xFF2B7FFF); // #2B7FFF
+const Color primaryPurple = Color(0xFF9810FA); // #9810FA
+const Color backgroundLight = Color(0xFFF9FAFB);
+const Color cardWhite = Color(0xFFFFFFFF);
+const Color textDark = Color(0xFF1A1A1A);
+const Color textGray = Color(0xFF64748B);
+
 class EnrolledCoursePage extends StatefulWidget {
   final Map<String, dynamic> program;
 
@@ -188,28 +196,37 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     final locked = !_isModuleUnlocked(moduleIndex);
 
     IconData icon;
+    Color iconColor;
     switch (taskType) {
       case 'quiz':
         icon = Icons.quiz;
+        iconColor = completed ? Colors.green : primaryBlue;
         break;
       case 'project':
         icon = Icons.code;
+        iconColor = completed ? Colors.green : primaryPurple;
         break;
       case 'reading':
         icon = Icons.book;
+        iconColor = completed ? Colors.green : primaryBlue;
         break;
       default:
         icon = Icons.task;
+        iconColor = completed ? Colors.green : textGray;
     }
 
     return Opacity(
       opacity: locked ? 0.5 : 1.0,
       child: ListTile(
-        leading: Icon(icon, color: completed ? Colors.green : Colors.grey),
-        title: Text(taskName),
-        subtitle: Text(taskType.toUpperCase()),
+        leading: Icon(icon, color: iconColor),
+        title: Text(taskName, style: TextStyle(color: textDark)),
+        subtitle: Text(
+          taskType.toUpperCase(),
+          style: TextStyle(color: textGray, fontSize: 12),
+        ),
         trailing: Checkbox(
           value: completed,
+          activeColor: primaryPurple,
           onChanged: locked
               ? null
               : (v) {
@@ -228,15 +245,22 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('$title - Learning Path'),
-        backgroundColor: Colors.red,
+        backgroundColor: primaryPurple, // Purple AppBar
         elevation: 0,
       ),
       body: Column(
         children: [
+          // Progress header with gradient background
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
-            color: Colors.red.shade50,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFF3E5FD), Color(0xFFE1BEFA)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -245,14 +269,16 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: textDark,
+                        ),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         '${(_progress * 100).toStringAsFixed(0)}% complete • $_completedCount/$_totalTasks tasks',
-                        style: const TextStyle(
-                            fontSize: 14, color: Colors.black54),
+                        style: TextStyle(fontSize: 14, color: textGray),
                       ),
                     ],
                   ),
@@ -266,14 +292,17 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                       child: CircularProgressIndicator(
                         value: _progress,
                         backgroundColor: Colors.grey.shade200,
-                        valueColor:
-                            const AlwaysStoppedAnimation<Color>(Colors.red),
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            primaryPurple), // Purple progress
                         strokeWidth: 6,
                       ),
                     ),
                     Text(
                       '${(_progress * 100).toStringAsFixed(0)}%',
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: textDark,
+                      ),
                     ),
                   ],
                 ),
@@ -316,7 +345,9 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 6),
                             decoration: BoxDecoration(
-                              color: unlocked ? Colors.red : Colors.grey,
+                              color: unlocked
+                                  ? primaryPurple
+                                  : Colors.grey, // Purple badge when unlocked
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -330,7 +361,10 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                           ),
                           title: Text(
                             module['title']?.toString() ?? '',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: textDark,
+                            ),
                           ),
                           subtitle: Text(
                             unlocked
@@ -338,9 +372,14 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                                     ? 'Completed ✓'
                                     : 'In Progress')
                                 : 'Locked',
+                            style: TextStyle(
+                              color: moduleCompleted ? Colors.green : textGray,
+                            ),
                           ),
-                          trailing:
-                              Icon(unlocked ? Icons.lock_open : Icons.lock),
+                          trailing: Icon(
+                            unlocked ? Icons.lock_open : Icons.lock,
+                            color: unlocked ? primaryPurple : Colors.grey,
+                          ),
                         );
                       },
                       body: Column(
@@ -359,7 +398,8 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                               icon: const Icon(Icons.play_arrow, size: 18),
                               label: const Text('Continue'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
+                                backgroundColor: primaryPurple, // Purple button
+                                foregroundColor: Colors.white,
                               ),
                               onPressed: !unlocked
                                   ? null
@@ -386,6 +426,10 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: primaryPurple,
+                        side: BorderSide(color: primaryPurple),
+                      ),
                       child: const Text('Back to Course'),
                     ),
                   ),
@@ -410,6 +454,9 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                       },
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: primaryPurple,
+                                      ),
                                       child: const Text('Close'),
                                     ),
                                   ],
@@ -418,7 +465,9 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: primaryPurple, // Purple finish button
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: Colors.grey,
                       ),
                     ),
                   ),
