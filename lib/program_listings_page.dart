@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'program_detail_page.dart';
 
+// StudySquare official colors from Figma design
+const Color primaryBlue = Color(0xFF2B7FFF); // #2B7FFF
+const Color primaryPurple = Color(0xFF9810FA); // #9810FA
+const Color backgroundLight = Color(0xFFF9FAFB);
+const Color cardWhite = Color(0xFFFFFFFF);
+const Color textDark = Color(0xFF1A1A1A);
+const Color textGray = Color(0xFF64748B);
+
 class ProgramListingsPage extends StatelessWidget {
   const ProgramListingsPage({Key? key}) : super(key: key);
 
@@ -254,11 +262,11 @@ class ProgramListingsPage extends StatelessWidget {
   Color _getLevelColor(String level) {
     switch (level.toLowerCase()) {
       case 'beginner':
-        return Colors.green;
+        return Colors.green; // Green for easy
       case 'intermediate':
-        return Colors.orange;
+        return Colors.orange; // Orange for medium
       case 'advanced':
-        return Colors.red;
+        return Colors.red; // RED for hard ✅ STAYS RED
       default:
         return Colors.grey;
     }
@@ -269,7 +277,7 @@ class ProgramListingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Programs'),
-        backgroundColor: Colors.red,
+        backgroundColor: primaryPurple, // Purple AppBar
         elevation: 0,
       ),
       body: Container(
@@ -278,8 +286,8 @@ class ProgramListingsPage extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.red.shade50,
-              Colors.white,
+              backgroundLight, // Light gray background
+              cardWhite,
             ],
           ),
         ),
@@ -318,7 +326,7 @@ class ProgramListingsPage extends StatelessWidget {
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.red,
+                                color: Colors.black, // Purple title
                               ),
                             ),
                           ),
@@ -347,7 +355,7 @@ class ProgramListingsPage extends StatelessWidget {
                         program['description'] ?? '',
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey[700],
+                          color: textGray, // Gray description text
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -355,21 +363,20 @@ class ProgramListingsPage extends StatelessWidget {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Icon(Icons.access_time,
-                              size: 16, color: Colors.grey[600]),
+                          Icon(Icons.access_time, size: 16, color: textGray),
                           const SizedBox(width: 4),
                           Text(
                             program['duration'] ?? '',
                             style: TextStyle(
                               fontSize: 13,
-                              color: Colors.grey[600],
+                              color: textGray,
                             ),
                           ),
                           const Spacer(),
                           const Text(
                             'View Details',
                             style: TextStyle(
-                              color: Colors.red,
+                              color: primaryPurple, // Purple text
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -377,7 +384,7 @@ class ProgramListingsPage extends StatelessWidget {
                           const Icon(
                             Icons.arrow_forward_ios,
                             size: 14,
-                            color: Colors.red,
+                            color: primaryPurple, // Purple arrow
                           ),
                         ],
                       ),
