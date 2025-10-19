@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'enrolled_course_page.dart';
 
+// StudySquare official colors from Figma design
+const Color primaryBlue = Color(0xFF2B7FFF); // #2B7FFF
+const Color primaryPurple = Color(0xFF9810FA); // #9810FA
+const Color backgroundLight = Color(0xFFF9FAFB);
+const Color cardWhite = Color(0xFFFFFFFF);
+const Color textDark = Color(0xFF1A1A1A);
+const Color textGray = Color(0xFF64748B);
+
 class ProgramDetailPage extends StatelessWidget {
   final Map<String, dynamic> program;
 
@@ -47,13 +55,14 @@ class ProgramDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Program Details'),
-        backgroundColor: Colors.red,
+        backgroundColor: primaryPurple, // Purple AppBar
         elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Hero section with blue-to-purple gradient
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(24),
@@ -62,8 +71,8 @@ class ProgramDetailPage extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.red,
-                    Colors.red.shade700,
+                    primaryBlue, // Blue #2B7FFF
+                    primaryPurple, // Purple #9810FA
                   ],
                 ),
               ),
@@ -114,11 +123,12 @@ class ProgramDetailPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  const Text(
+                  Text(
                     'What You\'ll Learn',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: textDark,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -126,31 +136,33 @@ class ProgramDetailPage extends StatelessWidget {
                       .map((item) => _LearningPoint(text: item))
                       .toList(),
                   const SizedBox(height: 24),
-                  const Text(
+                  Text(
                     'Prerequisites',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: textDark,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
+                      color: backgroundLight,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Text(
+                    child: Text(
                       'No prior experience required. Just bring your enthusiasm and commitment to learn!',
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 15, color: textGray),
                     ),
                   ),
                   const SizedBox(height: 24),
-                  const Text(
+                  Text(
                     'Course Outline',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: textDark,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -161,32 +173,44 @@ class ProgramDetailPage extends StatelessWidget {
                           ))
                       .toList(),
                   const SizedBox(height: 32),
+                  // Enroll Now button with gradient
                   SizedBox(
                     width: double.infinity,
                     height: 56,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                EnrolledCoursePage(program: program),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [primaryBlue, primaryPurple],
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
                         ),
-                        elevation: 4,
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: const Text(
-                        'Enroll Now',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  EnrolledCoursePage(program: program),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Enroll Now',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -202,6 +226,7 @@ class ProgramDetailPage extends StatelessWidget {
   }
 }
 
+// Info card widget (Duration, Level)
 class _InfoCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -218,19 +243,19 @@ class _InfoCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.red.shade50,
+        color: Color(0xFFF3E5FD), // Light purple background
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.red.shade100),
+        border: Border.all(color: Color(0xFFE1BEFA)), // Light purple border
       ),
       child: Column(
         children: [
-          Icon(icon, size: 32, color: Colors.red),
+          Icon(icon, size: 32, color: primaryPurple), // Purple icon
           const SizedBox(height: 8),
           Text(
             title,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey[600],
+              color: textGray,
             ),
           ),
           const SizedBox(height: 4),
@@ -239,7 +264,7 @@ class _InfoCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.red,
+              color: primaryPurple, // Purple text
             ),
           ),
         ],
@@ -248,6 +273,7 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
+// Learning point with green checkmark
 class _LearningPoint extends StatelessWidget {
   final String text;
 
@@ -262,14 +288,14 @@ class _LearningPoint extends StatelessWidget {
         children: [
           const Icon(
             Icons.check_circle,
-            color: Colors.green,
+            color: Colors.green, // Green checkmark (stays green)
             size: 24,
           ),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16, color: textDark),
             ),
           ),
         ],
@@ -278,6 +304,7 @@ class _LearningPoint extends StatelessWidget {
   }
 }
 
+// Module item (Week badge + title)
 class _ModuleItem extends StatelessWidget {
   final String week;
   final String title;
@@ -298,7 +325,7 @@ class _ModuleItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: primaryPurple, // Purple week badge
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
@@ -314,13 +341,14 @@ class _ModuleItem extends StatelessWidget {
           Expanded(
             child: Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                color: textDark,
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios, size: 16),
+          Icon(Icons.arrow_forward_ios, size: 16, color: textGray),
         ],
       ),
     );
