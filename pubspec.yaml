@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  
+
   # Added by Niloy for progress tracking in learning path
   shared_preferences: ^2.2.2
 
@@ -24,5 +24,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/spanish.jpg
-    - assets/french.jpg
+    - assets/images/spanish.jpg
+    - assets/images/french.jpg

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:studysquare/dashboard_screen.dart';
+import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
 
-void main() => runApp(const ProgressApp());
+import 'core/theme/app_theme.dart';
+// ...existing imports...
 
-class ProgressApp extends StatelessWidget {
-  const ProgressApp({super.key});
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Progress Page',
+      title: 'StudySquare',
+      theme: AppTheme.lightTheme,
+      // Remove the old theme configuration
+      home: const RegistrationPage(), // or your initial route
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFF8F9FA),
-        fontFamily: 'Inter',
-      ),
-      home: const DashboardScreen(),
     );
   }
 }
