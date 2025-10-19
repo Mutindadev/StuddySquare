@@ -26,13 +26,14 @@
   "java.import.gradle.enabled": true,
   "java.import.maven.enabled": true,
   "java.configuration.runtimes": [
-    {
-      "name": "JavaSE-21",
-      "path": "${env:JAVA_HOME}"
-    }
-  ],
+  {
+    "name": "JavaSE-21",
+    "path": "/usr/lib/jvm/java-21-openjdk-amd64",
+    "default": true
+  }
+],
   "java.compile.nullAnalysis.mode": "automatic",
-  "java.jdt.ls.java.home": "${env:JAVA_HOME}",
+  "java.jdt.ls.java.home": "/usr/lib/jvm/java-21-openjdk-amd64",
   "task.allowAutomaticTasks": "on",
   "files.associations": {
     "*.bat": "bat",
