@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'progress/presentation/pages/progress_page.dart';
+import 'package:studysquare/dashboard_screen.dart';
 
 void main() => runApp(const ProgressApp());
 
@@ -15,8 +15,7 @@ class ProgressApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color(0xFFF8F9FA),
         fontFamily: 'Inter',
       ),
-      home: const ProgressPage(),
+      home: const DashboardScreen(),
     );
   }
 }
-
