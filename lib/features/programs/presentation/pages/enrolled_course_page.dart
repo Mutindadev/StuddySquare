@@ -10,7 +10,7 @@ import 'quiz_page.dart';
 class EnrolledCoursePage extends StatefulWidget {
   final Map<String, dynamic> program;
 
-  const EnrolledCoursePage({Key? key, required this.program}) : super(key: key);
+  const EnrolledCoursePage({super.key, required this.program});
 
   @override
   State<EnrolledCoursePage> createState() => _EnrolledCoursePageState();
