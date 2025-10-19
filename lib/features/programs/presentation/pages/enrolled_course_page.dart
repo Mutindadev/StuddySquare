@@ -2,17 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:studysquare/core/theme/palette.dart';
 
 import 'mini_project_page.dart';
 import 'quiz_page.dart';
-
-// StudySquare official colors from Figma design
-const Color primaryBlue = Color(0xFF2B7FFF); // #2B7FFF
-const Color primaryPurple = Color(0xFF9810FA); // #9810FA
-const Color backgroundLight = Color(0xFFF9FAFB);
-const Color cardWhite = Color(0xFFFFFFFF);
-const Color textDark = Color(0xFF1A1A1A);
-const Color textGray = Color(0xFF64748B);
 
 class EnrolledCoursePage extends StatefulWidget {
   final Map<String, dynamic> program;
@@ -165,14 +158,20 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: Text(taskName),
+          backgroundColor: Palette.surface,
+          title: Text(
+            taskName,
+            style: const TextStyle(color: Palette.textPrimary),
+          ),
           content: const Text(
             'This is a reading assignment. Please complete the reading materials '
             'in your course portal, then mark this task as complete.',
+            style: TextStyle(color: Palette.textSecondary),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
+              style: TextButton.styleFrom(foregroundColor: Palette.primary),
               child: const Text('OK'),
             ),
           ],
@@ -198,40 +197,60 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     switch (taskType) {
       case 'quiz':
         icon = Icons.quiz;
-        iconColor = completed ? Colors.green : primaryBlue;
+        iconColor = completed ? Palette.success : Palette.primary;
         break;
       case 'project':
         icon = Icons.code;
-        iconColor = completed ? Colors.green : primaryPurple;
+        iconColor = completed ? Palette.success : Palette.secondary;
         break;
       case 'reading':
         icon = Icons.book;
-        iconColor = completed ? Colors.green : primaryBlue;
+        iconColor = completed ? Palette.success : Palette.primary;
         break;
       default:
         icon = Icons.task;
-        iconColor = completed ? Colors.green : textGray;
+        iconColor = completed ? Palette.success : Palette.textTertiary;
     }
 
     return Opacity(
       opacity: locked ? 0.5 : 1.0,
-      child: ListTile(
-        leading: Icon(icon, color: iconColor),
-        title: Text(taskName, style: TextStyle(color: textDark)),
-        subtitle: Text(
-          taskType.toUpperCase(),
-          style: TextStyle(color: textGray, fontSize: 12),
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 2),
+        decoration: BoxDecoration(
+          color: Palette.surface,
+          borderRadius: BorderRadius.circular(8),
         ),
-        trailing: Checkbox(
-          value: completed,
-          activeColor: primaryPurple,
-          onChanged: locked
-              ? null
-              : (v) {
-                  _toggleTask(moduleIndex, taskId, v ?? false);
-                },
+        child: ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: iconColor.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: iconColor, size: 20),
+          ),
+          title: Text(
+            taskName,
+            style: const TextStyle(
+              color: Palette.textPrimary,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          subtitle: Text(
+            taskType.toUpperCase(),
+            style: const TextStyle(color: Palette.textTertiary, fontSize: 12),
+          ),
+          trailing: Checkbox(
+            value: completed,
+            activeColor: Palette.primary,
+            onChanged: locked
+                ? null
+                : (v) {
+                    _toggleTask(moduleIndex, taskId, v ?? false);
+                  },
+          ),
+          onTap: locked ? null : () => _openTask(moduleIndex, task),
         ),
-        onTap: locked ? null : () => _openTask(moduleIndex, task),
       ),
     );
   }
@@ -241,9 +260,11 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     final title = widget.program['title']?.toString() ?? 'Enrolled Course';
 
     return Scaffold(
+      backgroundColor: Palette.background,
       appBar: AppBar(
         title: Text('$title - Learning Path'),
-        backgroundColor: primaryPurple, // Purple AppBar
+        backgroundColor: Palette.primary,
+        foregroundColor: Palette.textOnPrimary,
         elevation: 0,
       ),
       body: Column(
@@ -252,13 +273,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFFF3E5FD), Color(0xFFE1BEFA)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
+            decoration: const BoxDecoration(gradient: Palette.primaryGradient),
             child: Row(
               children: [
                 Expanded(
@@ -267,16 +282,19 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: textDark,
+                          color: Palette.textOnPrimary,
                         ),
                       ),
                       const SizedBox(height: 6),
                       Text(
                         '${(_progress * 100).toStringAsFixed(0)}% complete • $_completedCount/$_totalTasks tasks',
-                        style: TextStyle(fontSize: 14, color: textGray),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Palette.textOnPrimary.withOpacity(0.8),
+                        ),
                       ),
                     ],
                   ),
@@ -289,18 +307,18 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                       height: 64,
                       child: CircularProgressIndicator(
                         value: _progress,
-                        backgroundColor: Colors.grey.shade200,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          primaryPurple,
-                        ), // Purple progress
+                        backgroundColor: Palette.textOnPrimary.withOpacity(0.3),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          Palette.textOnPrimary,
+                        ),
                         strokeWidth: 6,
                       ),
                     ),
                     Text(
                       '${(_progress * 100).toStringAsFixed(0)}%',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: textDark,
+                        color: Palette.textOnPrimary,
                       ),
                     ),
                   ],
@@ -313,6 +331,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: ExpansionPanelList(
+                  elevation: 1,
                   expansionCallback: (int index, bool isExpanded) {
                     setState(() {
                       if (_isModuleUnlocked(index)) {
@@ -323,6 +342,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                             content: Text(
                               'Complete previous module to unlock "${modules[index]['title']}"',
                             ),
+                            backgroundColor: Palette.warning,
                             duration: const Duration(seconds: 2),
                           ),
                         );
@@ -341,48 +361,66 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                     return ExpansionPanel(
                       canTapOnHeader: true,
                       isExpanded: _isExpanded[index],
+                      backgroundColor: Palette.surface,
                       headerBuilder: (context, isOpen) {
-                        return ListTile(
-                          leading: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: unlocked
-                                  ? primaryPurple
-                                  : Colors.grey, // Purple badge when unlocked
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              module['week']?.toString() ?? '',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
+                        return Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: ListTile(
+                            leading: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: unlocked
+                                    ? Palette.secondary
+                                    : Palette.textTertiary,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                module['week']?.toString() ?? '',
+                                style: const TextStyle(
+                                  color: Palette.textOnPrimary,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
-                          ),
-                          title: Text(
-                            module['title']?.toString() ?? '',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: textDark,
+                            title: Text(
+                              module['title']?.toString() ?? '',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Palette.textPrimary,
+                              ),
                             ),
-                          ),
-                          subtitle: Text(
-                            unlocked
-                                ? (moduleCompleted
-                                      ? 'Completed ✓'
-                                      : 'In Progress')
-                                : 'Locked',
-                            style: TextStyle(
-                              color: moduleCompleted ? Colors.green : textGray,
+                            subtitle: Text(
+                              unlocked
+                                  ? (moduleCompleted
+                                        ? 'Completed ✓'
+                                        : 'In Progress')
+                                  : 'Locked',
+                              style: TextStyle(
+                                color: moduleCompleted
+                                    ? Palette.success
+                                    : Palette.textSecondary,
+                              ),
                             ),
-                          ),
-                          trailing: Icon(
-                            unlocked ? Icons.lock_open : Icons.lock,
-                            color: unlocked ? primaryPurple : Colors.grey,
+                            trailing: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                color: unlocked
+                                    ? Palette.containerLight
+                                    : Palette.borderLight,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                unlocked ? Icons.lock_open : Icons.lock,
+                                color: unlocked
+                                    ? Palette.primary
+                                    : Palette.textTertiary,
+                                size: 16,
+                              ),
+                            ),
                           ),
                         );
                       },
@@ -397,15 +435,16 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                             }
                             return const SizedBox.shrink();
                           }).toList(),
-                          const Divider(),
+                          const Divider(color: Palette.borderLight),
                           Padding(
                             padding: const EdgeInsets.all(12),
                             child: ElevatedButton.icon(
                               icon: const Icon(Icons.play_arrow, size: 18),
                               label: const Text('Continue'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryPurple, // Purple button
-                                foregroundColor: Colors.white,
+                                backgroundColor: Palette.primary,
+                                foregroundColor: Palette.textOnPrimary,
+                                disabledBackgroundColor: Palette.textTertiary,
                               ),
                               onPressed: !unlocked
                                   ? null
@@ -425,16 +464,22 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
             ),
           ),
           SafeArea(
-            child: Padding(
+            child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: Palette.surface,
+                border: Border(
+                  top: BorderSide(color: Palette.borderLight, width: 1),
+                ),
+              ),
               child: Row(
                 children: [
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: primaryPurple,
-                        side: BorderSide(color: primaryPurple),
+                        foregroundColor: Palette.primary,
+                        side: const BorderSide(color: Palette.primary),
                       ),
                       child: const Text('Back to Course'),
                     ),
@@ -449,10 +494,19 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
-                                  title: const Text('🎉 Congratulations!'),
+                                  backgroundColor: Palette.surface,
+                                  title: const Text(
+                                    '🎉 Congratulations!',
+                                    style: TextStyle(
+                                      color: Palette.textPrimary,
+                                    ),
+                                  ),
                                   content: const Text(
                                     'You have completed this course! '
                                     'You will receive your certificate via email.',
+                                    style: TextStyle(
+                                      color: Palette.textSecondary,
+                                    ),
                                   ),
                                   actions: [
                                     TextButton(
@@ -461,7 +515,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                                         Navigator.pop(context);
                                       },
                                       style: TextButton.styleFrom(
-                                        foregroundColor: primaryPurple,
+                                        foregroundColor: Palette.primary,
                                       ),
                                       child: const Text('Close'),
                                     ),
@@ -471,9 +525,9 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryPurple, // Purple finish button
-                        foregroundColor: Colors.white,
-                        disabledBackgroundColor: Colors.grey,
+                        backgroundColor: Palette.primary,
+                        foregroundColor: Palette.textOnPrimary,
+                        disabledBackgroundColor: Palette.textTertiary,
                       ),
                     ),
                   ),
