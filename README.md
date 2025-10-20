@@ -6,24 +6,40 @@
 ---
 
 ### 🖼️ Screenshots  
-**Login Screen**  
- <img width="200" height="300" alt="{5EF75215-D32F-448F-AC28-6BA1E6F6CF38}" src="https://github.com/user-attachments/assets/a294203c-8cb9-4055-9022-cd5b53fc2d5a" />
 
-**Home Screen**  
-<img width="200" height="300" alt="{E023C5B0-183E-445D-AD62-A06FA8051D33}" src="https://github.com/user-attachments/assets/72e22ded-6574-474c-afb0-350fcd221222" />
+<div align="center" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px;">
 
-**Program Listing Screen**  
-<img width="200" height="300" alt="{B0E412A9-686B-4996-AE1B-0B361576D5E8}" src="https://github.com/user-attachments/assets/86a6a97d-b93b-46e9-85bf-1bd071c22ec6" />
+  <div style="box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 10px; padding: 10px; background-color: var(--color-canvas-subtle); text-align: center;">
+    <img width="200" height="300" src="https://github.com/user-attachments/assets/a294203c-8cb9-4055-9022-cd5b53fc2d5a" alt="Login Screen" style="border-radius: 8px;" />
+    <p><b>Login Screen</b></p>
+  </div>
 
-**Program Details Screen**  
-<img width="200" height="300" alt="{7028FC59-4ECE-4732-AB85-5F0876809050}" src="https://github.com/user-attachments/assets/e36f78e5-4d69-4858-96ab-d6e75d8c9b58" />
+  <div style="box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 10px; padding: 10px; background-color: var(--color-canvas-subtle); text-align: center;">
+    <img width="200" height="300" src="https://github.com/user-attachments/assets/72e22ded-6574-474c-afb0-350fcd221222" alt="Home Screen" style="border-radius: 8px;" />
+    <p><b>Home Screen</b></p>
+  </div>
 
-**Profile Screen**  
-<img width="200" height="300" alt="{B0A113E9-D813-4456-940E-317715486DD5}" src="https://github.com/user-attachments/assets/51d924f4-e015-4637-87a0-8218ad9c69f7" />
+  <div style="box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 10px; padding: 10px; background-color: var(--color-canvas-subtle); text-align: center;">
+    <img width="200" height="300" src="https://github.com/user-attachments/assets/86a6a97d-b93b-46e9-85bf-1bd071c22ec6" alt="Program Listing Screen" style="border-radius: 8px;" />
+    <p><b>Program Listing Screen</b></p>
+  </div>
 
-**Progress Screen**  
- <img width="200" height="300" alt="{0C57165C-2940-4538-9998-43D39F48286E}" src="https://github.com/user-attachments/assets/dcdc4aab-9888-4a01-83de-1a54b91bbf40" />
+  <div style="box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 10px; padding: 10px; background-color: var(--color-canvas-subtle); text-align: center;">
+    <img width="200" height="300" src="https://github.com/user-attachments/assets/e36f78e5-4d69-4858-96ab-d6e75d8c9b58" alt="Program Details Screen" style="border-radius: 8px;" />
+    <p><b>Program Details Screen</b></p>
+  </div>
 
+  <div style="box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 10px; padding: 10px; background-color: var(--color-canvas-subtle); text-align: center;">
+    <img width="200" height="300" src="https://github.com/user-attachments/assets/51d924f4-e015-4637-87a0-8218ad9c69f7" alt="Profile Screen" style="border-radius: 8px;" />
+    <p><b>Profile Screen</b></p>
+  </div>
+
+  <div style="box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-radius: 10px; padding: 10px; background-color: var(--color-canvas-subtle); text-align: center;">
+    <img width="200" height="300" src="https://github.com/user-attachments/assets/dcdc4aab-9888-4a01-83de-1a54b91bbf40" alt="Progress Screen" style="border-radius: 8px;" />
+    <p><b>Progress Screen</b></p>
+  </div>
+
+</div>
 
 ---
 
