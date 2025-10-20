@@ -7,26 +7,22 @@
 
 ### 🖼️ Screenshots  
 **Login Screen**  
- <img width="230" height="520" alt="{5EF75215-D32F-448F-AC28-6BA1E6F6CF38}" src="https://github.com/user-attachments/assets/a294203c-8cb9-4055-9022-cd5b53fc2d5a" />
-
+ <img width="200" height="300" alt="{5EF75215-D32F-448F-AC28-6BA1E6F6CF38}" src="https://github.com/user-attachments/assets/a294203c-8cb9-4055-9022-cd5b53fc2d5a" />
 
 **Home Screen**  
-<img width="273" height="557" alt="{E023C5B0-183E-445D-AD62-A06FA8051D33}" src="https://github.com/user-attachments/assets/72e22ded-6574-474c-afb0-350fcd221222" />
+<img width="200" height="300" alt="{E023C5B0-183E-445D-AD62-A06FA8051D33}" src="https://github.com/user-attachments/assets/72e22ded-6574-474c-afb0-350fcd221222" />
 
 **Program Listing Screen**  
-<img width="241" height="524" alt="{B0E412A9-686B-4996-AE1B-0B361576D5E8}" src="https://github.com/user-attachments/assets/86a6a97d-b93b-46e9-85bf-1bd071c22ec6" />
-
+<img width="200" height="300" alt="{B0E412A9-686B-4996-AE1B-0B361576D5E8}" src="https://github.com/user-attachments/assets/86a6a97d-b93b-46e9-85bf-1bd071c22ec6" />
 
 **Program Details Screen**  
-<img width="256" height="547" alt="{7028FC59-4ECE-4732-AB85-5F0876809050}" src="https://github.com/user-attachments/assets/e36f78e5-4d69-4858-96ab-d6e75d8c9b58" />
-
+<img width="200" height="300" alt="{7028FC59-4ECE-4732-AB85-5F0876809050}" src="https://github.com/user-attachments/assets/e36f78e5-4d69-4858-96ab-d6e75d8c9b58" />
 
 **Profile Screen**  
-<img width="252" height="564" alt="{B0A113E9-D813-4456-940E-317715486DD5}" src="https://github.com/user-attachments/assets/51d924f4-e015-4637-87a0-8218ad9c69f7" />
-
+<img width="200" height="300" alt="{B0A113E9-D813-4456-940E-317715486DD5}" src="https://github.com/user-attachments/assets/51d924f4-e015-4637-87a0-8218ad9c69f7" />
 
 **Progress Screen**  
- <img width="252" height="553" alt="{0C57165C-2940-4538-9998-43D39F48286E}" src="https://github.com/user-attachments/assets/dcdc4aab-9888-4a01-83de-1a54b91bbf40" />
+ <img width="200" height="300" alt="{0C57165C-2940-4538-9998-43D39F48286E}" src="https://github.com/user-attachments/assets/dcdc4aab-9888-4a01-83de-1a54b91bbf40" />
 
 
 ---
@@ -438,19 +434,9 @@ StudySquare/
 - Program Details Screen  
 - Profile Screen  
 
-*Wireframes designed in Figma — links/screenshots to be attached in submission.*
-
 ---
 
-## 📁 GitHub Repository & Resources
-
-- **GitHub Repo:** [https://github.com/Mutindadev/StuddySquare.git](https://github.com/Mutindadev/StuddySquare.git)  
-- **Figma Design:** *To be attached*  
-- **Team Charter:** *To be attached*  
-
----
-
-## 🗓️ Week 1 Deliverables
+## 🗓️ Week 1 summary
 
 - ✅ App Proposal Document — Defines purpose, users, and features.  
 - ✅ Wireframes — Minimum of 4 low-fidelity screens.  
