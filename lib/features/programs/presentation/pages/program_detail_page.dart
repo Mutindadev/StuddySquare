@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studysquare/core/theme/palette.dart';
+
 import 'enrolled_course_page.dart';
 
 class ProgramDetailPage extends StatelessWidget {
@@ -15,8 +17,9 @@ class ProgramDetailPage extends StatelessWidget {
 
     List<String> learning = [];
     if (program['learning'] is List) {
-      learning =
-          (program['learning'] as List).map((e) => e.toString()).toList();
+      learning = (program['learning'] as List)
+          .map((e) => e.toString())
+          .toList();
     } else {
       learning = [
         'Master key concepts and skills',
@@ -45,27 +48,23 @@ class ProgramDetailPage extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Palette.background,
       appBar: AppBar(
         title: const Text('Program Details'),
-        backgroundColor: Colors.red,
+        backgroundColor: Palette.primary,
+        foregroundColor: Palette.textOnPrimary,
         elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Hero section with primary gradient
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.red,
-                    Colors.red.shade700,
-                  ],
-                ),
+              decoration: const BoxDecoration(
+                gradient: Palette.primaryGradient,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,15 +74,15 @@ class ProgramDetailPage extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Palette.textOnPrimary,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     description,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white70,
+                      color: Palette.textOnPrimary.withOpacity(0.9),
                     ),
                   ),
                 ],
@@ -119,6 +118,7 @@ class ProgramDetailPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: Palette.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -131,18 +131,25 @@ class ProgramDetailPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: Palette.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.grey[100],
+                      color: Palette.containerLight,
                       borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Palette.primary.withOpacity(0.2),
+                      ),
                     ),
                     child: const Text(
                       'No prior experience required. Just bring your enthusiasm and commitment to learn!',
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Palette.textSecondary,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -151,42 +158,60 @@ class ProgramDetailPage extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
+                      color: Palette.textPrimary,
                     ),
                   ),
                   const SizedBox(height: 12),
                   ...modules
-                      .map((mod) => _ModuleItem(
-                            week: mod['week']?.toString() ?? '',
-                            title: mod['title']?.toString() ?? '',
-                          ))
+                      .map(
+                        (mod) => _ModuleItem(
+                          week: mod['week']?.toString() ?? '',
+                          title: mod['title']?.toString() ?? '',
+                        ),
+                      )
                       .toList(),
                   const SizedBox(height: 32),
+                  // Enroll Now button with gradient
                   SizedBox(
                     width: double.infinity,
                     height: 56,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                EnrolledCoursePage(program: program),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: Palette.primaryGradient,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Palette.shadowMedium,
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 4,
+                        ],
                       ),
-                      child: const Text(
-                        'Enroll Now',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  EnrolledCoursePage(program: program),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 0,
+                        ),
+                        child: const Text(
+                          'Enroll Now',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Palette.textOnPrimary,
+                          ),
                         ),
                       ),
                     ),
@@ -202,6 +227,7 @@ class ProgramDetailPage extends StatelessWidget {
   }
 }
 
+// Info card widget (Duration, Level)
 class _InfoCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -218,20 +244,24 @@ class _InfoCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.red.shade50,
+        color: Palette.containerLight,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.red.shade100),
+        border: Border.all(color: Palette.primary.withOpacity(0.3)),
+        boxShadow: [
+          BoxShadow(
+            color: Palette.shadowLight,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          Icon(icon, size: 32, color: Colors.red),
+          Icon(icon, size: 32, color: Palette.primary),
           const SizedBox(height: 8),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[600],
-            ),
+            style: const TextStyle(fontSize: 12, color: Palette.textSecondary),
           ),
           const SizedBox(height: 4),
           Text(
@@ -239,7 +269,7 @@ class _InfoCard extends StatelessWidget {
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.red,
+              color: Palette.primary,
             ),
           ),
         ],
@@ -248,6 +278,7 @@ class _InfoCard extends StatelessWidget {
   }
 }
 
+// Learning point with success checkmark
 class _LearningPoint extends StatelessWidget {
   final String text;
 
@@ -260,16 +291,12 @@ class _LearningPoint extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            Icons.check_circle,
-            color: Colors.green,
-            size: 24,
-          ),
+          const Icon(Icons.check_circle, color: Palette.success, size: 24),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16, color: Palette.textPrimary),
             ),
           ),
         ],
@@ -278,6 +305,7 @@ class _LearningPoint extends StatelessWidget {
   }
 }
 
+// Module item (Week badge + title)
 class _ModuleItem extends StatelessWidget {
   final String week;
   final String title;
@@ -290,21 +318,29 @@ class _ModuleItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        color: Palette.surface,
+        border: Border.all(color: Palette.borderLight),
         borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Palette.shadowLight,
+            blurRadius: 2,
+            offset: const Offset(0, 1),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.red,
+              color: Palette.secondary,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
               week,
               style: const TextStyle(
-                color: Colors.white,
+                color: Palette.textOnPrimary,
                 fontWeight: FontWeight.bold,
                 fontSize: 12,
               ),
@@ -317,10 +353,15 @@ class _ModuleItem extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
+                color: Palette.textPrimary,
               ),
             ),
           ),
-          const Icon(Icons.arrow_forward_ios, size: 16),
+          const Icon(
+            Icons.arrow_forward_ios,
+            size: 16,
+            color: Palette.textTertiary,
+          ),
         ],
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/home/presentation/pages/home.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -26,15 +28,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade50,
+      backgroundColor: Palette.background,
       body: Center(
         child: Container(
           width: 350,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Palette.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.deepPurple, width: 2),
+            border: Border.all(color: Palette.primary, width: 2),
+            boxShadow: [
+              BoxShadow(
+                color: Palette.shadowMedium,
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -42,28 +51,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Colors.blue, Colors.purple],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    gradient: Palette.primaryGradient,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   padding: const EdgeInsets.all(16),
                   child: const Icon(
                     Icons.menu_book,
-                    color: Colors.white,
+                    color: Palette.textOnPrimary,
                     size: 50,
                   ),
                 ),
                 const SizedBox(height: 15),
                 const Text(
                   "StudySphere",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Palette.textPrimary,
+                  ),
                 ),
-                Text(
+                const Text(
                   "Learn skills at your own pace",
-                  style: TextStyle(color: Colors.grey[700]),
+                  style: TextStyle(color: Palette.textSecondary),
                 ),
                 const SizedBox(height: 20),
 
@@ -71,9 +80,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   isSelected: const [false, true, false],
                   onPressed: (index) {},
                   borderRadius: BorderRadius.circular(10),
-                  selectedColor: Colors.white,
-                  fillColor: Colors.deepPurple,
-                  color: Colors.black,
+                  selectedColor: Palette.textOnPrimary,
+                  fillColor: Palette.primary,
+                  color: Palette.textPrimary,
                   children: const [
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12),
@@ -106,14 +115,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
                 ElevatedButton(
                   onPressed: () {
-                    // Example: print entered data in console
                     print("Name: ${nameController.text}");
                     print("Email: ${emailController.text}");
                     print("Password: ${passwordController.text}");
                     print("Confirm: ${confirmPasswordController.text}");
+
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      (route) => false,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Palette.primary,
+                    foregroundColor: Palette.textOnPrimary,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 80,
                       vertical: 14,
@@ -124,17 +138,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   child: const Text(
                     "Create Account",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Palette.textOnPrimary),
                   ),
                 ),
 
                 const SizedBox(height: 25),
-                const Divider(color: Colors.grey),
+                const Divider(color: Palette.borderLight),
                 const SizedBox(height: 10),
-                Text(
+                const Text(
                   "Start learning today with\ninteractive lessons and progress tracking",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey[700]),
+                  style: TextStyle(color: Palette.textSecondary),
                 ),
               ],
             ),
@@ -156,7 +170,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: Palette.surfaceVariant,
       ),
     );
   }
