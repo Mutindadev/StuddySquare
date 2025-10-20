@@ -63,7 +63,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 const SizedBox(height: 15),
                 const Text(
-                  "StudySphere",
+                  "StudySquare",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
