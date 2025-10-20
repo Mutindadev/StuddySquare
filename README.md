@@ -5,6 +5,44 @@
 
 ---
 
+### 🖼️ Screenshots  
+**Login Screen**  
+ <img width="230" height="520" alt="{5EF75215-D32F-448F-AC28-6BA1E6F6CF38}" src="https://github.com/user-attachments/assets/a294203c-8cb9-4055-9022-cd5b53fc2d5a" />
+
+
+**Home Screen**  
+<img width="273" height="557" alt="{E023C5B0-183E-445D-AD62-A06FA8051D33}" src="https://github.com/user-attachments/assets/72e22ded-6574-474c-afb0-350fcd221222" />
+
+**Program Listing Screen**  
+<img width="241" height="524" alt="{B0E412A9-686B-4996-AE1B-0B361576D5E8}" src="https://github.com/user-attachments/assets/86a6a97d-b93b-46e9-85bf-1bd071c22ec6" />
+
+
+**Program Details Screen**  
+<img width="256" height="547" alt="{7028FC59-4ECE-4732-AB85-5F0876809050}" src="https://github.com/user-attachments/assets/e36f78e5-4d69-4858-96ab-d6e75d8c9b58" />
+
+
+**Profile Screen**  
+<img width="252" height="564" alt="{B0A113E9-D813-4456-940E-317715486DD5}" src="https://github.com/user-attachments/assets/51d924f4-e015-4637-87a0-8218ad9c69f7" />
+
+
+**Progress Screen**  
+ <img width="252" height="553" alt="{0C57165C-2940-4538-9998-43D39F48286E}" src="https://github.com/user-attachments/assets/dcdc4aab-9888-4a01-83de-1a54b91bbf40" />
+
+
+---
+
+### 🎥 Demo Video  
+📹 [View Demo Video](https://drive.google.com/file/d/1DyNQFOstGF1Deki6gtGRPUj63xfvUtg_/view?usp=sharing)
+
+### 🎨 Reference  
+Figma Design: [StudySquare UI Design](https://www.figma.com/design/FyDv6MV9Q4w8eP5bsJ4JCy/app_dev)
+
+### 💾 GitHub Repository  
+All source files are available in our shared repository:  
+🔗 [StudySquare GitHub Repository](https://github.com/Mutindadev/StuddySquare)
+
+---
+
 ## 📘 Overview
 
 StudySquare is a cross-platform mobile application developed during the **Mobile App Development with Flutter Virtual Internship** by Group 27.  
@@ -419,18 +457,67 @@ StudySquare/
 - ✅ GitHub Setup — With Flutter structure and README.  
 
 ---
+### 📱 Week 2 Summary  
+During this phase, **the team transformed the Week 1 wireframes into an interactive Flutter prototype**.  
+The application now includes multiple functional screens with smooth navigation, representing the core flow of StudySquare’s learner experience.  
+Users can move seamlessly between pages, browse programs, and view progress in a responsive, visually consistent layout.
 
-## 👩‍💻 Group 27 Members
+---
 
-| Name             | Email                                                  | Role                     |
-| ---------------- | ------------------------------------------------------ | ------------------------ |
-| **Regina Mutinda** | [rmmutinda02@gmail.com](mailto:rmmutinda02@gmail.com) | Team Lead                |
-| **Sai Keerthana** | [saikeerthana1112@gmail.com](mailto:saikeerthana1112@gmail.com) | Admin Representative     |
-| **Elton Mwangi** | [eltonmwangi8@gmail.com](mailto:eltonmwangi8@gmail.com) | Developer                |
-| **M D Kashif Khan** | [imkashifk5@gmail.com](mailto:imkashifk5@gmail.com) | Designer / Documentation |
-| **Favoured Mwange** | [mwangefavoured@gmail.com](mailto:mwangefavoured@gmail.com) | Developer                |
-| **Akhil Nampalli** | [akhilnampalli591@gmail.com](mailto:akhilnampalli591@gmail.com) | Backend Support          |
-| **Niloy Mutsuddy** | — | UI/UX Support            |
+### 🧩 Implemented Screens  
+
+#### 🔐 Login Screen  
+- Simple and secure sign-in interface.  
+- Clean color palette consistent with the StudySquare theme.
+
+#### 🏠 Home Screen  
+- Main hub post-login.  
+- Displays active courses, recommended programs, and quick-access icons for easy navigation.
+
+#### 📚 Program Listing Screen  
+- Organized list of available learning programs.  
+- Allows learners to browse and select programs of interest.
+
+#### 📄 Program Details Screen  
+- Displays full program information including descriptions and overview.  
+-The program details screen contains weekly tasks, mini projects, quizzes and reading.
+
+#### 📈 Progress Screen  
+- Tracks learner activity and completion status.  
+- Highlights streaks, achievements, XP points, and milestones to reinforce the gamified learning experience.
+
+#### 👤 Profile Screen  
+- Displays user information such as name, email, and enrolled programs.    
+- Maintains a clean, user-friendly interface.
+
+---
+
+### 🚀 Navigation and Interactivity  
+- All pages are connected using **Flutter’s navigation system** for a smooth, continuous experience.  
+- Buttons, icons, and menus are fully interactive, enabling easy movement between login, home, profile, progress, and program screens.  
+
+---
+
+### 🔮 Future Improvements and Next Steps  
+To strengthen StudySquare’s design and scalability, the team plans to:  
+- Implement **minor UI refinements** for better responsiveness across devices.  
+- Add **enhanced security features**, including data privacy measures and improved authentication.  
+- Integrate **biometric login, analytics tracking, and push notifications** for improved usability.  
+- Design a **team logo** to reinforce project identity and branding.  
+
+These upcoming improvements will elevate the platform’s overall user experience, making StudySquare more secure, scalable, and learner-centered.
+
+---
+
+**Team Members:**  
+- [Regina Mutinda](mailto:rmmutinda02@gmail.com)  
+- [Sai Keerthana](mailto:saikeerthana1112@gmail.com)  
+- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)  
+- [M D Kashif Khan](mailto:imkashifk5@gmail.com)  
+- [Favoured Mwange](mailto:mwangefavoured@gmail.com)  
+- [Niloy Mutsuddy](mailto:niloymutsuddy2001@gmail.com)  
+- [Mathias Mutua](mailto:triplem706@gmail.com)
+
 
 **Department Associate:** Kolawole Oparinde  
 
