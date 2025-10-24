@@ -1,0 +1,382 @@
+[
+  {
+    "id": "ai_ml",
+    "title": "AI & ML Skill Development",
+    "description": "Hands-on introduction to AI and machine learning workflows and tools.",
+    "duration": "8 weeks",
+    "level": "Intermediate",
+    "learning": [
+      "Understand core ML concepts and algorithms",
+      "Prepare datasets and feature engineering",
+      "Train and evaluate ML models",
+      "Deploy simple ML models and build projects"
+    ],
+    "modules": [
+      {
+        "week": "Week 1",
+        "title": "Intro to AI & ML Concepts - Part 1",
+        "tasks": [
+          {"name": "Reading: What is AI?", "type": "reading"},
+          {"name": "Quiz: ML Terminology", "type": "quiz"},
+          {"name": "Mini Project: Linear Regression", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 2",
+        "title": "Intro to AI & ML Concepts - Part 2",
+        "tasks": [
+          {"name": "Reading: Supervised vs Unsupervised Learning", "type": "reading"},
+          {"name": "Quiz: ML Fundamentals", "type": "quiz"},
+          {"name": "Mini Project: Classification Model", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 3",
+        "title": "Data Preparation & Features - Part 1",
+        "tasks": [
+          {"name": "Reading: Feature Engineering", "type": "reading"},
+          {"name": "Quiz: Data Preprocessing", "type": "quiz"},
+          {"name": "Mini Project: Data Pipeline", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 4",
+        "title": "Data Preparation & Features - Part 2",
+        "tasks": [
+          {"name": "Reading: Handling Missing Data", "type": "reading"},
+          {"name": "Quiz: Feature Scaling", "type": "quiz"},
+          {"name": "Mini Project: Data Cleaning", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 5",
+        "title": "Model Training & Evaluation - Part 1",
+        "tasks": [
+          {"name": "Reading: Classification vs Regression", "type": "reading"},
+          {"name": "Quiz: Model Metrics", "type": "quiz"},
+          {"name": "Mini Project: Image Classifier", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 6",
+        "title": "Model Training & Evaluation - Part 2",
+        "tasks": [
+          {"name": "Reading: Overfitting and Regularization", "type": "reading"},
+          {"name": "Quiz: Cross-Validation", "type": "quiz"},
+          {"name": "Mini Project: Model Tuning", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 7",
+        "title": "Deployment & Project - Part 1",
+        "tasks": [
+          {"name": "Reading: ML in Production", "type": "reading"},
+          {"name": "Quiz: Deployment Strategies", "type": "quiz"},
+          {"name": "Final Project: AI Chatbot - Planning", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 8",
+        "title": "Deployment & Project - Part 2",
+        "tasks": [
+          {"name": "Reading: API Integration for ML", "type": "reading"},
+          {"name": "Quiz: Final Assessment", "type": "quiz"},
+          {"name": "Final Project: AI Chatbot - Implementation", "type": "project"}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "web_dev",
+    "title": "Web Development Bootcamp",
+    "description": "Master HTML, CSS, JavaScript and modern frameworks",
+    "duration": "8 weeks",
+    "level": "Intermediate",
+    "learning": [
+      "Build responsive web pages",
+      "Understand JavaScript fundamentals and DOM manipulation",
+      "Work with a modern frontend framework",
+      "Deploy and host web applications"
+    ],
+    "modules": [
+      {
+        "week": "Week 1",
+        "title": "HTML & CSS Essentials - Part 1",
+        "tasks": [
+          {"name": "Reading: HTML5 Fundamentals", "type": "reading"},
+          {"name": "Quiz: CSS Selectors", "type": "quiz"},
+          {"name": "Mini Project: Personal Portfolio", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 2",
+        "title": "HTML & CSS Essentials - Part 2",
+        "tasks": [
+          {"name": "Reading: Responsive Design", "type": "reading"},
+          {"name": "Quiz: Flexbox and Grid", "type": "quiz"},
+          {"name": "Mini Project: Landing Page", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 3",
+        "title": "JavaScript & DOM - Part 1",
+        "tasks": [
+          {"name": "Reading: JavaScript Basics", "type": "reading"},
+          {"name": "Quiz: DOM Manipulation", "type": "quiz"},
+          {"name": "Mini Project: Interactive Calculator", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 4",
+        "title": "JavaScript & DOM - Part 2",
+        "tasks": [
+          {"name": "Reading: Events and Forms", "type": "reading"},
+          {"name": "Quiz: Async JavaScript", "type": "quiz"},
+          {"name": "Mini Project: Form Validator", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 5",
+        "title": "Frontend Frameworks - Part 1",
+        "tasks": [
+          {"name": "Reading: React Fundamentals", "type": "reading"},
+          {"name": "Quiz: Component Lifecycle", "type": "quiz"},
+          {"name": "Mini Project: Todo App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 6",
+        "title": "Frontend Frameworks - Part 2",
+        "tasks": [
+          {"name": "Reading: State Management with Hooks", "type": "reading"},
+          {"name": "Quiz: React Router", "type": "quiz"},
+          {"name": "Mini Project: Weather App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 7",
+        "title": "Project & Deployment - Part 1",
+        "tasks": [
+          {"name": "Reading: Deployment Best Practices", "type": "reading"},
+          {"name": "Quiz: Git & Version Control", "type": "quiz"},
+          {"name": "Final Project: Full Website - Planning", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 8",
+        "title": "Project & Deployment - Part 2",
+        "tasks": [
+          {"name": "Reading: Performance Optimization", "type": "reading"},
+          {"name": "Quiz: Web Security Basics", "type": "quiz"},
+          {"name": "Final Project: Full Website - Deployment", "type": "project"}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cybersecurity",
+    "title": "Cybersecurity Fundamentals",
+    "description": "Learn the basics of cybersecurity: threats, defenses, and best practices.",
+    "duration": "6 weeks",
+    "level": "Intermediate",
+    "learning": [
+      "Understand common cyber threats and attack vectors",
+      "Learn basic network and system hardening techniques",
+      "Hands-on practice with security tools and analysis",
+      "Incident response basics and mitigation strategies"
+    ],
+    "modules": [
+      {
+        "week": "Week 1",
+        "title": "Security Fundamentals & Threats - Part 1",
+        "tasks": [
+          {"name": "Reading: Introduction to Cybersecurity", "type": "reading"},
+          {"name": "Quiz: Common Threats", "type": "quiz"},
+          {"name": "Mini Project: Threat Analysis", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 2",
+        "title": "Security Fundamentals & Threats - Part 2",
+        "tasks": [
+          {"name": "Reading: Malware and Phishing", "type": "reading"},
+          {"name": "Quiz: Attack Vectors", "type": "quiz"},
+          {"name": "Mini Project: Phishing Detection", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 3",
+        "title": "Network & System Hardening - Part 1",
+        "tasks": [
+          {"name": "Reading: Network Security Basics", "type": "reading"},
+          {"name": "Quiz: Security Protocols", "type": "quiz"},
+          {"name": "Mini Project: Secure a Network", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 4",
+        "title": "Network & System Hardening - Part 2",
+        "tasks": [
+          {"name": "Reading: Firewalls and VPNs", "type": "reading"},
+          {"name": "Quiz: Encryption Basics", "type": "quiz"},
+          {"name": "Mini Project: System Hardening", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 5",
+        "title": "Tools, Detection & Response - Part 1",
+        "tasks": [
+          {"name": "Reading: Security Tools Overview", "type": "reading"},
+          {"name": "Quiz: Incident Response", "type": "quiz"},
+          {"name": "Mini Project: Security Audit", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 6",
+        "title": "Tools, Detection & Response - Part 2",
+        "tasks": [
+          {"name": "Reading: Log Analysis and SIEM", "type": "reading"},
+          {"name": "Quiz: Final Security Assessment", "type": "quiz"},
+          {"name": "Final Project: Complete Security Assessment", "type": "project"}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mobile_dev",
+    "title": "Mobile App Development",
+    "description": "Build iOS and Android apps with Flutter",
+    "duration": "6 weeks",
+    "level": "Advanced",
+    "learning": [
+      "Build multi-screen mobile apps with Flutter",
+      "State management and backend integration",
+      "Platform-specific features and deployment"
+    ],
+    "modules": [
+      {
+        "week": "Week 1",
+        "title": "Flutter Basics - Part 1",
+        "tasks": [
+          {"name": "Reading: Dart & Flutter Intro", "type": "reading"},
+          {"name": "Quiz: Widget Fundamentals", "type": "quiz"},
+          {"name": "Mini Project: Hello World App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 2",
+        "title": "Flutter Basics - Part 2",
+        "tasks": [
+          {"name": "Reading: Layouts and Widgets", "type": "reading"},
+          {"name": "Quiz: UI Components", "type": "quiz"},
+          {"name": "Mini Project: Calculator App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 3",
+        "title": "State & Navigation - Part 1",
+        "tasks": [
+          {"name": "Reading: State Management", "type": "reading"},
+          {"name": "Quiz: Navigation Patterns", "type": "quiz"},
+          {"name": "Mini Project: Multi-Screen App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 4",
+        "title": "State & Navigation - Part 2",
+        "tasks": [
+          {"name": "Reading: Advanced State with Provider", "type": "reading"},
+          {"name": "Quiz: App Architecture", "type": "quiz"},
+          {"name": "Mini Project: Shopping Cart App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 5",
+        "title": "Backend Integration",
+        "tasks": [
+          {"name": "Reading: REST APIs & Firebase", "type": "reading"},
+          {"name": "Quiz: HTTP & Data", "type": "quiz"},
+          {"name": "Mini Project: Weather App", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 6",
+        "title": "Testing & Deployment",
+        "tasks": [
+          {"name": "Reading: App Store Guidelines", "type": "reading"},
+          {"name": "Quiz: Testing Best Practices", "type": "quiz"},
+          {"name": "Final Project: Published App", "type": "project"}
+        ]
+      }
+    ]
+  },
+  {
+    "id": "data_analytics",
+    "title": "Data Analytics with Python",
+    "description": "Analyze data and create insights using Python",
+    "duration": "6 weeks",
+    "level": "Intermediate",
+    "learning": [
+      "Data wrangling with pandas",
+      "Data visualization with matplotlib/seaborn",
+      "Basic statistical analysis",
+      "Intro to machine learning workflows"
+    ],
+    "modules": [
+      {
+        "week": "Week 1",
+        "title": "Python & Data Wrangling - Part 1",
+        "tasks": [
+          {"name": "Reading: Python for Data Science", "type": "reading"},
+          {"name": "Quiz: Pandas Basics", "type": "quiz"},
+          {"name": "Mini Project: Data Cleaning", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 2",
+        "title": "Python & Data Wrangling - Part 2",
+        "tasks": [
+          {"name": "Reading: Data Manipulation", "type": "reading"},
+          {"name": "Quiz: DataFrame Operations", "type": "quiz"},
+          {"name": "Mini Project: Data Transformation", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 3",
+        "title": "Visualization & EDA - Part 1",
+        "tasks": [
+          {"name": "Reading: Data Visualization", "type": "reading"},
+          {"name": "Quiz: Chart Types", "type": "quiz"},
+          {"name": "Mini Project: Sales Dashboard", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 4",
+        "title": "Visualization & EDA - Part 2",
+        "tasks": [
+          {"name": "Reading: Statistical Analysis", "type": "reading"},
+          {"name": "Quiz: Descriptive Statistics", "type": "quiz"},
+          {"name": "Mini Project: Exploratory Analysis", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 5",
+        "title": "Intro to ML & Case Study - Part 1",
+        "tasks": [
+          {"name": "Reading: ML Fundamentals", "type": "reading"},
+          {"name": "Quiz: ML Algorithms", "type": "quiz"},
+          {"name": "Final Project: Predictive Model - Planning", "type": "project"}
+        ]
+      },
+      {
+        "week": "Week 6",
+        "title": "Intro to ML & Case Study - Part 2",
+        "tasks": [
+          {"name": "Reading: Model Evaluation", "type": "reading"},
+          {"name": "Quiz: Final Assessment", "type": "quiz"},
+          {"name": "Final Project: Predictive Model - Implementation", "type": "project"}
+        ]
+      }
+    ]
+  }
+]

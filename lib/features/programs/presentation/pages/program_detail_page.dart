@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
 
+import '../providers/enrollment_provider.dart';
 import 'enrolled_course_page.dart';
 
 class ProgramDetailPage extends StatelessWidget {
@@ -14,6 +16,7 @@ class ProgramDetailPage extends StatelessWidget {
     final description = program['description']?.toString() ?? '';
     final duration = program['duration']?.toString() ?? '';
     final level = program['level']?.toString() ?? '';
+    final programId = program['id']?.toString() ?? '';
 
     List<String> learning = [];
     if (program['learning'] is List) {
@@ -171,50 +174,73 @@ class ProgramDetailPage extends StatelessWidget {
                       )
                       .toList(),
                   const SizedBox(height: 32),
-                  // Enroll Now button with gradient
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: Palette.primaryGradient,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Palette.shadowMedium,
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  EnrolledCoursePage(program: program),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
+                  // Enroll Now / Continue button with gradient
+                  Consumer<EnrollmentProvider>(
+                    builder: (context, enrollmentProvider, _) {
+                      final isEnrolled = enrollmentProvider.isEnrolled(programId);
+                      
+                      return SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: Palette.primaryGradient,
                             borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Palette.shadowMedium,
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Enroll Now',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Palette.textOnPrimary,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (isEnrolled) {
+                                // Navigate to enrolled course page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        EnrolledCoursePage(program: program),
+                                  ),
+                                );
+                              } else {
+                                // Enroll the user
+                                await enrollmentProvider.enroll(programId);
+                                
+                                // Navigate to enrolled course page
+                                if (context.mounted) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) =>
+                                          EnrolledCoursePage(program: program),
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Text(
+                              isEnrolled ? 'Continue' : 'Enroll Now',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Palette.textOnPrimary,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                 ],
