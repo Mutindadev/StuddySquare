@@ -6,11 +6,23 @@ Ensures all programs meet the requirements specified in the problem statement.
 
 import json
 import sys
+import os
+
+# Valid task types
+VALID_TASK_TYPES = ['reading', 'quiz', 'project']
 
 def validate_programs():
     """Validate the programs.json file structure and content."""
     
-    with open('assets/data/programs.json', 'r') as f:
+    # Support running from project root or from script directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(script_dir, 'assets', 'data', 'programs.json')
+    
+    if not os.path.exists(json_path):
+        print(f"❌ Error: programs.json not found at {json_path}")
+        return False
+    
+    with open(json_path, 'r') as f:
         programs = json.load(f)
     
     # Expected programs with their week counts
@@ -73,7 +85,7 @@ def validate_programs():
             # Validate task types
             for task in tasks:
                 task_type = task.get('type', '')
-                if task_type not in ['reading', 'quiz', 'project']:
+                if task_type not in VALID_TASK_TYPES:
                     errors.append(f"Program {program_id}, invalid task type: {task_type}")
         
         print(f"  ✓ Total tasks: {sum(len(m.get('tasks', [])) for m in modules)}")

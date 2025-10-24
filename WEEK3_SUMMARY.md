@@ -160,17 +160,29 @@ python3 validate_programs.py
 
 1. Install dependencies:
 ```bash
+# With FVM (if using Flutter Version Management)
 fvm flutter pub get
+
+# Or directly with Flutter
+flutter pub get
 ```
 
 2. Run the app:
 ```bash
+# With FVM
 fvm flutter run
+
+# Or directly
+flutter run
 ```
 
 3. Run tests:
 ```bash
+# With FVM
 fvm flutter test
+
+# Or directly
+flutter test
 ```
 
 ## 🔄 User Flow
