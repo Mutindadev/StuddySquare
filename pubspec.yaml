@@ -13,6 +13,9 @@ dependencies:
 
   # Added by Niloy for progress tracking in learning path
   shared_preferences: ^2.2.2
+  firebase_core: ^4.2.0
+  firebase_auth: ^6.1.1
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:
