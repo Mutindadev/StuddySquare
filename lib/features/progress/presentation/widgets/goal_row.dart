@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../utils/progress_colors.dart';
 
 class GoalRow extends StatelessWidget {
@@ -15,8 +16,6 @@ class GoalRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final percent = (fraction * 100).clamp(0.0, 100.0).toInt();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +33,9 @@ class GoalRow extends StatelessWidget {
             minHeight: 10,
             backgroundColor: const Color(0xFFF1F5F9),
             value: fraction.clamp(0.0, 1.0),
-            valueColor: const AlwaysStoppedAnimation(ProgressColors.progressFill),
+            valueColor: const AlwaysStoppedAnimation(
+              ProgressColors.progressFill,
+            ),
           ),
         ),
         const SizedBox(height: 10),
