@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
 
 import 'core/theme/app_theme.dart';
-// ...existing imports...
+// ...existing imports......
 
 void main() {
   runApp(const MyApp());
