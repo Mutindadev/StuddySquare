@@ -2,12 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/app_theme.dart';
+import 'package:studysquare/features/auth/presentation/pages/admin_login.dart';
 import 'package:studysquare/features/auth/presentation/pages/forgot_pass_screen.dart';
-import 'package:studysquare/features/auth/presentation/pages/login_screen.dart';
-import 'package:studysquare/features/auth/presentation/pages/signup_screen.dart';
 import 'package:studysquare/features/auth/presentation/pages/splash_screen.dart';
 import 'package:studysquare/features/auth/presentation/pages/verify_email_screen.dart';
-import 'package:studysquare/features/auth/presentation/pages/welcome_screen.dart';
 import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
 import 'package:studysquare/features/home/presentation/pages/home.dart';
 import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
@@ -33,13 +31,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/splash': (context) => const SplashScreen(),
-        '/welcome': (context) => const WelcomeScreen(),
         '/register': (context) => const RegistrationPage(),
-        '/login': (context) => const LoginScreen(),
+        '/login': (context) => const RegistrationPage(),
         '/forgot-password': (context) => const ForgotPasswordScreen(),
         '/verify-email': (context) => const VerifyEmailScreen(),
         '/home': (context) => const HomePage(),
-        '/signup': (context) => const SignUpScreen(),
+        '/admin-login': (context) => const AdminLogin(),
       },
       home: Consumer<AuthProvider>(
         builder: (context, auth, _) {
@@ -48,7 +45,7 @@ class MyApp extends StatelessWidget {
           }
           return auth.isAuthenticated
               ? const HomePage()
-              : const WelcomeScreen();
+              : const RegistrationPage();
         },
       ),
     );

@@ -14,7 +14,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Wait until the widget is mounted before checking auth state
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkAuthState();
     });
@@ -24,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 2)); // brief delay
     final user = _auth.currentUser;
 
-    if (!mounted) return; // prevents navigation after dispose
+    if (!mounted) return; // prevents navigation after disposa:l
 
     if (user == null) {
       Navigator.pushReplacementNamed(context, '/login');

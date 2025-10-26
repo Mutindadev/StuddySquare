@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:studysquare/features/auth/presentation/pages/login_screen.dart';
 import 'package:studysquare/features/home/presentation/pages/home.dart';
+import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({super.key});
@@ -135,7 +135,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const LoginScreen(),
+                            builder: (_) => const RegistrationPage(),
                           ),
                         );
                       }
