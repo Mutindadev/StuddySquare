@@ -352,5 +352,78 @@ void main() {
             null,
           );
     });
+
+    test('loadPrograms merges user programs with asset programs', () async {
+      const jsonString = '''
+      [
+        {
+          "id": "asset_program",
+          "title": "Asset Program",
+          "description": "From assets",
+          "duration": "4 weeks",
+          "level": "Beginner",
+          "learning": ["Asset learning"],
+          "modules": []
+        }
+      ]
+      ''';
+
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(const MethodChannel('flutter/assets'), (
+            MethodCall methodCall,
+          ) async {
+            if (methodCall.method == 'loadString') {
+              return jsonString;
+            }
+            return null;
+          });
+
+      final userProgram = Program(
+        id: 'user_program',
+        title: 'User Created Program',
+        description: 'User created',
+        duration: '2 weeks',
+        level: 'Intermediate',
+        learning: ['User learning'],
+        modules: [],
+      );
+
+      final programs = await ProgramService.loadPrograms(
+        userPrograms: [userProgram],
+      );
+
+      expect(programs.length, equals(2));
+      expect(programs[0].id, equals('asset_program'));
+      expect(programs[1].id, equals('user_program'));
+    });
+
+    test('loadPrograms returns only user programs if asset loading fails', () async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(const MethodChannel('flutter/assets'), (
+            MethodCall methodCall,
+          ) async {
+            throw PlatformException(
+              code: 'asset_not_found',
+              message: 'Unable to load asset',
+            );
+          });
+
+      final userProgram = Program(
+        id: 'user_program',
+        title: 'User Created Program',
+        description: 'User created',
+        duration: '2 weeks',
+        level: 'Intermediate',
+        learning: ['User learning'],
+        modules: [],
+      );
+
+      final programs = await ProgramService.loadPrograms(
+        userPrograms: [userProgram],
+      );
+
+      expect(programs.length, equals(1));
+      expect(programs.first.id, equals('user_program'));
+    });
   });
 }
