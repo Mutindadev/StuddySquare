@@ -57,4 +57,10 @@ class EnrollmentProvider extends ChangeNotifier {
 
   /// Gets all enrolled program IDs.
   Set<String> get enrolledProgramIds => Set.unmodifiable(_enrolledProgramIds);
+
+  /// Gets the number of enrolled courses.
+  int get enrolledCoursesCount => _enrolledProgramIds.length;
+
+  /// Checks if the user has any enrolled courses.
+  bool get hasEnrolledCourses => _enrolledProgramIds.isNotEmpty;
 }
