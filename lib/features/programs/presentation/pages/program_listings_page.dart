@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:studysquare/core/theme/palette.dart';
 import 'package:studysquare/features/programs/data/models/program.dart';
 import 'package:studysquare/features/programs/data/services/program_service.dart';
@@ -7,6 +9,7 @@ import 'package:studysquare/features/programs/presentation/provider/enrollment_p
 import 'package:studysquare/features/programs/presentation/provider/program_admin_provider.dart';
 
 import 'program_detail_page.dart';
+import 'admin_programs_page.dart';
 
 class ProgramListingsPage extends StatelessWidget {
   const ProgramListingsPage({super.key});
@@ -32,9 +35,24 @@ class ProgramListingsPage extends StatelessWidget {
         backgroundColor: Palette.primary,
         foregroundColor: Palette.textOnPrimary,
         elevation: 0,
+        actions: [
+          if (kDebugMode || kProfileMode)
+            IconButton(
+              tooltip: 'Admin',
+              icon: const Icon(Icons.admin_panel_settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const AdminProgramsPage(),
+                  ),
+                );
+              },
+            ),
+        ],
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -48,22 +66,20 @@ class ProgramListingsPage extends StatelessWidget {
                 userPrograms: adminProvider.userPrograms,
               ),
               builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(color: Palette.primary),
-              );
-            }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(color: Palette.primary),
+                  );
+                }
 
-            if (snapshot.hasError ||
-                !snapshot.hasData ||
-                snapshot.data!.isEmpty) {
-              return const Center(
-                child: Text(
-                  'No programs available',
-                  style: TextStyle(color: Palette.textSecondary, fontSize: 16),
-                ),
-              );
-            }
+                if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No programs available',
+                      style: TextStyle(color: Palette.textSecondary, fontSize: 16),
+                    ),
+                  );
+                }
 
                 final programs = snapshot.data!;
 
@@ -89,8 +105,7 @@ class ProgramListingsPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProgramDetailPage(program: program),
+                                  builder: (context) => ProgramDetailPage(program: program),
                                 ),
                               );
                             },
@@ -105,8 +120,7 @@ class ProgramListingsPage extends StatelessWidget {
                                     children: [
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               program.title,
@@ -120,17 +134,13 @@ class ProgramListingsPage extends StatelessWidget {
                                             Row(
                                               children: [
                                                 Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 6,
-                                                      ),
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 6,
+                                                  ),
                                                   decoration: BoxDecoration(
-                                                    color: _getLevelColor(
-                                                      program.level,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(20),
+                                                    color: _getLevelColor(program.level),
+                                                    borderRadius: BorderRadius.circular(20),
                                                   ),
                                                   child: Text(
                                                     program.level,
@@ -144,21 +154,18 @@ class ProgramListingsPage extends StatelessWidget {
                                                 if (isEnrolled) ...[
                                                   const SizedBox(width: 8),
                                                   Container(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          vertical: 6,
-                                                        ),
+                                                    padding: const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 6,
+                                                    ),
                                                     decoration: BoxDecoration(
                                                       color: Palette.success,
-                                                      borderRadius:
-                                                          BorderRadius.circular(20),
+                                                      borderRadius: BorderRadius.circular(20),
                                                     ),
                                                     child: const Text(
                                                       'Enrolled',
                                                       style: TextStyle(
-                                                        color:
-                                                            Palette.textOnPrimary,
+                                                        color: Palette.textOnPrimary,
                                                         fontSize: 12,
                                                         fontWeight: FontWeight.bold,
                                                       ),
@@ -185,7 +192,7 @@ class ProgramListingsPage extends StatelessWidget {
                                   const SizedBox(height: 12),
                                   Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.access_time,
                                         size: 16,
                                         color: Palette.textSecondary,
