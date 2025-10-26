@@ -1,17 +1,29 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
 
-/// Service for loading program data from JSON assets.
+import 'package:flutter/services.dart';
+import 'package:studysquare/features/programs/data/models/program.dart';
+
 class ProgramService {
-  /// Loads all programs from the assets/data/programs.json file.
-  Future<List<Map<String, dynamic>>> loadPrograms() async {
+  static Future<List<Program>> loadPrograms() async {
     try {
-      final String jsonString = await rootBundle.loadString('assets/data/programs.json');
+      final String jsonString = await rootBundle.loadString(
+        'assets/data/programs.json',
+      );
       final List<dynamic> jsonList = jsonDecode(jsonString);
-      return jsonList.map((e) => Map<String, dynamic>.from(e)).toList();
+
+      return jsonList.map((json) => Program.fromJson(json)).toList();
     } catch (e) {
-      // If loading fails, return empty list
+      print('Error loading programs: $e');
       return [];
+    }
+  }
+
+  static Future<Program?> getProgramById(String id) async {
+    final programs = await loadPrograms();
+    try {
+      return programs.firstWhere((program) => program.id == id);
+    } catch (e) {
+      return null;
     }
   }
 }

@@ -4,14 +4,15 @@ import 'package:studysquare/features/user/presentation/pages/registrationpage.da
 
 import 'core/theme/app_theme.dart';
 import 'features/programs/data/repositories/enrollment_repository.dart';
-import 'features/programs/providers/enrollment_provider.dart';
+import 'features/programs/presentation/provider/enrollment_provider.dart';
 // ...existing imports...
 
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (_) => EnrollmentProvider(EnrollmentRepository())
-        ..onAuthChanged('demo_user'), // Initialize with a demo user
+      create: (_) =>
+          EnrollmentProvider(EnrollmentRepository())
+            ..onAuthChanged('demo_user'), // Initialize with a demo user
       child: const MyApp(),
     ),
   );

@@ -1,55 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/programs/data/models/program.dart';
+import 'package:studysquare/features/programs/presentation/provider/enrollment_provider.dart';
 
-import '../providers/enrollment_provider.dart';
 import 'enrolled_course_page.dart';
 
 class ProgramDetailPage extends StatelessWidget {
-  final Map<String, dynamic> program;
+  final Program program;
 
   const ProgramDetailPage({Key? key, required this.program}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final title = program['title']?.toString() ?? 'Program';
-    final description = program['description']?.toString() ?? '';
-    final duration = program['duration']?.toString() ?? '';
-    final level = program['level']?.toString() ?? '';
-    final programId = program['id']?.toString() ?? '';
-
-    List<String> learning = [];
-    if (program['learning'] is List) {
-      learning = (program['learning'] as List)
-          .map((e) => e.toString())
-          .toList();
-    } else {
-      learning = [
-        'Master key concepts and skills',
-        'Work on real-world projects',
-        'Get certified upon completion',
-        'Access to exclusive resources',
-        'Career support and mentorship',
-      ];
-    }
-
-    List<Map<String, dynamic>> modules = [];
-    if (program['modules'] is List) {
-      modules = (program['modules'] as List).map((e) {
-        if (e is Map) {
-          return Map<String, dynamic>.from(e);
-        }
-        return <String, dynamic>{};
-      }).toList();
-    } else {
-      modules = [
-        {'week': 'Week 1-2', 'title': 'Introduction & Fundamentals'},
-        {'week': 'Week 3-4', 'title': 'Core Concepts'},
-        {'week': 'Week 5-6', 'title': 'Advanced Topics'},
-        {'week': 'Week 7-8', 'title': 'Final Project'},
-      ];
-    }
-
     return Scaffold(
       backgroundColor: Palette.background,
       appBar: AppBar(
@@ -73,7 +36,7 @@ class ProgramDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    program.title,
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -82,7 +45,7 @@ class ProgramDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    description,
+                    program.description,
                     style: TextStyle(
                       fontSize: 16,
                       color: Palette.textOnPrimary.withOpacity(0.9),
@@ -96,13 +59,14 @@ class ProgramDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Program info cards
                   Row(
                     children: [
                       Expanded(
                         child: _InfoCard(
                           icon: Icons.access_time,
                           title: 'Duration',
-                          value: duration,
+                          value: program.duration,
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -110,12 +74,38 @@ class ProgramDetailPage extends StatelessWidget {
                         child: _InfoCard(
                           icon: Icons.bar_chart,
                           title: 'Level',
-                          value: level,
+                          value: program.level,
+                          levelColor: _getLevelColor(program.levelEnum),
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+
+                  // Additional info cards
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _InfoCard(
+                          icon: Icons.assignment,
+                          title: 'Tasks',
+                          value: '${program.totalTasks}',
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _InfoCard(
+                          icon: Icons.library_books,
+                          title: 'Modules',
+                          value: '${program.modules.length}',
+                        ),
+                      ),
+                    ],
+                  ),
+
                   const SizedBox(height: 24),
+
+                  // What you'll learn section
                   const Text(
                     'What You\'ll Learn',
                     style: TextStyle(
@@ -125,10 +115,17 @@ class ProgramDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ...learning
-                      .map((item) => _LearningPoint(text: item))
-                      .toList(),
+
+                  if (program.learning.isEmpty)
+                    const _LearningPoint(text: 'Master key concepts and skills')
+                  else
+                    ...program.learning
+                        .map((item) => _LearningPoint(text: item))
+                        .toList(),
+
                   const SizedBox(height: 24),
+
+                  // Prerequisites section
                   const Text(
                     'Prerequisites',
                     style: TextStyle(
@@ -147,15 +144,18 @@ class ProgramDetailPage extends StatelessWidget {
                         color: Palette.primary.withOpacity(0.2),
                       ),
                     ),
-                    child: const Text(
-                      'No prior experience required. Just bring your enthusiasm and commitment to learn!',
-                      style: TextStyle(
+                    child: Text(
+                      _getPrerequisiteText(program.levelEnum),
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Palette.textSecondary,
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 24),
+
+                  // Course outline section
                   const Text(
                     'Course Outline',
                     style: TextStyle(
@@ -165,20 +165,29 @@ class ProgramDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ...modules
-                      .map(
-                        (mod) => _ModuleItem(
-                          week: mod['week']?.toString() ?? '',
-                          title: mod['title']?.toString() ?? '',
-                        ),
-                      )
-                      .toList(),
+
+                  if (program.modules.isEmpty)
+                    const Text(
+                      'Module information will be available soon.',
+                      style: TextStyle(
+                        color: Palette.textSecondary,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    )
+                  else
+                    ...program.modules
+                        .map((module) => _ModuleItem(module: module))
+                        .toList(),
+
                   const SizedBox(height: 32),
+
                   // Enroll Now / Continue button with gradient
                   Consumer<EnrollmentProvider>(
                     builder: (context, enrollmentProvider, _) {
-                      final isEnrolled = enrollmentProvider.isEnrolled(programId);
-                      
+                      final isEnrolled = enrollmentProvider.isEnrolled(
+                        program.id,
+                      );
+
                       return SizedBox(
                         width: double.infinity,
                         height: 56,
@@ -207,8 +216,8 @@ class ProgramDetailPage extends StatelessWidget {
                                 );
                               } else {
                                 // Enroll the user
-                                await enrollmentProvider.enroll(programId);
-                                
+                                await enrollmentProvider.enroll(program.id);
+
                                 // Navigate to enrolled course page
                                 if (context.mounted) {
                                   Navigator.push(
@@ -229,13 +238,25 @@ class ProgramDetailPage extends StatelessWidget {
                               ),
                               elevation: 0,
                             ),
-                            child: Text(
-                              isEnrolled ? 'Continue' : 'Enroll Now',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Palette.textOnPrimary,
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  isEnrolled ? Icons.play_arrow : Icons.school,
+                                  color: Palette.textOnPrimary,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  isEnrolled
+                                      ? 'Continue Learning'
+                                      : 'Enroll Now',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Palette.textOnPrimary,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -251,18 +272,42 @@ class ProgramDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  Color _getLevelColor(ProgramLevel level) {
+    switch (level) {
+      case ProgramLevel.beginner:
+        return Palette.success;
+      case ProgramLevel.intermediate:
+        return Palette.warning;
+      case ProgramLevel.advanced:
+        return Palette.error;
+    }
+  }
+
+  String _getPrerequisiteText(ProgramLevel level) {
+    switch (level) {
+      case ProgramLevel.beginner:
+        return 'No prior experience required! Perfect for those just starting their learning journey.';
+      case ProgramLevel.intermediate:
+        return 'Basic understanding of the topic recommended. Some prior experience will be helpful.';
+      case ProgramLevel.advanced:
+        return 'Strong foundation in the subject area required. This course builds on advanced concepts.';
+    }
+  }
 }
 
-// Info card widget (Duration, Level)
+// Enhanced Info card widget
 class _InfoCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String value;
+  final Color? levelColor;
 
   const _InfoCard({
     required this.icon,
     required this.title,
     required this.value,
+    this.levelColor,
   });
 
   @override
@@ -272,7 +317,9 @@ class _InfoCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Palette.containerLight,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Palette.primary.withOpacity(0.3)),
+        border: Border.all(
+          color: (levelColor ?? Palette.primary).withOpacity(0.3),
+        ),
         boxShadow: [
           BoxShadow(
             color: Palette.shadowLight,
@@ -283,7 +330,7 @@ class _InfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Icon(icon, size: 32, color: Palette.primary),
+          Icon(icon, size: 32, color: levelColor ?? Palette.primary),
           const SizedBox(height: 8),
           Text(
             title,
@@ -292,10 +339,10 @@ class _InfoCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Palette.primary,
+              color: levelColor ?? Palette.primary,
             ),
           ),
         ],
@@ -331,12 +378,11 @@ class _LearningPoint extends StatelessWidget {
   }
 }
 
-// Module item (Week badge + title)
+// Enhanced Module item using Module model
 class _ModuleItem extends StatelessWidget {
-  final String week;
-  final String title;
+  final Module module;
 
-  const _ModuleItem({required this.week, required this.title});
+  const _ModuleItem({required this.module});
 
   @override
   Widget build(BuildContext context) {
@@ -355,41 +401,117 @@ class _ModuleItem extends StatelessWidget {
           ),
         ],
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Palette.secondary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              week,
-              style: const TextStyle(
-                color: Palette.textOnPrimary,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: Palette.secondary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  module.week,
+                  style: const TextStyle(
+                    color: Palette.textOnPrimary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Palette.textPrimary,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  module.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Palette.textPrimary,
+                  ),
+                ),
               ),
+              const Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+                color: Palette.textTertiary,
+              ),
+            ],
+          ),
+
+          // Show task count if available
+          if (module.tasks.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const SizedBox(width: 16),
+                Icon(
+                  Icons.assignment_outlined,
+                  size: 16,
+                  color: Palette.textTertiary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  '${module.tasks.length} tasks',
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Palette.textTertiary,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                // Show task types
+                ...module.tasks
+                    .take(3)
+                    .map(
+                      (task) => Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Icon(
+                          _getTaskIcon(task.type),
+                          size: 14,
+                          color: _getTaskColor(task.type),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                if (module.tasks.length > 3)
+                  Text(
+                    '+${module.tasks.length - 3}',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      color: Palette.textTertiary,
+                    ),
+                  ),
+              ],
             ),
-          ),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            color: Palette.textTertiary,
-          ),
+          ],
         ],
       ),
     );
+  }
+
+  IconData _getTaskIcon(TaskType type) {
+    switch (type) {
+      case TaskType.reading:
+        return Icons.menu_book;
+      case TaskType.quiz:
+        return Icons.quiz;
+      case TaskType.project:
+        return Icons.code;
+    }
+  }
+
+  Color _getTaskColor(TaskType type) {
+    switch (type) {
+      case TaskType.reading:
+        return Palette.primary;
+      case TaskType.quiz:
+        return Palette.warning;
+      case TaskType.project:
+        return Palette.secondary;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studysquare/features/programs/data/repositories/enrollment_repository.dart';
-import 'package:studysquare/features/programs/providers/enrollment_provider.dart';
+import 'package:studysquare/features/programs/presentation/provider/enrollment_provider.dart';
 
 void main() {
   group('EnrollmentProvider', () {

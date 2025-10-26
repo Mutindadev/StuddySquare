@@ -37,11 +37,11 @@ class _HomePageState extends State<HomePage> {
         key: const Key('homePageView'),
         controller: _controller,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          DashboardScreen(),
+        children: [
+          const DashboardScreen(),
           ProgramListingsPage(),
-          ProgressPage(),
-          ProfilePage(),
+          const ProgressPage(),
+          const ProfilePage(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
