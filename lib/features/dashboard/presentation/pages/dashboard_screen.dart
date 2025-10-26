@@ -1,350 +1,292 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:studysquare/core/theme/palette.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  Map<String, dynamic>? dashboardData;
+  List<dynamic>? programs;
+  bool isLoading = true;
+  int readCount = 0; // 🔔 Notification badge count
+
+  @override
+  void initState() {
+    super.initState();
+    loadDashboardData();
+
+    // Simulate new notifications (can be replaced with real JSON logic later)
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        readCount = 3;
+      });
+    });
+  }
+
+  Future<void> loadDashboardData() async {
+    try {
+      // Load dashboard + programs JSON in parallel
+      final results = await Future.wait([
+        rootBundle.loadString('assets/data/dashboard.json'),
+        rootBundle.loadString('assets/data/programs.json'),
+      ]);
+
+      final dashboardJson = json.decode(results[0]);
+      final programsJson = json.decode(results[1]);
+
+      setState(() {
+        dashboardData = dashboardJson;
+        programs = programsJson['programs'];
+        isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Error loading dashboard data: $e');
+      setState(() => isLoading = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (dashboardData == null) {
+      return const Scaffold(
+        body: Center(child: Text("Error loading dashboard data")),
+      );
+    }
+
+    final userName = dashboardData!['userName'] ?? 'User';
+    final userRole = dashboardData!['role'] ?? 'learner';
+    final courses = dashboardData!['courses'] ?? [];
+
     return Scaffold(
-      backgroundColor: Palette.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(
+          userRole == 'admin' ? 'Admin Dashboard' : 'Dashboard',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        actions: [
+          // 🔔 Interactive Notification Badge
+          Stack(
             children: [
-              // Header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Welcome back!',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Palette.textPrimary,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Continue your learning journey',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Palette.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Palette.containerLight,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.notifications_outlined,
-                      color: Palette.primary,
-                    ),
-                  ),
-                ],
+              IconButton(
+                icon: const Icon(Icons.notifications_outlined, color: Colors.blueAccent),
+                onPressed: () async {
+                  setState(() => readCount = 0); // reset when opened
+                  await Navigator.pushNamed(context, '/notifications');
+                },
               ),
-
-              const SizedBox(height: 24),
-
-              // Progress Card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  gradient: Palette.primaryGradient,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Palette.shadowMedium,
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+              if (readCount > 0)
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: const BoxDecoration(
+                      color: Colors.redAccent,
+                      shape: BoxShape.circle,
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Your Progress',
-                      style: TextStyle(
-                        fontSize: 18,
+                    child: Text(
+                      '$readCount',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
-                        color: Palette.textOnPrimary,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Keep up the great work!',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Palette.textOnPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    LinearProgressIndicator(
-                      value: 0.6,
-                      backgroundColor: Palette.textOnPrimary.withOpacity(0.3),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Palette.textOnPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      '60% Complete',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Palette.textOnPrimary,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Quick Stats
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard('Courses', '3', Icons.book_outlined),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard('Hours', '24', Icons.access_time),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      'Streak',
-                      '7 days',
-                      Icons.local_fire_department,
-                    ),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 24),
-
-              // Continue Learning Section
-              const Text(
-                'Continue Learning',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Palette.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              _buildCourseCard(
-                'Cybersecurity Fundamentals',
-                'Network Security',
-                0.7,
-                Icons.security,
-              ),
-
-              const SizedBox(height: 12),
-
-              _buildCourseCard(
-                'Web Development',
-                'JavaScript Basics',
-                0.4,
-                Icons.web,
-              ),
-
-              const SizedBox(height: 24),
-
-              // Quick Actions
-              const Text(
-                'Quick Actions',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Palette.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 16),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: _buildActionButton(
-                      'Browse Courses',
-                      Icons.explore_outlined,
-                      Palette.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildActionButton(
-                      'View Progress',
-                      Icons.analytics_outlined,
-                      Palette.secondary,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 👋 Welcome Banner
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                "Welcome back, $userName 👋",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // 📊 Quick Stats Cards
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildStatCard("Active Courses", "${courses.length}", Icons.book, Colors.orange),
+                _buildStatCard("Progress", "75%", Icons.trending_up, Colors.green),
+                _buildStatCard("Achievements", "5", Icons.star, Colors.purple),
+              ],
+            ),
+
+            const SizedBox(height: 25),
+
+            // 📘 Continue Learning Section
+            const Text(
+              "Continue Learning",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+
+            courses.isEmpty
+                ? const Text(
+                    "No active courses yet. Enroll in a program to start learning!",
+                    style: TextStyle(color: Colors.grey),
+                  )
+                : Column(
+                    children: courses.map((course) {
+                      final title = course['title'] ?? 'Untitled';
+                      final progress = (course['progress'] ?? 0.0) * 100;
+                      return _buildCourseCard(title, progress);
+                    }).toList(),
+                  ),
+
+            const SizedBox(height: 25),
+
+            // 💡 Recommended Programs Section
+            const Text(
+              "Recommended Programs",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+
+            if (programs != null)
+              Column(
+                children: programs!
+                    .take(3)
+                    .map((program) => _buildProgramCard(program))
+                    .toList(),
+              ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildStatCard(String label, String value, IconData icon) {
+  // --- 📦 Helper Widgets ---
+
+  Widget _buildStatCard(String label, String value, IconData icon, Color color) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 8, spreadRadius: 3),
+          ],
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: 28),
+            const SizedBox(height: 8),
+            Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(label, style: const TextStyle(fontSize: 13, color: Colors.grey)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCourseCard(String title, double progress) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Palette.surface,
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
-          BoxShadow(
-            color: Palette.shadowLight,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 8, spreadRadius: 3),
         ],
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Palette.containerLight,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: Palette.primary, size: 20),
+          Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          LinearProgressIndicator(
+            value: progress / 100,
+            color: Colors.blueAccent,
+            backgroundColor: Colors.grey[200],
+            minHeight: 6,
+            borderRadius: BorderRadius.circular(10),
           ),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Palette.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(fontSize: 12, color: Palette.textSecondary),
-          ),
+          const SizedBox(height: 6),
+          Text("${progress.toStringAsFixed(0)}% complete",
+              style: const TextStyle(fontSize: 13, color: Colors.grey)),
         ],
       ),
     );
   }
 
-  Widget _buildCourseCard(
-    String title,
-    String subtitle,
-    double progress,
-    IconData icon,
-  ) {
+  Widget _buildProgramCard(Map<String, dynamic> program) {
+    final name = program['name'] ?? 'Program';
+    final duration = program['duration'] ?? 'N/A';
+    final level = program['level'] ?? 'Beginner';
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Palette.surface,
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
-          BoxShadow(
-            color: Palette.shadowLight,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 8, spreadRadius: 3),
         ],
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Palette.containerLight,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: Palette.primary, size: 24),
-          ),
+          const Icon(Icons.school, color: Colors.blueAccent),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Palette.textPrimary,
-                  ),
-                ),
+                Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
                 const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Palette.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                LinearProgressIndicator(
-                  value: progress,
-                  backgroundColor: Palette.borderLight,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    Palette.primary,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${(progress * 100).toInt()}% Complete',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Palette.textTertiary,
-                  ),
-                ),
+                Text("$duration • $level",
+                    style: const TextStyle(fontSize: 13, color: Colors.grey)),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: Palette.textTertiary),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionButton(String label, IconData icon, Color color) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Palette.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.3)),
-        boxShadow: [
-          BoxShadow(
-            color: Palette.shadowLight,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 28),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: color,
+          TextButton(
+            onPressed: () {},
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
-            textAlign: TextAlign.center,
+            child: const Text("View"),
           ),
         ],
       ),

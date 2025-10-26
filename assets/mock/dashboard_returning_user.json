@@ -1,0 +1,62 @@
+{
+  "user": {
+    "id": "u2",
+    "fullName": "Monica Otieno",
+    "email": "monica@example.com",
+    "role": "learner",
+    "authToken": "mocked_token_xyz789",
+    "enrolledSince": "2025-06-15T08:00:00Z"
+  },
+  "overallProgressPercent": 18,
+  "stats": {
+    "totalXP": 650,
+    "dayStreak": 4,
+    "lessonsDone": 9,
+    "hoursLearned": 6
+  },
+  "weeklyActivity": {
+    "minutesPerDay": {
+      "Mon": 30,
+      "Tue": 45,
+      "Wed": 25,
+      "Thu": 40,
+      "Fri": 20,
+      "Sat": 15,
+      "Sun": 10
+    },
+    "totalMinutes": 185
+  },
+  "currentGoals": {
+    "weeklyGoal": {
+      "title": "Weekly Goal",
+      "current": 185,
+      "target": 300
+    },
+    "monthlyXPGoal": {
+      "title": "Monthly XP Goal",
+      "current": 650,
+      "target": 1500
+    }
+  },
+  "enrolledCourses": [
+    {
+      "programId": "p1",
+      "title": "Cybersecurity Fundamentals",
+      "progress": 0.12,
+      "thumbnail": "assets/images/cybersecurity.png",
+      "lastAccessed": "2025-10-24T10:00:00Z"
+    },
+    {
+      "programId": "p2",
+      "title": "Web Development Bootcamp",
+      "progress": 0.18,
+      "thumbnail": "assets/images/webdev.png",
+      "lastAccessed": "2025-10-25T08:30:00Z"
+    }
+  ],
+  "badges": [
+    { "name": "Quick Starter", "emoji": "🚀" },
+    { "name": "Steady Learner", "emoji": "📘" }
+  ]
+}
+

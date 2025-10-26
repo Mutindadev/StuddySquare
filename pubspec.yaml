@@ -24,5 +24,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/spanish.jpg
-    - assets/images/french.jpg
+    - assets/images/web development bootcamp.jpg
+    - assets/images/cybersecurity fundamentals.jpg
+    - assets/mock/login.json
+    - assets/data/programs.json
+    - assets/data/program_details.json
+    - assets/data/progress.json
+    - assets/mock/profile.json 

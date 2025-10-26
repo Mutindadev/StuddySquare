@@ -1,0 +1,84 @@
+{
+  "user": {
+    "id": "u1",
+    "fullName": "Regina Mutinda",
+    "email": "regina@example.com",
+    "role": "learner",
+    "authToken": "mocked_token_abc123",
+    "enrolledSince": "2025-07-01T08:00:00Z"
+  },
+  "overallProgressPercent": 100,
+  "stats": {
+    "totalXP": 3000,
+    "dayStreak": 15,
+    "lessonsDone": 42,
+    "hoursLearned": 28
+  },
+  "weeklyActivity": {
+    "minutesPerDay": {
+      "Mon": 60,
+      "Tue": 70,
+      "Wed": 65,
+      "Thu": 55,
+      "Fri": 50,
+      "Sat": 45,
+      "Sun": 40
+    },
+    "totalMinutes": 385
+  },
+  "currentGoals": {
+    "weeklyGoal": {
+      "title": "Weekly Goal",
+      "current": 385,
+      "target": 300,
+      "status": "completed"
+    },
+    "monthlyXPGoal": {
+      "title": "Monthly XP Goal",
+      "current": 3000,
+      "target": 3000,
+      "status": "completed"
+    }
+  },
+  "enrolledCourses": [
+    {
+      "programId": "p1",
+      "title": "Cybersecurity Fundamentals",
+      "progress": 1.0,
+      "thumbnail": "assets/images/cybersecurity.png",
+      "completedAt": "2025-10-20T09:00:00Z"
+    },
+    {
+      "programId": "p2",
+      "title": "Web Development Bootcamp",
+      "progress": 1.0,
+      "thumbnail": "assets/images/webdev.png",
+      "completedAt": "2025-10-22T14:30:00Z"
+    },
+    {
+      "programId": "p3",
+      "title": "Data Analysis with Python",
+      "progress": 1.0,
+      "thumbnail": "assets/images/data_analysis.png",
+      "completedAt": "2025-10-24T11:00:00Z"
+    }
+  ],
+  "badges": [
+    { "name": "Completionist", "emoji": "🏆" },
+    { "name": "Focus Master", "emoji": "🔥" },
+    { "name": "Knowledge Guru", "emoji": "🧠" },
+    { "name": "Streak Champion", "emoji": "⏱️" }
+  ],
+  "achievements": [
+    {
+      "title": "All Programs Completed",
+      "description": "Successfully completed all enrolled courses.",
+      "dateEarned": "2025-10-24T11:00:00Z"
+    },
+    {
+      "title": "Learning Streak",
+      "description": "Maintained a 15-day learning streak.",
+      "dateEarned": "2025-10-24T11:00:00Z"
+    }
+  ]
+}

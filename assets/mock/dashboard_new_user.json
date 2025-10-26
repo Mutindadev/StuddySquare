@@ -1,0 +1,58 @@
+{
+  "userId": "u1",
+  "welcomeMessage": "Welcome to StudySquare!",
+  "subtitle": "Start your first learning journey today 🚀",
+  "overallProgressPercent": 0,
+  "stats": {
+    "hoursLearned": 0,
+    "dayStreak": 0,
+    "coursesEnrolled": 0,
+    "badgesEarned": 0
+  },
+  "recommendedPrograms": [
+    {
+      "id": "p1",
+      "title": "Cybersecurity Fundamentals",
+      "level": "Intermediate",
+      "duration_weeks": 6,
+      "shortDescription": "Learn how to protect systems and networks from threats.",
+      "thumbnail": "assets/images/programs/cybersecurity.png",
+      "enrolled": false
+    },
+    {
+      "id": "p2",
+      "title": "Web Development Bootcamp",
+      "level": "Beginner",
+      "duration_weeks": 8,
+      "shortDescription": "Build your first websites using HTML, CSS, and JavaScript.",
+      "thumbnail": "assets/images/programs/webdev.png",
+      "enrolled": false
+    }
+  ],
+  "suggestedActions": [
+    {
+      "title": "Browse Courses",
+      "description": "Explore available programs and choose what excites you.",
+      "action": "open_programs_page"
+    },
+    {
+      "title": "Complete Your Profile",
+      "description": "Add your bio and preferences to personalize your dashboard.",
+      "action": "open_profile_page"
+    },
+    {
+      "title": "Set Daily Goal",
+      "description": "Stay consistent by setting a daily learning goal.",
+      "action": "open_goals_section"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n1",
+      "type": "info",
+      "message": "Welcome aboard! Start your first course and track your learning journey."
+    }
+  ],
+  "isNewUser": true
+}
+

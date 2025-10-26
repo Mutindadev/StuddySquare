@@ -1,0 +1,62 @@
+{
+  "notifications": [
+    {
+      "id": "n1",
+      "userId": "u1",
+      "title": "Welcome to StudySquare 🎉",
+      "message": "Hi Alex! You’ve successfully enrolled in your first program. Keep going—great things await you!",
+      "timestamp": "2025-10-23T09:15:00Z",
+      "isRead": false
+    },
+    {
+      "id": "n2",
+      "userId": "u1",
+      "title": "Keep the streak alive 🔥",
+      "message": "You're on a 5-day streak! Keep learning to reach your weekly goal of 300 minutes.",
+      "timestamp": "2025-10-25T08:40:00Z",
+      "isRead": false
+    },
+    {
+      "id": "n3",
+      "userId": "u2",
+      "title": "You're making steady progress 💪",
+      "message": "Hi Brenda! You’ve completed 20% of your current program. Stay consistent—you’re doing great!",
+      "timestamp": "2025-10-25T10:10:00Z",
+      "isRead": false
+    },
+    {
+      "id": "n4",
+      "userId": "u2",
+      "title": "Weekly Goal Reminder 📆",
+      "message": "You’re only 15 minutes away from hitting your weekly learning goal. A little push and you’re there!",
+      "timestamp": "2025-10-24T18:45:00Z",
+      "isRead": true
+    },
+    {
+      "id": "n5",
+      "userId": "a1",
+      "title": "New User Registrations 📈",
+      "message": "3 new learners joined StudySquare this week. Check the admin dashboard for detailed insights.",
+      "timestamp": "2025-10-25T07:20:00Z",
+      "isRead": false
+    },
+    {
+      "id": "n6",
+      "userId": "a1",
+      "title": "Performance Report Ready 📊",
+      "message": "The weekly performance summary is available. Top learners achieved an average of 80% completion.",
+      "timestamp": "2025-10-25T11:30:00Z",
+      "isRead": false
+    },
+    {
+      "id": "n7",
+      "userId": "a1",
+      "title": "System Update ✅",
+      "message": "Dashboard analytics have been updated with the latest user engagement data.",
+      "timestamp": "2025-10-24T21:00:00Z",
+      "isRead": true
+    }
+  ]
+}
+
+

@@ -1,0 +1,49 @@
+{
+  "programs": [
+    {
+      "id": "p1",
+      "title": "Cybersecurity Fundamentals",
+      "description": "A hands-on course covering network security, threat modeling, and incident response.",
+      "level": "Intermediate",
+      "duration_weeks": 6,
+      "enrolled": false,
+      "thumbnail": "assets/images/cybersecurity fundamentals.png"
+    },
+    {
+      "id": "p2",
+      "title": "Web Development Bootcamp",
+      "description": "From HTML to JavaScript and modern frameworks — build real projects.",
+      "level": "Beginner",
+      "duration_weeks": 8,
+      "enrolled": false,
+      "thumbnail": "assets/images/web development bootcamp.png"
+    },
+    {
+      "id": "p3",
+      "title": "Data Analysis with Python",
+      "description": "Learn Python libraries like Pandas and Matplotlib for data cleaning and visualization.",
+      "level": "Intermediate",
+      "duration_weeks": 7,
+      "enrolled": false,
+      "thumbnail": "assets/images/data_analysis.png"
+    },
+    {
+      "id": "p4",
+      "title": "Mobile App Development",
+      "description": "Design and build cross-platform mobile applications using Flutter.",
+      "level": "Advanced",
+      "duration_weeks": 10,
+      "enrolled": false,
+      "thumbnail": "assets/images/flutter_mobile.png"
+    },
+    {
+      "id": "p5",
+      "title": "UI/UX Design Essentials",
+      "description": "Master design principles and create intuitive user experiences using Figma.",
+      "level": "Beginner",
+      "duration_weeks": 5,
+      "enrolled": false,
+      "thumbnail": "assets/images/uiux.png"
+    }
+  ]
+}
