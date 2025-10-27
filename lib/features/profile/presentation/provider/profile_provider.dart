@@ -71,5 +71,41 @@ class ProfileProvider extends ChangeNotifier {
   Future<bool> isOnboardingComplete(String id) async {
     return await _repo.isOnboardingComplete(id);
   }
+
+  // NEW: clear in-memory profile (call on sign out)
+  void clearLocalProfile() {
+    _profile = null;
+    notifyListeners();
+  }
+
+  // NEW: enroll in a course (adds to profile's enrolled courses)
+  Future<void> enrollInCourse(String programId) async {
+    if (_profile == null) return;
+
+    final currentCourses = _profile!.enrolledCourses ?? [];
+    if (!currentCourses.contains(programId)) {
+      _profile!.enrolledCourses = [...currentCourses, programId];
+      await saveProfile(_profile!);
+    }
+  }
+
+  // NEW: unenroll from a course (removes from profile's enrolled courses)
+  Future<void> unenrollFromCourse(String programId) async {
+    if (_profile == null) return;
+
+    final currentCourses = _profile!.enrolledCourses ?? [];
+    if (currentCourses.contains(programId)) {
+      _profile!.enrolledCourses = currentCourses
+          .where((id) => id != programId)
+          .toList();
+      await saveProfile(_profile!);
+    }
+  }
+
+  // NEW: check if enrolled in a course via profile
+  bool isEnrolledInCourse(String programId) {
+    if (_profile?.enrolledCourses == null) return false;
+    return _profile!.enrolledCourses!.contains(programId);
+  }
 }
 // ...existing code...
