@@ -37,7 +37,5 @@ flutter:
     - assets/mock/
     - assets/data/dashboard.json
     - assets/data/progress_data.json
-    - assets/images/spanish.jpg
-    - assets/images/french.jpg
     - assets/data/programs.json
     - assets/data/profile.json
