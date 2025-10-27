@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studysquare/core/theme/palette.dart';
 import 'package:studysquare/features/home/presentation/pages/home.dart';
+import 'package:studysquare/features/profile/presentation/pages/onboarding.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -121,7 +122,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     print("Confirm: ${confirmPasswordController.text}");
 
                     Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(
+                        builder: (context) => const OnboardingScreen(),
+                      ),
                       (route) => false,
                     );
                   },
