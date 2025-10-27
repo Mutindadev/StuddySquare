@@ -1,0 +1,16 @@
+[
+  {
+    "id" : "1",
+    "name": "Alex Johnson",
+    "email": "alex.johnson@example.com",
+    "membershipDate": "October 2025",
+    "plan": "Pro",
+    "courses": 5,
+    "streak": 12,
+    "totalXP": 1450,
+    "notifications": true,
+    "dailyGoal": "60 minutes",
+    "reminderTime": "08:30 AM",
+    "profilePicturePath": null
+  }
+]
