@@ -1,0 +1,41 @@
+{
+  "userGreeting": {
+    "title": "Welcome back!",
+    "subtitle": "Continue your learning journey"
+  },
+  "progressCard": {
+    "title": "Your Progress",
+    "subtitle": "Keep up the great work!",
+    "percentComplete": 55,
+    "coursesCompleted": 0,
+    "hoursLearned": 24,
+    "streakDays": 7
+  },
+  "quickStats": [
+    { "label": "Courses", "value": 2 },
+    { "label": "Hours", "value": 24 },
+    { "label": "Streak", "value": "7 days" }
+  ],
+  "continueLearning": [
+    {
+      "id": "p1",
+      "title": "Cybersecurity Fundamentals",
+      "subtitle": "Network Security",
+      "progress": 0.7,
+      "level": "Intermediate",
+      "duration_weeks": 6
+    },
+    {
+      "id": "p2",
+      "title": "Web Development",
+      "subtitle": "JavaScript Basics",
+      "progress": 0.4,
+      "level": "Beginner",
+      "duration_weeks": 4
+    }
+  ],
+  "quickActions": [
+    { "id": "browse", "label": "Browse Courses" },
+    { "id": "progress", "label": "View Progress" }
+  ]
+}
