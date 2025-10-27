@@ -4,7 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
 import 'package:studysquare/features/profile/data/models/profile_model.dart';
+import 'package:studysquare/features/user/presentation/pages/landing_page.dart';
 
 import '../provider/profile_provider.dart';
 import 'edit_profile_page.dart';
@@ -18,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   // removed direct repo usage; use ProfileProvider instead
+  bool notifications = true;
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +268,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         _smallStatCard(
                           icon: Icons.school,
                           title: 'Courses',
-                          value: '${profile.courses}',
+                          value: '${profile.enrolledCourses?.length}',
                         ),
                         const SizedBox(width: 10),
                         _smallStatCard(
@@ -282,42 +286,167 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
-                  const SizedBox(height: 18),
-
+                  // Preferences
+                  Padding(
+                    padding: sectionPadding,
+                    child: const Text(
+                      'Preferences',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Palette.textPrimary,
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Palette.surface,
+                        borderRadius: borderRadiusCard,
+                      ),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: const Icon(
+                              Icons.notifications_none,
+                              color: Palette.textSecondary,
+                            ),
+                            title: const Text(
+                              'Notifications',
+                              style: TextStyle(color: Palette.textPrimary),
+                            ),
+                            trailing: Switch(
+                              value: profile.notifications,
+                              onChanged: (v) async {
+                                profile.notifications = v;
+                                await profileProvider.updateProfile(profile);
+                              },
+                            ),
+                          ),
+                          const Divider(height: 1, color: Palette.borderLight),
+                          _prefTile(
+                            icon: Icons.track_changes,
+                            title: 'Daily Goal',
+                            subtitle: profile.dailyGoal,
+                            onTap: () {},
+                          ),
+                          const Divider(height: 1, color: Palette.borderLight),
+                          _prefTile(
+                            icon: Icons.access_time,
+                            title: 'Reminder Time',
+                            subtitle: profile.reminderTime,
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Account section
+                  Padding(
+                    padding: sectionPadding,
+                    child: const Text(
+                      'Account',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Palette.textPrimary,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Palette.surface,
+                        borderRadius: borderRadiusCard,
+                      ),
+                      child: Column(
+                        children: [
+                          _prefTile(
+                            icon: Icons.settings_outlined,
+                            title: 'Account settings',
+                            onTap: () {},
+                          ),
+                          const Divider(height: 1, color: Palette.borderLight),
+                          _prefTile(
+                            icon: Icons.lock_outline,
+                            title: 'Privacy & Security',
+                            onTap: () {},
+                          ),
+                          const Divider(height: 1, color: Palette.borderLight),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
+                            ),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  // Use the correct provider
+                                  final authProvider =
+                                      Provider.of<AuthProvider>(
+                                        context,
+                                        listen: false,
+                                      );
+
+                                  await authProvider.signOut();
+
+                                  if (context.mounted) {
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const LandingPage(),
+                                      ),
+                                      (route) => false,
+                                    );
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Palette.error,
+                                  side: const BorderSide(color: Palette.error),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  child: Text('Sign out'),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Footer
+                  Center(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Preferences',
+                      children: const [
+                        Text(
+                          'Study sphere v1.0.0',
                           style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                            color: Palette.textTertiary,
+                            fontSize: 12,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ListTile(
-                          leading: const Icon(Icons.notifications_none),
-                          title: const Text('Notifications'),
-                          trailing: Switch(
-                            value: profile.notifications,
-                            onChanged: (v) async {
-                              profile.notifications = v;
-                              await profileProvider.updateProfile(profile);
-                            },
+                        SizedBox(height: 4),
+                        Text(
+                          '© 2025 ALL rights reserved',
+                          style: TextStyle(
+                            color: Palette.textTertiary,
+                            fontSize: 12,
                           ),
                         ),
-                        ListTile(
-                          leading: const Icon(Icons.track_changes),
-                          title: const Text('Daily Goal'),
-                          subtitle: Text(profile.dailyGoal),
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.access_time),
-                          title: const Text('Reminder Time'),
-                          subtitle: Text(profile.reminderTime),
-                        ),
+                        SizedBox(height: 12),
                       ],
                     ),
                   ),
@@ -362,6 +491,31 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _prefTile({
+    required IconData icon,
+    required String title,
+    String? subtitle,
+    VoidCallback? onTap,
+  }) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Palette.surfaceVariant,
+        radius: 18,
+        child: Icon(icon, color: Palette.textSecondary, size: 18),
+      ),
+      title: Text(title, style: const TextStyle(color: Palette.textPrimary)),
+      subtitle: subtitle != null
+          ? Text(
+              subtitle,
+              style: const TextStyle(color: Palette.textTertiary, fontSize: 12),
+            )
+          : null,
+      trailing: const Icon(Icons.chevron_right, color: Palette.textTertiary),
+      onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
     );
   }
 }

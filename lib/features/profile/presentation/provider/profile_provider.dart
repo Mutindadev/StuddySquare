@@ -1,4 +1,5 @@
 // ...existing code...
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studysquare/features/profile/data/models/profile_model.dart';
 import 'package:studysquare/features/profile/data/repositories/profile_repository.dart';
@@ -13,22 +14,22 @@ class ProfileProvider extends ChangeNotifier {
   bool get isLoading => _loading;
 
   ProfileProvider() {
-    loadProfile();
+    loadProfileById(FirebaseAuth.instance.currentUser?.uid ?? '');
   }
 
-  Future<void> loadProfile() async {
-    _loading = true;
-    notifyListeners();
-    try {
-      final p = await _repo.loadProfile();
-      _profile = p;
-    } catch (_) {
-      _profile = null;
-    } finally {
-      _loading = false;
-      notifyListeners();
-    }
-  }
+  // Future<void> loadProfile() async {
+  //   _loading = true;
+  //   notifyListeners();
+  //   try {
+  //     final p = await _repo.loadProfile();
+  //     _profile = p;
+  //   } catch (_) {
+  //     _profile = null;
+  //   } finally {
+  //     _loading = false;
+  //     notifyListeners();
+  //   }
+  // }
 
   // NEW: load profile by id (call this after sign-in)
   Future<void> loadProfileById(String id) async {

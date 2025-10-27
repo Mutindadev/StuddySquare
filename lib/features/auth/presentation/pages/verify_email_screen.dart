@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:studysquare/features/home/presentation/pages/home.dart';
-import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
+import 'package:studysquare/features/user/presentation/pages/landing_page.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({super.key});
@@ -67,6 +67,11 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text("Email verified successfully!")),
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/onboarding',
+            (route) => false,
           );
         }
       } else if (manual && context.mounted) {
@@ -135,7 +140,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const RegistrationPage(),
+                            builder: (_) => const LandingPage(),
                           ),
                         );
                       }

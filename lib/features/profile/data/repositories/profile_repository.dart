@@ -115,7 +115,7 @@ class ProfileRepository {
     return profile;
   }
 
-    // NEW: Read: get profile by id (returns null if not found)
+  // NEW: Read: get profile by id (returns null if not found)
   Future<Profile?> getProfileById(String id) async {
     final list = await loadAllProfiles();
     for (final p in list) {
@@ -165,7 +165,6 @@ class ProfileRepository {
       email: 'user1@gmail.com',
       membershipDate: 'October 2025',
       plan: 'Free',
-      courses: 3,
       streak: 0,
       totalXP: 0,
       notifications: true,

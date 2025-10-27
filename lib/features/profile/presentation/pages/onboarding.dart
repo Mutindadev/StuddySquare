@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:studysquare/features/home/presentation/pages/home.dart';
 import 'package:studysquare/features/profile/data/models/profile_model.dart';
+import 'package:studysquare/features/profile/data/repositories/profile_repository.dart';
 import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -76,13 +79,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     final membershipDate = '${_monthName(now.month)} ${now.year}';
 
     final profile = Profile(
-      // id: FirebaseAuth.instance.currentUser?.uid ?? '',
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      id: FirebaseAuth.instance.currentUser?.uid ?? '',
+      // id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: _nameCtrl.text.trim(),
       email: _emailCtrl.text.trim(),
       membershipDate: membershipDate,
       plan: _plan,
-      courses: _courses,
       streak: 0,
       totalXP: 0,
       notifications: _notifications,
@@ -94,7 +96,30 @@ class _OnboardingScreenState extends State<OnboardingScreen>
     try {
       final provider = Provider.of<ProfileProvider>(context, listen: false);
       await provider.saveProfile(profile);
+      try {
+        final repo = ProfileRepository();
+        final path = await repo.getLocalFilePath();
+        final content = await File(path).readAsString();
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Profile saved to: $path')));
+        }
+        if (kDebugMode) {
+          debugPrint('Profiles file path: $path');
+          debugPrint('Profiles file contents: $content');
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Saved but failed to read file: $e')),
+          );
+        }
+        if (kDebugMode) debugPrint('Could not read saved profiles file: $e');
+      }
+
       if (!mounted) return;
+
       Navigator.of(
         context,
       ).pushReplacement(MaterialPageRoute(builder: (_) => const HomePage()));

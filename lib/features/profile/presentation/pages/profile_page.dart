@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
 import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
-import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
+import 'package:studysquare/features/user/presentation/pages/landing_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -280,7 +280,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => const RegistrationPage(),
+                                    builder: (_) => const LandingPage(),
                                   ),
                                   (route) => false,
                                 );

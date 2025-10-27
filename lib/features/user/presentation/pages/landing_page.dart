@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
 import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
+import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key});
+class LandingPage extends StatefulWidget {
+  const LandingPage({super.key});
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  State<LandingPage> createState() => _LandingPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _LandingPageState extends State<LandingPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -39,6 +40,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final profileProvider = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    );
 
     setState(() => _isLoading = true);
 
@@ -62,6 +67,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         }
       } else if (_selectedMode == 0) {
         await authProvider.logIn(email, password);
+        await profileProvider.loadProfileById(authProvider.user!.uid);
 
         if (context.mounted) {
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
