@@ -1,0 +1,30 @@
+{
+  "progress": {
+    "percent": 0.55,
+    "text": "55% Complete",
+    "message": "Keep up the great work!"
+  },
+  "stats": [
+    { "label": "Courses", "value": "2", "icon": "book_outlined" },
+    { "label": "Hours", "value": "24", "icon": "access_time" },
+    { "label": "Streak", "value": "7 days", "icon": "local_fire_department" }
+  ],
+  "courses": [
+    {
+      "title": "Cybersecurity Fundamentals",
+      "subtitle": "Network Security",
+      "progress": 0.7,
+      "icon": "security"
+    },
+    {
+      "title": "Web Development",
+      "subtitle": "JavaScript Basics",
+      "progress": 0.4,
+      "icon": "web"
+    }
+  ],
+  "actions": [
+    { "label": "Browse Courses", "icon": "explore_outlined", "color": "primary" },
+    { "label": "View Progress", "icon": "analytics_outlined", "color": "secondary" }
+  ]
+}

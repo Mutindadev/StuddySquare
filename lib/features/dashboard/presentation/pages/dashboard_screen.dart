@@ -1,11 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:studysquare/core/theme/palette.dart';
+import '../../data/local_json_service.dart';
 
-class DashboardScreen extends StatelessWidget {
+
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  final LocalJsonService _jsonService = LocalJsonService();
+  Map<String, dynamic>? dashboardData;
+
+  @override
+  void initState() {
+    super.initState();
+    loadDashboardData();
+  }
+
+  Future<void> loadDashboardData() async {
+    final data = await _jsonService.loadDashboard();
+    setState(() {
+      dashboardData = data;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (dashboardData == null) {
+      return const Scaffold(
+        backgroundColor: Palette.background,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final progress = dashboardData!['progress'];
+    final stats = dashboardData!['stats'] as List<dynamic>;
+    final courses = dashboardData!['courses'] as List<dynamic>;
+    final actions = dashboardData!['actions'] as List<dynamic>;
+
     return Scaffold(
       backgroundColor: Palette.background,
       body: SafeArea(
@@ -82,25 +117,25 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Keep up the great work!',
-                      style: TextStyle(
+                    Text(
+                      progress['message'],
+                      style: const TextStyle(
                         fontSize: 14,
                         color: Palette.textOnPrimary,
                       ),
                     ),
                     const SizedBox(height: 16),
                     LinearProgressIndicator(
-                      value: 0.6,
+                      value: progress['percent'],
                       backgroundColor: Palette.textOnPrimary.withOpacity(0.3),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Palette.textOnPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      '60% Complete',
-                      style: TextStyle(
+                    Text(
+                      progress['text'],
+                      style: const TextStyle(
                         fontSize: 12,
                         color: Palette.textOnPrimary,
                       ),
@@ -113,23 +148,20 @@ class DashboardScreen extends StatelessWidget {
 
               // Quick Stats
               Row(
-                children: [
-                  Expanded(
-                    child: _buildStatCard('Courses', '3', Icons.book_outlined),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard('Hours', '24', Icons.access_time),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildStatCard(
-                      'Streak',
-                      '7 days',
-                      Icons.local_fire_department,
-                    ),
-                  ),
-                ],
+                children: stats
+                    .map(
+                      (stat) => Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: _buildStatCard(
+                            stat['label'],
+                            stat['value'],
+                            getIconFromString(stat['icon']),
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
 
               const SizedBox(height: 24),
@@ -145,20 +177,20 @@ class DashboardScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
 
-              _buildCourseCard(
-                'Cybersecurity Fundamentals',
-                'Network Security',
-                0.7,
-                Icons.security,
-              ),
-
-              const SizedBox(height: 12),
-
-              _buildCourseCard(
-                'Web Development',
-                'JavaScript Basics',
-                0.4,
-                Icons.web,
+              Column(
+                children: courses
+                    .map(
+                      (course) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildCourseCard(
+                          course['title'],
+                          course['subtitle'],
+                          course['progress'],
+                          getIconFromString(course['icon']),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
 
               const SizedBox(height: 24),
@@ -175,23 +207,22 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               Row(
-                children: [
-                  Expanded(
-                    child: _buildActionButton(
-                      'Browse Courses',
-                      Icons.explore_outlined,
-                      Palette.primary,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildActionButton(
-                      'View Progress',
-                      Icons.analytics_outlined,
-                      Palette.secondary,
-                    ),
-                  ),
-                ],
+                children: actions
+                    .map(
+                      (action) => Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12),
+                          child: _buildActionButton(
+                            action['label'],
+                            getIconFromString(action['icon']),
+                            action['color'] == 'primary'
+                                ? Palette.primary
+                                : Palette.secondary,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
             ],
           ),
@@ -244,11 +275,7 @@ class DashboardScreen extends StatelessWidget {
   }
 
   Widget _buildCourseCard(
-    String title,
-    String subtitle,
-    double progress,
-    IconData icon,
-  ) {
+      String title, String subtitle, double progress, IconData icon) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -297,9 +324,8 @@ class DashboardScreen extends StatelessWidget {
                 LinearProgressIndicator(
                   value: progress,
                   backgroundColor: Palette.borderLight,
-                  valueColor: const AlwaysStoppedAnimation<Color>(
-                    Palette.primary,
-                  ),
+                  valueColor:
+                      const AlwaysStoppedAnimation<Color>(Palette.primary),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -349,5 +375,27 @@ class DashboardScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+// Helper to map string to IconData
+IconData getIconFromString(String iconName) {
+  switch (iconName) {
+    case 'book_outlined':
+      return Icons.book_outlined;
+    case 'access_time':
+      return Icons.access_time;
+    case 'local_fire_department':
+      return Icons.local_fire_department;
+    case 'security':
+      return Icons.security;
+    case 'web':
+      return Icons.web;
+    case 'explore_outlined':
+      return Icons.explore_outlined;
+    case 'analytics_outlined':
+      return Icons.analytics_outlined;
+    default:
+      return Icons.help_outline;
   }
 }

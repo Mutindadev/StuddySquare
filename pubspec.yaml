@@ -26,3 +26,5 @@ flutter:
   assets:
     - assets/images/spanish.jpg
     - assets/images/french.jpg
+    - assets/data/dashboard.json
+    - assets/data/notifications.json
