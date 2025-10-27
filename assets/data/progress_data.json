@@ -1,0 +1,50 @@
+{
+    "stats": {
+      "total_xp": 1820,
+      "day_streak": 5,
+      "lessons_done": 12,
+      "hours_learned": 7.5
+    },
+  
+    "weekly_activity": {
+      "minutes_per_day": {
+        "Mon": 45,
+        "Tue": 60,
+        "Wed": 30,
+        "Thu": 50,
+        "Fri": 40,
+        "Sat": 35,
+        "Sun": 25
+      },
+      "total_minutes": 285
+    },
+  
+    "current_goals": {
+      "weekly_goal": {
+        "title": "Weekly Goal",
+        "current": 285,
+        "target": 300
+      },
+      "monthly_xp_goal": {
+        "title": "Monthly XP Goal",
+        "current": 1420,
+        "target": 2000
+      }
+    },
+  
+    "courses": [
+      { "title": "Flutter Development", "progress": 0.6 },
+      { "title": "UI/UX Design", "progress": 0.3 },
+      { "title": "Data Structures", "progress": 0.8 },
+      {"title": "Cyber Security", "progress": 0.4},
+      {"title": "French", "progress": 0.4}
+    ],
+  
+    "badges": [
+      { "name": "Beginner", "emoji": "🥉" },
+      { "name": "Intermediate", "emoji": "🥈" },
+      { "name": "Expert", "emoji": "🥇" },
+      { "name": "Consistency", "emoji": "🔥" }
+    ]
+  }
+  

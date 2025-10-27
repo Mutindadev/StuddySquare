@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studysquare/features/dashboard/presentation/pages/dashboard_screen.dart';
-import 'package:studysquare/features/profile/presentation/pages/profile_page.dart';
+import 'package:studysquare/features/profile/presentation/pages/profilepage.dart';
 import 'package:studysquare/features/programs/presentation/pages/program_listings_page.dart';
 import 'package:studysquare/features/progress/presentation/pages/progress_page.dart';
 // ...existing imports...
