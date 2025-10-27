@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
+import 'package:studysquare/features/user/presentation/pages/landing_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -264,7 +267,25 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: SizedBox(
                           width: double.infinity,
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              // Use the correct provider
+                              final authProvider = Provider.of<AuthProvider>(
+                                context,
+                                listen: false,
+                              );
+
+                              await authProvider.signOut();
+
+                              if (context.mounted) {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const LandingPage(),
+                                  ),
+                                  (route) => false,
+                                );
+                              }
+                            },
                             style: OutlinedButton.styleFrom(
                               foregroundColor: Palette.error,
                               side: const BorderSide(color: Palette.error),
