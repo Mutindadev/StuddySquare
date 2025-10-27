@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
+import 'package:studysquare/features/notifications/presentation/pages/notifications_screen.dart';
 import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 import 'package:studysquare/features/programs/data/models/program.dart';
 import 'package:studysquare/features/programs/presentation/pages/program_detail_page.dart';
@@ -212,7 +213,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       setState(() => readCount = 0);
                       // Handle notification navigation safely
                       try {
-                        await Navigator.pushNamed(context, '/notifications');
+                        await Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const NotificationsScreen(userId: ''),
+                          ),
+                          (route) => route.isFirst,
+                        );
                       } catch (e) {
                         debugPrint('Navigation error: $e');
                       }
