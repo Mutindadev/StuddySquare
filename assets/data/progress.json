@@ -1,0 +1,132 @@
+{
+  "progress": [
+    {
+      "userId": "u1",
+      "overallProgressPercent": 18,
+      "courses": [
+        {
+          "stats": {
+            "total_xp": 1250,
+            "day_streak": 6,
+            "lessons_done": 10,
+            "hours_learned": 8
+          },
+          "weekly_activity": {
+            "minutes_per_day": {
+              "Mon": 40,
+              "Tue": 55,
+              "Wed": 45,
+              "Thu": 30,
+              "Fri": 25,
+              "Sat": 20,
+              "Sun": 15
+            },
+            "total_minutes": 230
+          },
+          "current_goals": {
+            "weekly_goal": {
+              "title": "Weekly Goal",
+              "current": 230,
+              "target": 300
+            },
+            "monthly_xp_goal": {
+              "title": "Monthly XP Goal",
+              "current": 1250,
+              "target": 2000
+            }
+          },
+          "courses": [
+            { "title": "Cybersecurity Fundamentals", "progress": 0.15 },
+            { "title": "Web Development Bootcamp", "progress": 0.20 }
+          ],
+          "badges": [
+            { "name": "Starter", "emoji": "🎯" },
+            { "name": "Consistency", "emoji": "🔥" }
+          ]
+        }
+      ]
+    },
+    {
+      "userId": "u2",
+      "overallProgressPercent": 20,
+      "courses": [
+        {
+          "stats": {
+            "total_xp": 940,
+            "day_streak": 4,
+            "lessons_done": 8,
+            "hours_learned": 6
+          },
+          "weekly_activity": {
+            "minutes_per_day": {
+              "Mon": 30,
+              "Tue": 50,
+              "Wed": 40,
+              "Thu": 35,
+              "Fri": 20,
+              "Sat": 15,
+              "Sun": 10
+            },
+            "total_minutes": 200
+          },
+          "current_goals": {
+            "weekly_goal": {
+              "title": "Weekly Goal",
+              "current": 200,
+              "target": 250
+            },
+            "monthly_xp_goal": {
+              "title": "Monthly XP Goal",
+              "current": 940,
+              "target": 1800
+            }
+          },
+          "courses": [
+            { "title": "Data Analysis with Python", "progress": 0.40 },
+            { "title": "UI/UX Design Essentials", "progress": 0.25 }
+          ],
+          "badges": [
+            { "name": "Learner", "emoji": "📚" },
+            { "name": "Explorer", "emoji": "🚀" }
+          ]
+        }
+      ]
+    },
+    {
+      "userId": "a1",
+      "overallProgressPercent": 100,
+      "courses": [
+        {
+          "stats": {
+            "total_xp": 0,
+            "day_streak": 0,
+            "lessons_done": 0,
+            "hours_learned": 0
+          },
+          "weekly_activity": {
+            "minutes_per_day": {
+              "Mon": 0,
+              "Tue": 0,
+              "Wed": 0,
+              "Thu": 0,
+              "Fri": 0,
+              "Sat": 0,
+              "Sun": 0
+            },
+            "total_minutes": 0
+          },
+          "admin_summary": {
+            "total_users": 42,
+            "active_programs": 31,
+            "feedback_received": 27,
+            "system_health": "Optimal"
+          },
+          "badges": [
+            { "name": "Admin", "emoji": "🛡️" },
+            { "name": "Manager", "emoji": "📊" }
+          ]
+        }
+      ]
+    }
+  ]
+}

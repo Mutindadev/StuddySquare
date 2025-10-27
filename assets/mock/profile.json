@@ -1,0 +1,100 @@
+{
+  "profiles": [
+    {
+      "userId": "u1",
+      "fullName": "Regina Mutinda",
+      "email": "regina@example.com",
+      "role": "learner",
+      "bio": "Loves anime, games, and trying new foods.",
+      "avatar": "assets/images/avatar_regina.png",
+      "joinedAt": "2025-03-01T08:00:00Z",
+      "preferences": {
+        "notifications": true,
+        "dailyGoalMinutes": 30,
+        "reminderTime": "08:00"
+      },
+      "stats": {
+        "coursesEnrolled": 2,
+        "hoursLearned": 12,
+        "streakDays": 6,
+        "totalXP": 1250
+      },
+      "badges": [
+        { "name": "Starter", "emoji": "🎯" },
+        { "name": "Consistency", "emoji": "🔥" }
+      ],
+      "enrolledPrograms": [
+        {
+          "programId": "p1",
+          "title": "Cybersecurity Fundamentals",
+          "progress": 0.15
+        },
+        {
+          "programId": "p2",
+          "title": "Web Development Bootcamp",
+          "progress": 0.20
+        }
+      ]
+    },
+    {
+      "userId": "u2",
+      "fullName": "Monica Otieno",
+      "email": "monica@example.com",
+      "role": "learner",
+      "bio": "Passionate about digital literacy and technology for impact.",
+      "avatar": "assets/images/avatar_monica.png",
+      "joinedAt": "2025-04-10T08:00:00Z",
+      "preferences": {
+        "notifications": false,
+        "dailyGoalMinutes": 20,
+        "reminderTime": "09:00"
+      },
+      "stats": {
+        "coursesEnrolled": 3,
+        "hoursLearned": 18,
+        "streakDays": 4,
+        "totalXP": 940
+      },
+      "badges": [
+        { "name": "Learner", "emoji": "📚" },
+        { "name": "Explorer", "emoji": "🚀" }
+      ],
+      "enrolledPrograms": [
+        {
+          "programId": "p3",
+          "title": "Data Analysis with Python",
+          "progress": 0.40
+        },
+        {
+          "programId": "p5",
+          "title": "UI/UX Design Essentials",
+          "progress": 0.25
+        }
+      ]
+    },
+    {
+      "userId": "a1",
+      "fullName": "Admin Tester",
+      "email": "admin@example.com",
+      "role": "admin",
+      "bio": "System administrator overseeing users and program performance.",
+      "avatar": "assets/images/avatar_admin.png",
+      "joinedAt": "2025-01-01T09:00:00Z",
+      "preferences": {
+        "notifications": true,
+        "darkMode": true
+      },
+      "stats": {
+        "totalUsers": 320,
+        "activePrograms": 5,
+        "feedbackReceived": 27
+      },
+      "permissions": {
+        "canAddProgram": true,
+        "canEditProgram": true,
+        "canRemoveUser": true
+      }
+    }
+  ]
+}
+
