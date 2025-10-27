@@ -10,6 +10,9 @@ import 'package:studysquare/features/auth/presentation/provider/auth_provider.da
 import 'package:studysquare/features/home/presentation/pages/home.dart';
 import 'package:studysquare/features/profile/presentation/pages/onboarding.dart';
 import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
+import 'package:studysquare/features/programs/data/repositories/enrollment_repository.dart';
+import 'package:studysquare/features/programs/presentation/provider/enrollment_provider.dart';
+import 'package:studysquare/features/programs/presentation/provider/program_admin_provider.dart';
 import 'package:studysquare/features/user/presentation/pages/landing_page.dart';
 
 import 'firebase_options.dart';

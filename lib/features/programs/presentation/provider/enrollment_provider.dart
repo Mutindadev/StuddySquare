@@ -52,6 +52,13 @@ class EnrollmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void syncFromProfile(List<String>? enrolledCourses) {
+    if (enrolledCourses != null) {
+      _enrolledProgramIds = Set<String>.from(enrolledCourses);
+      notifyListeners();
+    }
+  }
+
   /// Gets the current user ID.
   String get currentUid => _currentUid;
 

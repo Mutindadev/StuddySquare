@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:studysquare/core/theme/palette.dart';
 import 'package:studysquare/features/programs/data/models/program.dart';
 import 'package:studysquare/features/programs/data/services/program_service.dart';
 import 'package:studysquare/features/programs/presentation/provider/enrollment_provider.dart';
 import 'package:studysquare/features/programs/presentation/provider/program_admin_provider.dart';
 
-import 'program_detail_page.dart';
 import 'admin_programs_page.dart';
+import 'program_detail_page.dart';
 
 class ProgramListingsPage extends StatelessWidget {
   const ProgramListingsPage({super.key});
@@ -43,9 +42,7 @@ class ProgramListingsPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const AdminProgramsPage(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const AdminProgramsPage()),
                 );
               },
             ),
@@ -72,11 +69,16 @@ class ProgramListingsPage extends StatelessWidget {
                   );
                 }
 
-                if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                if (snapshot.hasError ||
+                    !snapshot.hasData ||
+                    snapshot.data!.isEmpty) {
                   return const Center(
                     child: Text(
                       'No programs available',
-                      style: TextStyle(color: Palette.textSecondary, fontSize: 16),
+                      style: TextStyle(
+                        color: Palette.textSecondary,
+                        fontSize: 16,
+                      ),
                     ),
                   );
                 }
@@ -91,7 +93,9 @@ class ProgramListingsPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final program = programs[index];
                         final programId = program.id;
-                        final isEnrolled = enrollmentProvider.isEnrolled(programId);
+                        final isEnrolled = enrollmentProvider.isEnrolled(
+                          programId,
+                        );
 
                         return Card(
                           margin: const EdgeInsets.only(bottom: 16),
@@ -105,7 +109,8 @@ class ProgramListingsPage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProgramDetailPage(program: program),
+                                  builder: (context) =>
+                                      ProgramDetailPage(program: program),
                                 ),
                               );
                             },
@@ -116,11 +121,13 @@ class ProgramListingsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               program.title,
@@ -134,40 +141,54 @@ class ProgramListingsPage extends StatelessWidget {
                                             Row(
                                               children: [
                                                 Container(
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 12,
-                                                    vertical: 6,
-                                                  ),
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 6,
+                                                      ),
                                                   decoration: BoxDecoration(
-                                                    color: _getLevelColor(program.level),
-                                                    borderRadius: BorderRadius.circular(20),
+                                                    color: _getLevelColor(
+                                                      program.level,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          20,
+                                                        ),
                                                   ),
                                                   child: Text(
                                                     program.level,
                                                     style: const TextStyle(
-                                                      color: Palette.textOnPrimary,
+                                                      color:
+                                                          Palette.textOnPrimary,
                                                       fontSize: 12,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                 ),
                                                 if (isEnrolled) ...[
                                                   const SizedBox(width: 8),
                                                   Container(
-                                                    padding: const EdgeInsets.symmetric(
-                                                      horizontal: 12,
-                                                      vertical: 6,
-                                                    ),
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 6,
+                                                        ),
                                                     decoration: BoxDecoration(
                                                       color: Palette.success,
-                                                      borderRadius: BorderRadius.circular(20),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            20,
+                                                          ),
                                                     ),
                                                     child: const Text(
                                                       'Enrolled',
                                                       style: TextStyle(
-                                                        color: Palette.textOnPrimary,
+                                                        color: Palette
+                                                            .textOnPrimary,
                                                         fontSize: 12,
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
                                                   ),
@@ -207,7 +228,9 @@ class ProgramListingsPage extends StatelessWidget {
                                       ),
                                       const Spacer(),
                                       Text(
-                                        isEnrolled ? 'Continue' : 'View Details',
+                                        isEnrolled
+                                            ? 'Continue'
+                                            : 'View Details',
                                         style: const TextStyle(
                                           color: Palette.primary,
                                           fontWeight: FontWeight.w600,
