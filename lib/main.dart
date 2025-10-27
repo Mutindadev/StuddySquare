@@ -1,14 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:studysquare/core/theme/app_theme.dart';
+import 'package:studysquare/features/auth/presentation/pages/admin_login.dart';
+import 'package:studysquare/features/auth/presentation/pages/forgot_pass_screen.dart';
+import 'package:studysquare/features/auth/presentation/pages/splash_screen.dart';
+import 'package:studysquare/features/auth/presentation/pages/verify_email_screen.dart';
+import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
 import 'package:studysquare/features/home/presentation/pages/home.dart';
-import 'package:studysquare/features/profile/presentation/pages/onboarding.dart';
-import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
+import 'package:studysquare/features/user/presentation/pages/registrationpage.dart';
 
-import 'core/theme/app_theme.dart';
-// ...existing imports...
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(
+    ChangeNotifierProvider(create: (_) => AuthProvider(), child: const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,30 +25,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ProfileProvider())],
-      child: Consumer<ProfileProvider>(
-        builder: (context, profileProvider, _) {
-          return FutureBuilder<bool>(
-            future: profileProvider.isOnboardingComplete('1'),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return MaterialApp(
-                  home: Scaffold(
-                    body: Center(child: CircularProgressIndicator()),
-                  ),
-                );
-              }
-
-              final isOnboardingComplete = snapshot.data ?? false;
-              return MaterialApp(
-                title: 'StudySquare',
-                theme: AppTheme.lightTheme,
-                home: isOnboardingComplete ? HomePage() : OnboardingScreen(),
-                debugShowCheckedModeBanner: false,
-              );
-            },
-          );
+    return MaterialApp(
+      title: 'StudySquare',
+      theme: AppTheme.lightTheme,
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/splash': (context) => const SplashScreen(),
+        '/register': (context) => const RegistrationPage(),
+        '/login': (context) => const RegistrationPage(),
+        '/forgot-password': (context) => const ForgotPasswordScreen(),
+        '/verify-email': (context) => const VerifyEmailScreen(),
+        '/home': (context) => const HomePage(),
+        '/admin-login': (context) => const AdminLogin(),
+      },
+      home: Consumer<AuthProvider>(
+        builder: (context, auth, _) {
+          if (auth.isLoading) {
+            return const SplashScreen();
+          }
+          return auth.isAuthenticated
+              ? const HomePage()
+              : const RegistrationPage();
         },
       ),
     );
