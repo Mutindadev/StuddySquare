@@ -1,0 +1,63 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "fullName": "Regina Mutinda",
+      "email": "regina@example.com",
+      "password": "@Q04Exy_",
+      "role": "learner",
+      "authToken": "mocked_token_abc123",
+      "createdAt": "2025-07-01T08:00:00Z",
+      "lastLogin": "2025-10-20T09:00:00Z"
+    },
+    {
+      "id": "u2",
+      "fullName": "Monica Otieno",
+      "email": "monica@example.com",
+      "password": "@Q04Exy_",
+      "role": "learner",
+      "authToken": "mocked_token_xyz789",
+      "createdAt": "2025-06-15T08:00:00Z",
+      "lastLogin": "2025-10-18T11:00:00Z"
+    },
+    {
+      "id": "a1",
+      "fullName": "Admin Tester",
+      "email": "admin@example.com",
+      "password": "Admin@2025",
+      "role": "admin",
+      "authToken": "mocked_token_admin",
+      "createdAt": "2025-01-01T09:00:00Z",
+      "lastLogin": "2025-10-25T08:30:00Z"
+    }
+  ],
+  "registrationOptions": {
+    "roles": [
+      {
+        "type": "learner",
+        "description": "Ideal for new users who want to take courses and track progress."
+      },
+      {
+        "type": "admin",
+        "description": "For platform administrators managing users and programs."
+      }
+    ],
+    "defaultRole": "learner"
+  },
+  "passwordPolicy": {
+    "minLength": 8,
+    "maxLength": 24,
+    "requireUpperCase": true,
+    "requireNumber": true,
+    "requireSpecialChar": true,
+    "allowedSpecials": "@#$%^&*_-",
+    "message": "Password must be 8-24 characters long, include at least one uppercase letter, one number, and one special character."
+  },
+  "feedbackMessages": {
+    "loginSuccess": "Welcome back!",
+    "loginFailed": "Invalid email or password. Please try again.",
+    "registrationSuccess": "Account created successfully!",
+    "passwordInvalid": "Your password doesn’t meet the policy requirements."
+  }
+}
+

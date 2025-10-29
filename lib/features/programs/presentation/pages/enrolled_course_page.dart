@@ -3,56 +3,32 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/programs/data/models/program.dart';
 
 import 'mini_project_page.dart';
 import 'quiz_page.dart';
 
 class EnrolledCoursePage extends StatefulWidget {
-  final Map<String, dynamic> program;
+  final Program program;
 
-  const EnrolledCoursePage({super.key, required this.program});
+  const EnrolledCoursePage({Key? key, required this.program}) : super(key: key);
 
   @override
   State<EnrolledCoursePage> createState() => _EnrolledCoursePageState();
 }
 
 class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
-  late final List<Map<String, dynamic>> modules;
-  late final String programId;
-
   final Map<int, Set<String>> _completedTasks = {};
   final List<bool> _isExpanded = [];
 
   @override
   void initState() {
     super.initState();
-    programId = widget.program['id']?.toString() ?? 'unknown';
 
-    final raw = widget.program['modules'];
-    if (raw is List) {
-      modules = raw.map((e) {
-        if (e is Map) {
-          return Map<String, dynamic>.from(e);
-        }
-        return <String, dynamic>{};
-      }).toList();
-    } else {
-      modules = [
-        {
-          'week': 'Week 1-2',
-          'title': 'Introduction',
-          'tasks': [
-            {'name': 'Reading', 'type': 'reading'},
-            {'name': 'Quiz', 'type': 'quiz'},
-            {'name': 'Mini Project', 'type': 'project'},
-          ],
-        },
-      ];
-    }
-
-    for (int i = 0; i < modules.length; i++) {
+    // Initialize expansion state and completed tasks
+    for (int i = 0; i < widget.program.modules.length; i++) {
       _completedTasks[i] = <String>{};
-      _isExpanded.add(i == 0);
+      _isExpanded.add(i == 0); // First module expanded by default
     }
 
     _loadProgress();
@@ -60,7 +36,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
 
   Future<void> _loadProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'progress_$programId';
+    final key = 'progress_${widget.program.id}';
     final saved = prefs.getString(key);
 
     if (saved != null) {
@@ -68,8 +44,8 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
         final Map<String, dynamic> data = jsonDecode(saved);
         setState(() {
           data.forEach((moduleIndexStr, taskList) {
-            final moduleIndex = int.parse(moduleIndexStr);
-            if (taskList is List) {
+            final moduleIndex = int.tryParse(moduleIndexStr);
+            if (moduleIndex != null && taskList is List) {
               _completedTasks[moduleIndex] = Set<String>.from(taskList);
             }
           });
@@ -82,7 +58,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
 
   Future<void> _saveProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'progress_$programId';
+    final key = 'progress_${widget.program.id}';
 
     final Map<String, List<String>> data = {};
     _completedTasks.forEach((moduleIndex, taskSet) {
@@ -92,28 +68,19 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     await prefs.setString(key, jsonEncode(data));
   }
 
-  int get _totalTasks {
-    int total = 0;
-    for (var module in modules) {
-      final tasks = module['tasks'];
-      if (tasks is List) {
-        total += tasks.length;
-      }
-    }
-    return total;
-  }
+  int get _totalTasks => widget.program.totalTasks;
 
   int get _completedCount =>
       _completedTasks.values.fold(0, (s, set) => s + set.length);
+
   double get _progress =>
       _totalTasks == 0 ? 0.0 : (_completedCount / _totalTasks);
 
   bool _isModuleUnlocked(int index) {
     if (index == 0) return true;
 
-    final prevModule = modules[index - 1];
-    final prevTasks = prevModule['tasks'];
-    final prevTaskCount = (prevTasks is List) ? prevTasks.length : 0;
+    final prevModule = widget.program.modules[index - 1];
+    final prevTaskCount = prevModule.tasks.length;
     final prevCompleted = _completedTasks[index - 1]?.length ?? 0;
 
     return prevCompleted >= prevTaskCount;
@@ -131,10 +98,10 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     _saveProgress();
   }
 
-  Future<void> _openTask(int moduleIndex, Map<String, dynamic> task) async {
-    final taskType = task['type']?.toString() ?? '';
-    final taskName = task['name']?.toString() ?? '';
-    final courseTitle = widget.program['title']?.toString() ?? '';
+  Future<void> _openTask(int moduleIndex, Task task) async {
+    final taskType = task.type.value;
+    final taskName = task.name;
+    final courseTitle = widget.program.title;
 
     bool? completed;
 
@@ -185,9 +152,9 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     }
   }
 
-  Widget _buildTaskTile(int moduleIndex, Map<String, dynamic> task) {
-    final taskName = task['name']?.toString() ?? '';
-    final taskType = task['type']?.toString() ?? '';
+  Widget _buildTaskTile(int moduleIndex, Task task) {
+    final taskName = task.name;
+    final taskType = task.type;
     final taskId = 'm${moduleIndex}_$taskName';
     final completed = _completedTasks[moduleIndex]!.contains(taskId);
     final locked = !_isModuleUnlocked(moduleIndex);
@@ -195,21 +162,18 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     IconData icon;
     Color iconColor;
     switch (taskType) {
-      case 'quiz':
+      case TaskType.quiz:
         icon = Icons.quiz;
         iconColor = completed ? Palette.success : Palette.primary;
         break;
-      case 'project':
+      case TaskType.project:
         icon = Icons.code;
         iconColor = completed ? Palette.success : Palette.secondary;
         break;
-      case 'reading':
+      case TaskType.reading:
         icon = Icons.book;
         iconColor = completed ? Palette.success : Palette.primary;
         break;
-      default:
-        icon = Icons.task;
-        iconColor = completed ? Palette.success : Palette.textTertiary;
     }
 
     return Opacity(
@@ -237,7 +201,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
             ),
           ),
           subtitle: Text(
-            taskType.toUpperCase(),
+            taskType.value.toUpperCase(),
             style: const TextStyle(color: Palette.textTertiary, fontSize: 12),
           ),
           trailing: Checkbox(
@@ -257,7 +221,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
 
   @override
   Widget build(BuildContext context) {
-    final title = widget.program['title']?.toString() ?? 'Enrolled Course';
+    final title = widget.program.title;
 
     return Scaffold(
       backgroundColor: Palette.background,
@@ -330,212 +294,220 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(12),
-                child: ExpansionPanelList(
-                  elevation: 1,
-                  expansionCallback: (int index, bool isExpanded) {
-                    setState(() {
-                      if (_isModuleUnlocked(index)) {
-                        _isExpanded[index] = !isExpanded;
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Complete previous module to unlock "${modules[index]['title']}"',
+                child: widget.program.modules.isEmpty
+                    ? _buildEmptyState()
+                    : _buildModulesList(),
+              ),
+            ),
+          ),
+          _buildBottomActions(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          children: [
+            Icon(Icons.school_outlined, size: 64, color: Palette.textTertiary),
+            const SizedBox(height: 16),
+            const Text(
+              'Course modules will be available soon!',
+              style: TextStyle(fontSize: 18, color: Palette.textSecondary),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildModulesList() {
+    return ExpansionPanelList(
+      elevation: 1,
+      expansionCallback: (int index, bool isExpanded) {
+        setState(() {
+          if (_isModuleUnlocked(index)) {
+            _isExpanded[index] = !isExpanded;
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Complete previous module to unlock "${widget.program.modules[index].title}"',
+                ),
+                backgroundColor: Palette.warning,
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
+        });
+      },
+      children: List.generate(widget.program.modules.length, (index) {
+        final module = widget.program.modules[index];
+        final unlocked = _isModuleUnlocked(index);
+        final moduleCompleted =
+            (_completedTasks[index]?.length ?? 0) >= module.tasks.length;
+
+        return ExpansionPanel(
+          canTapOnHeader: true,
+          isExpanded: _isExpanded[index],
+          backgroundColor: Palette.surface,
+          headerBuilder: (context, isOpen) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ListTile(
+                leading: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: unlocked ? Palette.secondary : Palette.textTertiary,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    module.week,
+                    style: const TextStyle(
+                      color: Palette.textOnPrimary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+                title: Text(
+                  module.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Palette.textPrimary,
+                  ),
+                ),
+                subtitle: Text(
+                  unlocked
+                      ? (moduleCompleted ? 'Completed ✓' : 'In Progress')
+                      : 'Locked',
+                  style: TextStyle(
+                    color: moduleCompleted
+                        ? Palette.success
+                        : Palette.textSecondary,
+                  ),
+                ),
+                trailing: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: unlocked
+                        ? Palette.containerLight
+                        : Palette.borderLight,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    unlocked ? Icons.lock_open : Icons.lock,
+                    color: unlocked ? Palette.primary : Palette.textTertiary,
+                    size: 16,
+                  ),
+                ),
+              ),
+            );
+          },
+          body: Column(
+            children: [
+              ...module.tasks
+                  .map((task) => _buildTaskTile(index, task))
+                  .toList(),
+              const Divider(color: Palette.borderLight),
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.play_arrow, size: 18),
+                  label: const Text('Continue'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Palette.primary,
+                    foregroundColor: Palette.textOnPrimary,
+                    disabledBackgroundColor: Palette.textTertiary,
+                  ),
+                  onPressed: !unlocked
+                      ? null
+                      : () {
+                          setState(() {
+                            _isExpanded[index] = true;
+                          });
+                        },
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget _buildBottomActions() {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: Palette.surface,
+          border: Border(top: BorderSide(color: Palette.borderLight, width: 1)),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: OutlinedButton(
+                onPressed: () => Navigator.pop(context),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Palette.primary,
+                  side: const BorderSide(color: Palette.primary),
+                ),
+                child: const Text('Back to Course'),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.emoji_events),
+                label: const Text('Finish'),
+                onPressed: _progress >= 1.0
+                    ? () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Palette.surface,
+                            title: const Text(
+                              '🎉 Congratulations!',
+                              style: TextStyle(color: Palette.textPrimary),
                             ),
-                            backgroundColor: Palette.warning,
-                            duration: const Duration(seconds: 2),
+                            content: const Text(
+                              'You have completed this course! '
+                              'You will receive your certificate via email.',
+                              style: TextStyle(color: Palette.textSecondary),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Palette.primary,
+                                ),
+                                child: const Text('Close'),
+                              ),
+                            ],
                           ),
                         );
                       }
-                    });
-                  },
-                  children: List.generate(modules.length, (index) {
-                    final module = modules[index];
-                    final tasks = module['tasks'];
-                    final taskList = (tasks is List) ? tasks : [];
-                    final unlocked = _isModuleUnlocked(index);
-                    final moduleCompleted =
-                        (_completedTasks[index]?.length ?? 0) >=
-                        taskList.length;
-
-                    return ExpansionPanel(
-                      canTapOnHeader: true,
-                      isExpanded: _isExpanded[index],
-                      backgroundColor: Palette.surface,
-                      headerBuilder: (context, isOpen) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: ListTile(
-                            leading: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: unlocked
-                                    ? Palette.secondary
-                                    : Palette.textTertiary,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                module['week']?.toString() ?? '',
-                                style: const TextStyle(
-                                  color: Palette.textOnPrimary,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                            title: Text(
-                              module['title']?.toString() ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Palette.textPrimary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              unlocked
-                                  ? (moduleCompleted
-                                        ? 'Completed ✓'
-                                        : 'In Progress')
-                                  : 'Locked',
-                              style: TextStyle(
-                                color: moduleCompleted
-                                    ? Palette.success
-                                    : Palette.textSecondary,
-                              ),
-                            ),
-                            trailing: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: unlocked
-                                    ? Palette.containerLight
-                                    : Palette.borderLight,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                unlocked ? Icons.lock_open : Icons.lock,
-                                color: unlocked
-                                    ? Palette.primary
-                                    : Palette.textTertiary,
-                                size: 16,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      body: Column(
-                        children: [
-                          ...taskList.map((t) {
-                            if (t is Map) {
-                              return _buildTaskTile(
-                                index,
-                                Map<String, dynamic>.from(t),
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          }).toList(),
-                          const Divider(color: Palette.borderLight),
-                          Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: ElevatedButton.icon(
-                              icon: const Icon(Icons.play_arrow, size: 18),
-                              label: const Text('Continue'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Palette.primary,
-                                foregroundColor: Palette.textOnPrimary,
-                                disabledBackgroundColor: Palette.textTertiary,
-                              ),
-                              onPressed: !unlocked
-                                  ? null
-                                  : () {
-                                      setState(() {
-                                        _isExpanded[index] = true;
-                                      });
-                                    },
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
+                    : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Palette.primary,
+                  foregroundColor: Palette.textOnPrimary,
+                  disabledBackgroundColor: Palette.textTertiary,
                 ),
               ),
             ),
-          ),
-          SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Palette.surface,
-                border: Border(
-                  top: BorderSide(color: Palette.borderLight, width: 1),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Palette.primary,
-                        side: const BorderSide(color: Palette.primary),
-                      ),
-                      child: const Text('Back to Course'),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      icon: const Icon(Icons.emoji_events),
-                      label: const Text('Finish'),
-                      onPressed: _progress >= 1.0
-                          ? () {
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  backgroundColor: Palette.surface,
-                                  title: const Text(
-                                    '🎉 Congratulations!',
-                                    style: TextStyle(
-                                      color: Palette.textPrimary,
-                                    ),
-                                  ),
-                                  content: const Text(
-                                    'You have completed this course! '
-                                    'You will receive your certificate via email.',
-                                    style: TextStyle(
-                                      color: Palette.textSecondary,
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-                                      style: TextButton.styleFrom(
-                                        foregroundColor: Palette.primary,
-                                      ),
-                                      child: const Text('Close'),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Palette.primary,
-                        foregroundColor: Palette.textOnPrimary,
-                        disabledBackgroundColor: Palette.textTertiary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

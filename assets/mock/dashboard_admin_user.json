@@ -1,0 +1,80 @@
+{
+  "userId": "a1",
+  "role": "admin",
+  "dashboard": {
+    "overview": {
+      "total_users": 42,
+      "active_users": 31,
+      "total_programs": 5,
+      "enrolled_programs": 4,
+      "top_performing_program": "Web Development Bootcamp",
+      "last_updated": "2025-10-26T10:00:00Z"
+    },
+    "activity_summary": {
+      "recent_logins": 12,
+      "new_registrations": 5,
+      "enrollments_this_week": 8,
+      "completed_courses": 3,
+      "average_daily_logins": 6,
+      "support_tickets_open": 2,
+      "last_activity": "2025-10-25T08:30:00Z"
+    },
+    "top_performers": [
+      {
+        "user_id": "u1",
+        "name": "Regina Mutinda",
+        "program": "Cybersecurity Fundamentals",
+        "progress_percent": 92
+      },
+      {
+        "user_id": "u2",
+        "name": "Monica Otieno",
+        "program": "Web Development Bootcamp",
+        "progress_percent": 78
+      }
+    ],
+    "program_insights": [
+      {
+        "program_id": "p1",
+        "title": "Cybersecurity Fundamentals",
+        "enrolled_users": 15,
+        "avg_progress_percent": 68
+      },
+      {
+        "program_id": "p2",
+        "title": "Web Development Bootcamp",
+        "enrolled_users": 20,
+        "avg_progress_percent": 72
+      },
+      {
+        "program_id": "p3",
+        "title": "Data Analysis with Python",
+        "enrolled_users": 10,
+        "avg_progress_percent": 55
+      },
+      {
+        "program_id": "p4",
+        "title": "Mobile App Development",
+        "enrolled_users": 7,
+        "avg_progress_percent": 40
+      },
+      {
+        "program_id": "p5",
+        "title": "UI/UX Design Essentials",
+        "enrolled_users": 12,
+        "avg_progress_percent": 60
+      }
+    ],
+    "feedback": {
+      "positive": 85,
+      "neutral": 10,
+      "negative": 5,
+      "recent_comments": [
+        "Loved the Web Development course content!",
+        "Would appreciate more examples in Data Analysis module.",
+        "Cybersecurity fundamentals was very interactive!"
+      ]
+    }
+  }
+}
+

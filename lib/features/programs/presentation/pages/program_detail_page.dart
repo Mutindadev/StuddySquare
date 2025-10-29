@@ -1,52 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
+import 'package:studysquare/features/programs/data/models/program.dart';
+import 'package:studysquare/features/programs/presentation/provider/enrollment_provider.dart';
+import 'package:studysquare/features/programs/presentation/widgets/info_data.dart';
+import 'package:studysquare/features/programs/presentation/widgets/learning_point.dart';
+import 'package:studysquare/features/programs/presentation/widgets/module_item.dart';
 
 import 'enrolled_course_page.dart';
 
 class ProgramDetailPage extends StatelessWidget {
-  final Map<String, dynamic> program;
+  final Program program;
 
-  const ProgramDetailPage({Key? key, required this.program}) : super(key: key);
+  const ProgramDetailPage({super.key, required this.program});
 
   @override
   Widget build(BuildContext context) {
-    final title = program['title']?.toString() ?? 'Program';
-    final description = program['description']?.toString() ?? '';
-    final duration = program['duration']?.toString() ?? '';
-    final level = program['level']?.toString() ?? '';
-
-    List<String> learning = [];
-    if (program['learning'] is List) {
-      learning = (program['learning'] as List)
-          .map((e) => e.toString())
-          .toList();
-    } else {
-      learning = [
-        'Master key concepts and skills',
-        'Work on real-world projects',
-        'Get certified upon completion',
-        'Access to exclusive resources',
-        'Career support and mentorship',
-      ];
-    }
-
-    List<Map<String, dynamic>> modules = [];
-    if (program['modules'] is List) {
-      modules = (program['modules'] as List).map((e) {
-        if (e is Map) {
-          return Map<String, dynamic>.from(e);
-        }
-        return <String, dynamic>{};
-      }).toList();
-    } else {
-      modules = [
-        {'week': 'Week 1-2', 'title': 'Introduction & Fundamentals'},
-        {'week': 'Week 3-4', 'title': 'Core Concepts'},
-        {'week': 'Week 5-6', 'title': 'Advanced Topics'},
-        {'week': 'Week 7-8', 'title': 'Final Project'},
-      ];
-    }
-
     return Scaffold(
       backgroundColor: Palette.background,
       appBar: AppBar(
@@ -70,7 +40,7 @@ class ProgramDetailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    program.title,
                     style: const TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -79,7 +49,7 @@ class ProgramDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    description,
+                    program.description,
                     style: TextStyle(
                       fontSize: 16,
                       color: Palette.textOnPrimary.withOpacity(0.9),
@@ -93,26 +63,53 @@ class ProgramDetailPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Program info cards
                   Row(
                     children: [
                       Expanded(
-                        child: _InfoCard(
+                        child: InfoCard(
                           icon: Icons.access_time,
                           title: 'Duration',
-                          value: duration,
+                          value: program.duration,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: _InfoCard(
+                        child: InfoCard(
                           icon: Icons.bar_chart,
                           title: 'Level',
-                          value: level,
+                          value: program.level,
+                          levelColor: _getLevelColor(program.levelEnum),
                         ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+
+                  // Additional info cards
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InfoCard(
+                          icon: Icons.assignment,
+                          title: 'Tasks',
+                          value: '${program.totalTasks}',
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: InfoCard(
+                          icon: Icons.library_books,
+                          title: 'Modules',
+                          value: '${program.modules.length}',
+                        ),
+                      ),
+                    ],
+                  ),
+
                   const SizedBox(height: 24),
+
+                  // What you'll learn section
                   const Text(
                     'What You\'ll Learn',
                     style: TextStyle(
@@ -122,10 +119,17 @@ class ProgramDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ...learning
-                      .map((item) => _LearningPoint(text: item))
-                      .toList(),
+
+                  if (program.learning.isEmpty)
+                    const LearningPoint(text: 'Master key concepts and skills')
+                  else
+                    ...program.learning
+                        .map((item) => LearningPoint(text: item))
+                        .toList(),
+
                   const SizedBox(height: 24),
+
+                  // Prerequisites section
                   const Text(
                     'Prerequisites',
                     style: TextStyle(
@@ -144,15 +148,18 @@ class ProgramDetailPage extends StatelessWidget {
                         color: Palette.primary.withOpacity(0.2),
                       ),
                     ),
-                    child: const Text(
-                      'No prior experience required. Just bring your enthusiasm and commitment to learn!',
-                      style: TextStyle(
+                    child: Text(
+                      _getPrerequisiteText(program.levelEnum),
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Palette.textSecondary,
                       ),
                     ),
                   ),
+
                   const SizedBox(height: 24),
+
+                  // Course outline section
                   const Text(
                     'Course Outline',
                     style: TextStyle(
@@ -162,59 +169,131 @@ class ProgramDetailPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ...modules
-                      .map(
-                        (mod) => _ModuleItem(
-                          week: mod['week']?.toString() ?? '',
-                          title: mod['title']?.toString() ?? '',
-                        ),
-                      )
-                      .toList(),
+
+                  if (program.modules.isEmpty)
+                    const Text(
+                      'Module information will be available soon.',
+                      style: TextStyle(
+                        color: Palette.textSecondary,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    )
+                  else
+                    ...program.modules
+                        .map((module) => ModuleItem(module: module))
+                        .toList(),
+
                   const SizedBox(height: 32),
-                  // Enroll Now button with gradient
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: Palette.primaryGradient,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Palette.shadowMedium,
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  EnrolledCoursePage(program: program),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
+
+                  // Enroll Now / Continue button with gradient
+                  Consumer2<EnrollmentProvider, ProfileProvider>(
+                    builder: (context, enrollmentProvider, profileProvider, _) {
+                      final isEnrolled =
+                          enrollmentProvider.isEnrolled(program.id) ||
+                          profileProvider.isEnrolledInCourse(program.id);
+
+                      return SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: Palette.primaryGradient,
                             borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Palette.shadowMedium,
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                          elevation: 0,
-                        ),
-                        child: const Text(
-                          'Enroll Now',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Palette.textOnPrimary,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              if (isEnrolled) {
+                                // Navigate to enrolled course page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        EnrolledCoursePage(program: program),
+                                  ),
+                                );
+                              } else {
+                                try {
+                                  // Enroll the user in enrollment system
+                                  await enrollmentProvider.enroll(program.id);
+
+                                  // Update profile with enrolled course
+                                  await profileProvider.enrollInCourse(
+                                    program.id,
+                                  );
+
+                                  // Show success message
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Successfully enrolled in ${program.title}',
+                                        ),
+                                        backgroundColor: Colors.green,
+                                      ),
+                                    );
+
+                                    // Navigate to enrolled course page
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => EnrolledCoursePage(
+                                          program: program,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  // Show error message
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Failed to enroll: $e'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  isEnrolled ? Icons.play_arrow : Icons.school,
+                                  color: Palette.textOnPrimary,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  isEnrolled
+                                      ? 'Continue Learning'
+                                      : 'Enroll Now',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Palette.textOnPrimary,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -225,145 +304,26 @@ class ProgramDetailPage extends StatelessWidget {
       ),
     );
   }
-}
 
-// Info card widget (Duration, Level)
-class _InfoCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String value;
-
-  const _InfoCard({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Palette.containerLight,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Palette.primary.withOpacity(0.3)),
-        boxShadow: [
-          BoxShadow(
-            color: Palette.shadowLight,
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Icon(icon, size: 32, color: Palette.primary),
-          const SizedBox(height: 8),
-          Text(
-            title,
-            style: const TextStyle(fontSize: 12, color: Palette.textSecondary),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Palette.primary,
-            ),
-          ),
-        ],
-      ),
-    );
+  Color _getLevelColor(ProgramLevel level) {
+    switch (level) {
+      case ProgramLevel.beginner:
+        return Palette.success;
+      case ProgramLevel.intermediate:
+        return Palette.warning;
+      case ProgramLevel.advanced:
+        return Palette.error;
+    }
   }
-}
 
-// Learning point with success checkmark
-class _LearningPoint extends StatelessWidget {
-  final String text;
-
-  const _LearningPoint({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(Icons.check_circle, color: Palette.success, size: 24),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(fontSize: 16, color: Palette.textPrimary),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Module item (Week badge + title)
-class _ModuleItem extends StatelessWidget {
-  final String week;
-  final String title;
-
-  const _ModuleItem({required this.week, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Palette.surface,
-        border: Border.all(color: Palette.borderLight),
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Palette.shadowLight,
-            blurRadius: 2,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Palette.secondary,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              week,
-              style: const TextStyle(
-                color: Palette.textOnPrimary,
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Palette.textPrimary,
-              ),
-            ),
-          ),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            color: Palette.textTertiary,
-          ),
-        ],
-      ),
-    );
+  String _getPrerequisiteText(ProgramLevel level) {
+    switch (level) {
+      case ProgramLevel.beginner:
+        return 'No prior experience required! Perfect for those just starting their learning journey.';
+      case ProgramLevel.intermediate:
+        return 'Basic understanding of the topic recommended. Some prior experience will be helpful.';
+      case ProgramLevel.advanced:
+        return 'Strong foundation in the subject area required. This course builds on advanced concepts.';
+    }
   }
 }
