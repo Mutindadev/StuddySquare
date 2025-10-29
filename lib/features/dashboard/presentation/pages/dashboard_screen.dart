@@ -17,6 +17,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   Map<String, dynamic>? dashboardData;
+  Map<String, dynamic> _stats = {};
   List<Program> allPrograms = [];
   List<Program> enrolledPrograms = [];
   List<Program> recommendedPrograms = [];
@@ -28,11 +29,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     loadDashboardData();
 
+    _loadStats(); // Add this line
+
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
         readCount = 3;
       });
     });
+  }
+
+  // Add this method
+  Future<void> _loadStats() async {
+    final profileProvider = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    );
+    final stats = await profileProvider.getOverallStats();
+    if (mounted) {
+      setState(() {
+        _stats = stats;
+      });
+    }
   }
 
   Future<void> loadDashboardData() async {
@@ -287,7 +304,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     _buildStatCard(
                       "Total XP",
-                      "${profile?.totalXP ?? 0}",
+                      "${_stats['total_xp'] ?? 0}",
                       Icons.trending_up,
                       Colors.green,
                     ),
@@ -299,7 +316,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 25),
 
                 // 📘 Continue Learning Section
@@ -433,94 +449,102 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildEnrolledCourseCard(Program program) {
-    final progress = 0.0;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 8,
-            spreadRadius: 3,
-          ),
-        ],
-      ),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ProgramDetailPage(program: program),
-            ),
-          );
-        },
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        program.title,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "${program.duration} • ${program.level}",
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
+    return Consumer<ProfileProvider>(
+      builder: (context, provider, _) {
+        return FutureBuilder<double>(
+          future: provider.getCourseProgress(program.id),
+          builder: (context, snapshot) {
+            final progress = snapshot.data ?? 0.0;
+            return Container(
+              margin: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.1),
+                    blurRadius: 8,
+                    spreadRadius: 3,
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Text(
-                    "Enrolled",
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                ],
+              ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ProgramDetailPage(program: program),
                     ),
-                  ),
+                  );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                program.title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                "${program.duration} • ${program.level}",
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.green.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text(
+                            "Enrolled",
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    LinearProgressIndicator(
+                      value: progress,
+                      color: Colors.blueAccent,
+                      backgroundColor: Colors.grey[200],
+                      minHeight: 6,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      "${(progress * 100).toStringAsFixed(0)}% complete",
+                      style: const TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            LinearProgressIndicator(
-              value: progress,
-              color: Colors.blueAccent,
-              backgroundColor: Colors.grey[200],
-              minHeight: 6,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              "${(progress * 100).toStringAsFixed(0)}% complete",
-              style: const TextStyle(fontSize: 13, color: Colors.grey),
-            ),
-          ],
-        ),
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 

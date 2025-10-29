@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:studysquare/features/dashboard/presentation/pages/dashboard_screen.dart';
 import 'package:studysquare/features/profile/presentation/pages/profilepage.dart';
+import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 import 'package:studysquare/features/programs/presentation/pages/program_listings_page.dart';
 import 'package:studysquare/features/progress/presentation/pages/progress_page.dart';
 // ...existing imports...
@@ -22,6 +24,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _controller = PageController(initialPage: widget.initialPage ?? 0);
     selectedIndex = widget.initialPage ?? 0;
+
+    Provider.of<ProfileProvider>(context, listen: false);
   }
 
   @override
