@@ -23,10 +23,23 @@
 ---
 
 ### 🎥 Demo Video  
-📹 [View Demo Video](https://drive.google.com/file/d/1DyNQFOstGF1Deki6gtGRPUj63xfvUtg_/view?usp=sharing)
+📹 [View Demo Video](https://drive.google.com/drive/folders/1pypdkso2wJMu4b2nDagH2TOWEnhpyeQn?usp=drive_link)
+
+---
 
 ### 🎨 Reference  
 Figma Design: [StudySquare UI Design](https://www.figma.com/design/FyDv6MV9Q4w8eP5bsJ4JCy/app_dev)
+## 🧩 App Wireframes
+
+**Core Screens:**
+
+- Login Screen  
+- Home Screen  
+- Program Listing Screen  
+- Program Details Screen  
+- Profile Screen  
+
+---
 
 ### 💾 GitHub Repository  
 All source files are available in our shared repository:  
@@ -419,18 +432,6 @@ StudySquare/
 
 ---
 
-## 🧩 App Wireframes
-
-**Core Screens:**
-
-- Login Screen  
-- Home Screen  
-- Program Listing Screen  
-- Program Details Screen  
-- Profile Screen  
-
----
-
 ## 🗓️ Week 1 summary
 
 - ✅ App Proposal Document — Defines purpose, users, and features.  
@@ -479,22 +480,155 @@ Users can move seamlessly between pages, browse programs, and view progress in a
 
 ---
 
-### 🔮 Future Improvements and Next Steps  
-To strengthen StudySquare’s design and scalability, the team plans to:  
-- Implement **minor UI refinements** for better responsiveness across devices.  
-- Add **enhanced security features**, including data privacy measures and improved authentication.  
-- Integrate **biometric login, analytics tracking, and push notifications** for improved usability.  
-- Design a **team logo** to reinforce project identity and branding.  
+## 📆 Week 3 Updates Summary
 
-These upcoming improvements will elevate the platform’s overall user experience, making StudySquare more secure, scalable, and learner-centered.
+**Key Implementations:**
+- ✅ JSON-driven program data (5 complete programs)  
+- ✅ Per-user enrollment and progress persistence (SharedPreferences)  
+- ✅ Updated Profile Page connected to `profile.json`  
+- ✅ Error handling & account duplication flow in authentication  
+- ✅ New “Admin Login” page for hardcoded admin credentials  
+- ✅ Improved routing, clean UI refactor, and loading/error states  
+- ✅ Demo video and updated GitHub repository links
 
 ---
+
+## 📱 App Features
+
+### 1. **Login & Authentication**
+- Fully refactored authentication flow integrating **FirebaseAuth** for user login and registration.
+- Added **Admin Login** route (`admin_login_screen.dart`) for hardcoded admin credentials.
+- Single unified `registrationpage.dart` manages all modes (Register, Login, Admin Login).
+- Password validation requires:
+  - At least one uppercase & lowercase letter  
+  - At least one number  
+  - At least one special character (`@`, `.`, `_`)
+- Error messages display for invalid or duplicate credentials.
+
+  ---
+  ### Files Modified / Added
+
+  lib/features/auth/presentation/pages/admin_login_screen.dart
+lib/features/auth/presentation/pages/registrationpage.dart
+lib/main.dart (updated routes)
+
+
+
+### Key Improvements
+- Handles error states: *“Email already in use”*, *“Invalid credentials”*.
+- Redirects users to dashboard upon successful login or registration.
+- Cleaned up redundant files (old `welcome_screen`, `login_screen`, `signup_screen`).
+
+---
+
+### 2. **User Dashboard**
+- Displays total **courses enrolled** and **total time spent**.  
+- Shows recommended courses for new users.
+- Responsive cards display enrolled programs dynamically.
+
+---
+
+### 3. **Program Listing**
+- Fetches all available programs from `assets/data/programs.json`.
+- Each card displays the program name, duration, and progress bar.
+- State management via **Riverpod** ensures live updates on enrollment.
+
+---
+
+### 4. **Program Details**
+- Shows detailed course structure — weeks, readings, quizzes, and projects.
+- Dynamic CTA changes from **“Enroll Now” → “Continue”** after enrollment.
+- Integrated with `EnrollmentProvider` and `ProgressProvider` for persistence.
+- Week gating: users must complete previous weeks before unlocking new ones.
+
+---
+
+### 5. **Profile Page**
+- Implemented using a **mock JSON-based data system** from `assets/profile.json`.
+- Displays user details: name, email, membership, and preferences.
+- Editable fields with validation and JSON update simulation.
+- Clean architecture with separate layers:
+  - `profile_model.dart` — defines data structure  
+  - `profile_repository.dart` — handles JSON reading/parsing  
+  - `profilepage.dart` — renders profile details  
+  - `edit_profile_page.dart` — allows user updates  
+- Updates saved locally and reflected in UI instantly.
+
+---
+
+### 6. **Progress Tracking**
+- Tracks task and week completion for each enrolled program.
+- Data persisted per user using `SharedPreferences`.
+- Progress bar updates dynamically across sessions.
+
+---
+
+## ⚙️ Technical Implementation
+
+### Data & Assets
+
+assets/data/programs.json → Contains program structure (AI, Web, Cybersecurity, Mobile, Data Analytics)
+assets/profile.json → Mock user data for Profile page
+pubspec.yaml → Updated to include all assets paths
+
+
+### State Management
+- `EnrollmentProvider` → handles enrollment/un-enrollment logic  
+- `ProgressProvider` → manages user progress per program/task  
+- `AuthProvider` → manages Firebase authentication state  
+
+### Persistence Layer
+- Data saved under `SharedPreferences` using user-based keys (`enrollments_{uid}`, `progress_{uid}_{programId}`).
+- Auto-syncs on login/logout through `onAuthChanged(uid)` hook.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/Mutindadev/StuddySquare.git
+cd StuddySquare
+```
+2. Install Dependencies
+ ```bash
+flutter pub get
+```
+4. Run App
+```bash
+flutter run
+```
+---
+
+## 🧪 Testing
+
+| Test Type | Description | Status |
+|------------|-------------|--------|
+| Unit Tests | Enrollment + Progress Providers | ✅ Passed |
+| Integration Tests | Enrollment Flow | ✅ Passed |
+| UI Tests | Dynamic Rendering + Error Handling | ✅ Passed |
+
+
+---
+
+### 🔮 Future Improvements and Next Steps  
+-Migrate from local JSON to Firebase/REST API.
+-Add dark mode and user analytics.
+-Improve UI transitions using Flutter animations.
+-These upcoming improvements will elevate the platform’s overall user experience, making StudySquare more secure, scalable, and learner-centered.
+
+---
+
+💬 Credits
+
+Team 27 - Excelerate Flutter Internship (MAD Track)
+Developed by:Team 27
+Supervised by: Excelerate Internship Program Leads
 
 **Team Members:**  
 - [Regina Mutinda](mailto:rmmutinda02@gmail.com)  
 - [Sai Keerthana](mailto:saikeerthana1112@gmail.com)  
-- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)  
-- [M D Kashif Khan](mailto:imkashifk5@gmail.com)  
+- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)    
 - [Favoured Mwange](mailto:mwangefavoured@gmail.com)  
 - [Niloy Mutsuddy](mailto:niloymutsuddy2001@gmail.com)  
 - [Mathias Mutua](mailto:triplem706@gmail.com)
@@ -583,3 +717,5 @@ This project follows **Clean Architecture** principles with **Provider** for sta
 - **Maintainability**: Changes in one layer don't affect others
 - **Scalability**: New features can be added without disrupting existing code
 - **Provider Integration**: Simple state management with reactive UI updates
+
+---
