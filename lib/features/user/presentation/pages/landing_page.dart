@@ -19,7 +19,7 @@ class _LandingPageState extends State<LandingPage> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  int _selectedMode = 1; // 0: User Login, 1: Register, 2: Admin Login
+  int _selectedMode = 0;
   bool _isLoading = false;
 
   @override
@@ -32,11 +32,6 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Future<void> _submitForm() async {
-    if (_selectedMode == 2) {
-      Navigator.pushNamed(context, '/admin-login');
-      return;
-    }
-
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -58,31 +53,33 @@ class _LandingPageState extends State<LandingPage> {
         }
         await authProvider.signUp(email, password);
 
-        if (context.mounted) {
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            '/verify-email',
-            (route) => false,
-          );
-        }
+        if (!mounted) return;
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          '/verify-email',
+          (route) => false,
+        );
       } else if (_selectedMode == 0) {
         await authProvider.logIn(email, password);
         await profileProvider.loadProfileById(authProvider.user!.uid);
 
-        if (context.mounted) {
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        }
+        if (!mounted) return;
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       }
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.message ?? "An error occurred")));
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("An unknown error occurred: ${e.toString()}")),
       );
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -137,11 +134,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
                 const SizedBox(height: 20),
                 ToggleButtons(
-                  isSelected: [
-                    _selectedMode == 0,
-                    _selectedMode == 1,
-                    _selectedMode == 2,
-                  ],
+                  isSelected: [_selectedMode == 0, _selectedMode == 1],
                   onPressed: (index) {
                     setState(() {
                       _selectedMode = index;
@@ -160,10 +153,6 @@ class _LandingPageState extends State<LandingPage> {
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       child: Text("Register"),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text("Admin Login"),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 25),
@@ -171,12 +160,10 @@ class _LandingPageState extends State<LandingPage> {
                   _buildTextField("Full Name", nameController, false),
                   const SizedBox(height: 12),
                 ],
-                if (_selectedMode != 2) ...[
-                  _buildTextField("Email", emailController, false),
-                  const SizedBox(height: 12),
-                  _buildTextField("Password", passwordController, true),
-                  const SizedBox(height: 12),
-                ],
+                _buildTextField("Email", emailController, false),
+                const SizedBox(height: 12),
+                _buildTextField("Password", passwordController, true),
+                const SizedBox(height: 12),
                 if (_selectedMode == 1) ...[
                   _buildTextField(
                     "Confirm Password",
@@ -202,11 +189,7 @@ class _LandingPageState extends State<LandingPage> {
                           ),
                         ),
                         child: Text(
-                          _selectedMode == 0
-                              ? "Login"
-                              : _selectedMode == 1
-                              ? "Create Account"
-                              : "Go to Admin Portal",
+                          _selectedMode == 0 ? "Login" : "Create Account",
                           style: const TextStyle(color: Palette.textOnPrimary),
                         ),
                       ),
