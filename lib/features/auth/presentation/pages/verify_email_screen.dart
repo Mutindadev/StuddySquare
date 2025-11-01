@@ -39,14 +39,21 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
+
+      // We can safely call setState here because it has an internal 'mounted' check
       setState(() => _canResendEmail = false);
       await Future.delayed(const Duration(seconds: 5));
       setState(() => _canResendEmail = true);
 
+      // --- FIX IS HERE ---
+      // We must check if the widget is still mounted before using context.
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Verification email sent.")));
     } catch (e) {
+      // --- AND FIX IS HERE ---
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Error sending email: $e")));
@@ -88,7 +95,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         ).showSnackBar(SnackBar(content: Text("Error checking status: $e")));
       }
     } finally {
-      setState(() => _isChecking = false);
+      // We also check mounted for setState, just to be extra safe
+      if (mounted) {
+        setState(() => _isChecking = false);
+      }
     }
   }
 
@@ -101,7 +111,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return _isEmailVerified
-        ? const HomePage()
+        ? const HomePage() // This should be fine, but will immediately redirect
         : Scaffold(
             appBar: AppBar(title: const Text("Verify Email")),
             body: Padding(

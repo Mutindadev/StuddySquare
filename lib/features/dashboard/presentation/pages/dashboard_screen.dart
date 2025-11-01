@@ -29,9 +29,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     loadDashboardData();
 
     Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        readCount = 3;
-      });
+      if (mounted) {
+        setState(() {
+          readCount = 3;
+        });
+      }
     });
   }
 
@@ -113,11 +115,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
     } catch (e, stackTrace) {
       debugPrint('Error loading dashboard data: $e');
       debugPrint('Stack trace: $stackTrace');
-      setState(() => isLoading = false);
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 
   void _loadEnrolledCourses() {
+    // Add a check here to prevent crashes if context is used
+    if (!mounted) return;
+
     final profileProvider = Provider.of<ProfileProvider>(
       context,
       listen: false,
@@ -151,12 +158,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return Consumer<ProfileProvider>(
       builder: (context, profileProvider, child) {
-        // Reload enrolled courses when profile changes
+        // --- THIS BLOCK IS THE FIX ---
+        // We moved the logic from the postFrameCallback to here.
+        // This is safe because Consumer guarantees profileProvider is up-to-date.
         if (!isLoading && profileProvider.profile != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _loadEnrolledCourses();
-          });
+          final profile = profileProvider.profile;
+          if (profile?.enrolledCourses != null) {
+            final enrolledCourseIds = profile!.enrolledCourses!;
+            // Update local state based on provider
+            enrolledPrograms = allPrograms
+                .where((program) => enrolledCourseIds.contains(program.id))
+                .toList();
+            recommendedPrograms = allPrograms
+                .where((program) => !enrolledCourseIds.contains(program.id))
+                .take(3)
+                .toList();
+          } else {
+            enrolledPrograms = [];
+            recommendedPrograms = allPrograms.take(3).toList();
+          }
         }
+        // --- END OF FIX ---
 
         if (isLoading) {
           return const Scaffold(

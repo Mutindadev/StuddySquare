@@ -1,13 +1,12 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:studysquare/core/theme/palette.dart';
 import 'package:studysquare/features/programs/data/models/program.dart';
 import 'package:studysquare/features/programs/data/services/program_service.dart';
 import 'package:studysquare/features/programs/presentation/provider/enrollment_provider.dart';
-import 'package:studysquare/features/programs/presentation/provider/program_admin_provider.dart';
 
-import 'admin_programs_page.dart';
+// Admin imports zimetolewa
+
 import 'program_detail_page.dart';
 
 class ProgramListingsPage extends StatelessWidget {
@@ -35,17 +34,7 @@ class ProgramListingsPage extends StatelessWidget {
         foregroundColor: Palette.textOnPrimary,
         elevation: 0,
         actions: [
-          if (kDebugMode || kProfileMode)
-            IconButton(
-              tooltip: 'Admin',
-              icon: const Icon(Icons.admin_panel_settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AdminProgramsPage()),
-                );
-              },
-            ),
+          // Admin IconButton removed
         ],
       ),
       body: Container(
@@ -56,200 +45,180 @@ class ProgramListingsPage extends StatelessWidget {
             colors: [Palette.background, Palette.surface],
           ),
         ),
-        child: Consumer<ProgramAdminProvider>(
-          builder: (context, adminProvider, _) {
-            return FutureBuilder<List<Program>>(
-              future: ProgramService.loadPrograms(
-                userPrograms: adminProvider.userPrograms,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: Palette.primary),
-                  );
-                }
+        // Consumer<ProgramAdminProvider> removed
+        child: FutureBuilder<List<Program>>(
+          future: ProgramService.loadPrograms(), // Logic easened
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(color: Palette.primary),
+              );
+            }
 
-                if (snapshot.hasError ||
-                    !snapshot.hasData ||
-                    snapshot.data!.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No programs available',
-                      style: TextStyle(
-                        color: Palette.textSecondary,
-                        fontSize: 16,
+            if (snapshot.hasError ||
+                !snapshot.hasData ||
+                snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text(
+                  'No programs available',
+                  style: TextStyle(color: Palette.textSecondary, fontSize: 16),
+                ),
+              );
+            }
+
+            final programs = snapshot.data!;
+
+            return Consumer<EnrollmentProvider>(
+              builder: (context, enrollmentProvider, _) {
+                return ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: programs.length,
+                  itemBuilder: (context, index) {
+                    final program = programs[index];
+                    final programId = program.id;
+                    final isEnrolled = enrollmentProvider.isEnrolled(programId);
+
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      elevation: 4,
+                      color: Palette.cardBackground,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    ),
-                  );
-                }
-
-                final programs = snapshot.data!;
-
-                return Consumer<EnrollmentProvider>(
-                  builder: (context, enrollmentProvider, _) {
-                    return ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: programs.length,
-                      itemBuilder: (context, index) {
-                        final program = programs[index];
-                        final programId = program.id;
-                        final isEnrolled = enrollmentProvider.isEnrolled(
-                          programId,
-                        );
-
-                        return Card(
-                          margin: const EdgeInsets.only(bottom: 16),
-                          elevation: 4,
-                          color: Palette.cardBackground,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProgramDetailPage(program: program),
-                                ),
-                              );
-                            },
-                            borderRadius: BorderRadius.circular(12),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProgramDetailPage(program: program),
+                            ),
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          program.title,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Palette.textPrimary,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
                                           children: [
-                                            Text(
-                                              program.title,
-                                              style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Palette.textPrimary,
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 6,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: _getLevelColor(
+                                                  program.level,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                              child: Text(
+                                                program.level,
+                                                style: const TextStyle(
+                                                  color: Palette.textOnPrimary,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                            const SizedBox(height: 8),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 6,
-                                                      ),
-                                                  decoration: BoxDecoration(
-                                                    color: _getLevelColor(
-                                                      program.level,
+                                            if (isEnrolled) ...[
+                                              const SizedBox(width: 8),
+                                              Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 6,
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          20,
-                                                        ),
-                                                  ),
-                                                  child: Text(
-                                                    program.level,
-                                                    style: const TextStyle(
-                                                      color:
-                                                          Palette.textOnPrimary,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                                                decoration: BoxDecoration(
+                                                  color: Palette.success,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                                child: const Text(
+                                                  'Enrolled',
+                                                  style: TextStyle(
+                                                    color:
+                                                        Palette.textOnPrimary,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                if (isEnrolled) ...[
-                                                  const SizedBox(width: 8),
-                                                  Container(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          vertical: 6,
-                                                        ),
-                                                    decoration: BoxDecoration(
-                                                      color: Palette.success,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            20,
-                                                          ),
-                                                    ),
-                                                    child: const Text(
-                                                      'Enrolled',
-                                                      style: TextStyle(
-                                                        color: Palette
-                                                            .textOnPrimary,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    program.description,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Palette.textSecondary,
+                                      ],
                                     ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.access_time,
-                                        size: 16,
-                                        color: Palette.textSecondary,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        program.duration,
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Palette.textSecondary,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        isEnrolled
-                                            ? 'Continue'
-                                            : 'View Details',
-                                        style: const TextStyle(
-                                          color: Palette.primary,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      const Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 14,
-                                        color: Palette.primary,
-                                      ),
-                                    ],
                                   ),
                                 ],
                               ),
-                            ),
+                              const SizedBox(height: 8),
+                              Text(
+                                program.description,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Palette.textSecondary,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.access_time,
+                                    size: 16,
+                                    color: Palette.textSecondary,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    program.duration,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: Palette.textSecondary,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    isEnrolled ? 'Continue' : 'View Details',
+                                    style: const TextStyle(
+                                      color: Palette.primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 14,
+                                    color: Palette.primary,
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        );
-                      },
+                        ),
+                      ),
                     );
                   },
                 );
