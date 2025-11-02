@@ -95,8 +95,7 @@ The purpose of this app is to create an engaging, all-in-one learning platform t
 7. **Push Notifications** – Sends timely updates, reminders, and motivational alerts.  
 8. **Gamified Learning Experience** – Offers XP points, badges, and leaderboards to make learning fun.  
 9. **Performance Analytics Dashboard** – Displays insights, trends, and performance stats.  
-10. **Feedback & Ratings System** – Allows learners to share feedback and rate courses.  
-11. **Study Goals & Daily Reminders** – Helps users stay consistent with notifications and streaks.  
+10. **Study Goals & Daily Reminders** – Helps users stay consistent with notifications and streaks.  
 
 ---
 
