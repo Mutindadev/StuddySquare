@@ -20,8 +20,29 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Map<String, dynamic> _stats = {};
   // removed direct repo usage; use ProfileProvider instead
   bool notifications = true;
+
+  @override
+  void initState() {
+    _loadStats();
+
+    super.initState();
+  }
+
+  Future<void> _loadStats() async {
+    final profileProvider = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    );
+    final stats = await profileProvider.getOverallStats();
+    if (mounted) {
+      setState(() {
+        _stats = stats;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -280,7 +301,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         _smallStatCard(
                           icon: Icons.emoji_events,
                           title: 'Total XP',
-                          value: '${profile.totalXP}',
+                          value: "${_stats['total_xp'] ?? 0}",
                         ),
                       ],
                     ),

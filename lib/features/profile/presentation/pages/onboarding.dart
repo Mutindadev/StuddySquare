@@ -12,7 +12,13 @@ import 'package:studysquare/features/profile/data/repositories/profile_repositor
 import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  // final String fullName;
+  // final String email;
+  const OnboardingScreen({
+    super.key,
+    // required this.fullName,
+    // required this.email,
+  });
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -32,6 +38,13 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   final ImagePicker _picker = ImagePicker();
   bool _submitting = false;
+
+  @override
+  void initState() {
+    // _nameCtrl.text = widget.fullName;
+    // _emailCtrl.text = widget.email;
+    super.initState();
+  }
 
   @override
   void dispose() {

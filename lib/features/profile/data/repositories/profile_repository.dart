@@ -9,8 +9,6 @@ import 'package:path_provider/path_provider.dart';
 import '../models/profile_model.dart';
 
 class ProfileRepository {
-  static const _profileKey =
-      'profile_data'; // kept for compatibility if you still use prefs
   static const _fileName = 'profiles.json';
 
   Future<File> _localFile() async {

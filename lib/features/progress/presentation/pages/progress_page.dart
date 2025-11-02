@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import '../utils/progress_colors.dart';
-import '../widgets/stat_card.dart';
-import '../widgets/tab_section.dart';
-import '../widgets/weekly_activity_card.dart';
-import '../widgets/current_goals_card.dart';
-import '../widgets/courses_tab.dart';
-import '../widgets/badges_tab.dart';
+import 'package:provider/provider.dart';
+import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 
 // Import your repository
 import '../../data/repositories/progress_repository.dart';
+import '../utils/progress_colors.dart';
+import '../widgets/badges_tab.dart';
+import '../widgets/courses_tab.dart';
+import '../widgets/current_goals_card.dart';
+import '../widgets/stat_card.dart';
+import '../widgets/tab_section.dart';
+import '../widgets/weekly_activity_card.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -149,6 +151,22 @@ class _StatsGridState extends State<_StatsGrid> {
   void initState() {
     super.initState();
     _statsFuture = _repository.getStatsData();
+    _loadStats();
+  }
+
+  Future<void> _loadStats() async {
+    final profileProvider = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    );
+    _statsFuture = profileProvider.getOverallStats();
+  }
+
+  // Refresh stats when tab is selected
+  void refreshStats() {
+    setState(() {
+      _loadStats();
+    });
   }
 
   IconData _getIconForKey(String key) {

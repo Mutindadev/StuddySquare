@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studysquare/core/theme/palette.dart';
+import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 import 'package:studysquare/features/programs/data/models/program.dart';
 
 import 'mini_project_page.dart';
@@ -11,7 +13,7 @@ import 'quiz_page.dart';
 class EnrolledCoursePage extends StatefulWidget {
   final Program program;
 
-  const EnrolledCoursePage({Key? key, required this.program}) : super(key: key);
+  const EnrolledCoursePage({super.key, required this.program});
 
   @override
   State<EnrolledCoursePage> createState() => _EnrolledCoursePageState();
@@ -66,6 +68,15 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     });
 
     await prefs.setString(key, jsonEncode(data));
+
+    // Update profile provider to reflect changes
+    if (mounted) {
+      final profileProvider = Provider.of<ProfileProvider>(
+        context,
+        listen: false,
+      );
+      profileProvider.notifyListeners(); // Trigger UI update
+    }
   }
 
   int get _totalTasks => widget.program.totalTasks;
@@ -86,7 +97,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
     return prevCompleted >= prevTaskCount;
   }
 
-  void _toggleTask(int moduleIndex, String taskId, bool value) {
+  void _toggleTask(int moduleIndex, String taskId, bool value) async {
     setState(() {
       final set = _completedTasks[moduleIndex]!;
       if (value) {
@@ -95,7 +106,7 @@ class _EnrolledCoursePageState extends State<EnrolledCoursePage> {
         set.remove(taskId);
       }
     });
-    _saveProgress();
+    await _saveProgress();
   }
 
   Future<void> _openTask(int moduleIndex, Task task) async {
