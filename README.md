@@ -2,28 +2,39 @@
 
 **Mobile App Development with Flutter Virtual Internship — Group 27**  
 **Department Associate:** Kolawole Oparinde  
+**Team Members:**  
+- [Regina Mutinda](mailto:rmmutinda02@gmail.com)  
+- [Sai Keerthana](mailto:saikeerthana1112@gmail.com)  
+- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)    
+- [Favoured Mwange](mailto:mwangefavoured@gmail.com)  
+- [Niloy Mutsuddy](mailto:niloymutsuddy2001@gmail.com)  
+- [Mathias Mutua](mailto:triplem706@gmail.com)
 
----
 ### 🖼️ Screenshots  
 
 <div align="center">
 
-  <img width="200" height="300" src="https://github.com/user-attachments/assets/a294203c-8cb9-4055-9022-cd5b53fc2d5a" alt="Login Screen" />
-  <img width="200" height="300" src="https://github.com/user-attachments/assets/72e22ded-6574-474c-afb0-350fcd221222" alt="Home Screen" />
+<!-- Row 1 -->
+<img width="230" height="480" alt="Login Screen" src="https://github.com/user-attachments/assets/df844dfa-fdb1-42ed-921e-7ebb197bdc52" />
+<img width="230" height="480" alt="Profile Screen" src="https://github.com/user-attachments/assets/e0c38ba5-73b8-46c1-936b-1a36a251f1ba" />
+<img width="230" height="480" alt="Empty Dashboard" src="https://github.com/user-attachments/assets/529d6636-ec33-480f-9603-4fb633f10d6f" />
+<img width="230" height="480" alt="Program Detail Screen 1" src="https://github.com/user-attachments/assets/8d4edc3d-04e5-47d5-b45b-66827c716b85" />
 
-  <img width="200" height="300" src="https://github.com/user-attachments/assets/86a6a97d-b93b-46e9-85bf-1bd071c22ec6" alt="Program Listing" />
-  <img width="200" height="300" src="https://github.com/user-attachments/assets/e36f78e5-4d69-4858-96ab-d6e75d8c9b58" alt="Program Details" />
-
-  <img width="200" height="300" src="https://github.com/user-attachments/assets/51d924f4-e015-4637-87a0-8218ad9c69f7" alt="Profile Screen" />
-  <img width="200" height="300" src="https://github.com/user-attachments/assets/dcdc4aab-9888-4a01-83de-1a54b91bbf40" alt="Progress Screen" />
+<!-- Row 2 -->
+<img width="230" height="480" alt="Program Detail Screen 2" src="https://github.com/user-attachments/assets/6c9bef83-bb4c-4c0a-a33f-e110e24ff719" />
+<img width="230" height="480" alt="Program Listing" src="https://github.com/user-attachments/assets/35fd2e2e-f119-42c6-a5b3-a8fab44bf21e" />
+<img width="230" height="480" alt="Updated Dashboard" src="https://github.com/user-attachments/assets/43653674-b4ed-496e-b80d-410b33177f31" />
+<img width="230" height="480" alt="Progress Page" src="https://github.com/user-attachments/assets/0e907f8e-040f-4aa4-bcef-a6033279c683" />
 
 </div>
+
+---
 
 
 ---
 
 ### 🎥 Demo Video  
-📹 [View Demo Video](https://drive.google.com/drive/folders/1pypdkso2wJMu4b2nDagH2TOWEnhpyeQn?usp=drive_link)
+📹 [View Demo Video](https://drive.google.com/drive/folders/1Y2ENMF1j0Eo_nJBXmgCuTzGOtg-1a0yB?usp=drive_link)
 
 ---
 
@@ -50,7 +61,7 @@ All source files are available in our shared repository:
 ## 📘 Overview
 
 StudySquare is a cross-platform mobile application developed during the **Mobile App Development with Flutter Virtual Internship** by Group 27.  
-The app is designed to bridge the gap between learners and administrators within the **Excelerate ecosystem**, providing a digital space where users can explore programs, access learning materials, track their progress, and stay updated on announcements — all in one interactive environment.
+The app is designed to bridge the gap between learners and administrators within the **Excelerate ecosystem**, providing a digital space where users can explore programs, access learning materials, track their progress, and stay updated on announcements, all in one interactive environment.
 
 The project aims to **empower learners, simplify administrative tasks, and enhance digital education delivery** through a user-centered and visually engaging Flutter interface.
 
@@ -84,18 +95,60 @@ The purpose of this app is to create an engaging, all-in-one learning platform t
 
 ---
 
-## ⚙️ Key Features
+🔄 Process & Development Journey
 
-1. **User Authentication** – Secure login and registration for learners and admins.  
-2. **Dashboard** – Displays enrolled and available courses in an organized layout.  
-3. **Program Listings** – Allows learners to browse and join learning programs.  
-4. **Progress Tracking** – Enables learners to monitor learning progress in real time.  
-5. **Lesson Content Viewing** – Supports multiple lesson formats like text, videos, and quizzes.  
-6. **Profile Management** – Enables both learners and admins to update personal details easily.  
-7. **Push Notifications** – Sends timely updates, reminders, and motivational alerts.  
-8. **Gamified Learning Experience** – Offers XP points, badges, and leaderboards to make learning fun.  
-9. **Performance Analytics Dashboard** – Displays insights, trends, and performance stats.  
-10. **Study Goals & Daily Reminders** – Helps users stay consistent with notifications and streaks.  
+### 🧭 Planning & Design
+- Defined the app’s purpose, target users, and features in the **App Proposal Document**.  
+- Designed low-fidelity **wireframes** for the core user flow (Login → Dashboard → Program Details → Progress → Profile).  
+- Set up a structured **GitHub repository** and base Flutter project layout.  
+
+### 🏗️ Implementation Phase
+The team collaboratively translated the designs into functional Flutter screens with smooth navigation and interactive components.
+
+**Core Screens Implemented:**
+- 🔐 Login & Authentication Screen  
+- 🏠 Dashboard (Home) Screen  
+- 📚 Program Listing Screen  
+- 📄 Program Details Screen  
+- 👤 Profile Screen  
+- 📈 Progress Tracking Page  
+
+Each screen followed clean design principles, ensuring responsiveness and a consistent user experience.
+
+---
+
+## 🚀 App Features
+
+### 1. **User Authentication**
+- Secure registration and login powered by **FirebaseAuth**.  
+- Includes a simplified flow for user login and registration within one interface.  
+- Validations ensure strong password requirements (uppercase, lowercase, number, special character).  
+- Real-time feedback for invalid or duplicate credentials.
+
+### 2. **User Dashboard**
+- Displays enrolled courses, time spent, and learning streaks.  
+- Highlights recommended programs for new users.  
+- Automatically updates once users enroll in a program.
+
+### 3. **Program Listing**
+- Fetches data dynamically from `assets/data/programs.json`.  
+- Each card shows course duration, progress, and quick “View Details” actions.  
+- Integrated with **Riverpod** for real-time state updates.  
+
+### 4. **Program Details**
+- Displays complete curriculum with weekly tasks, readings, quizzes, and projects.  
+- Enroll/Continue button dynamically changes based on user enrollment status.  
+- Week progression locked until previous week completion (gating logic).  
+
+### 5. **Profile Page**
+- Reads and updates data from `assets/profile.json`.  
+- Displays editable user information (name, email, preferences).  
+- Real-time updates reflected through JSON simulation and providers.  
+
+### 6. **Progress Tracking**
+- Tracks user progress across all enrolled programs.  
+- Data persisted locally using `SharedPreferences`.  
+- Automatically loads progress upon login. 
 
 ---
 
@@ -103,27 +156,18 @@ The purpose of this app is to create an engaging, all-in-one learning platform t
 
 ### **Learner Journey**
 
-1. **Sign Up / Log In:** MD Kashif creates his StudySquare account using email and selects his learning interests.  
+1. **Sign Up / Log In:** Kim creates his StudySquare account using email and selects his learning interests.  
 2. **Access Dashboard:** Personalized dashboard displays recommended courses and learning progress.  
-3. **Enroll in a Course:** He enrolls in "Digital Marketing Fundamentals" and begins learning.  
+3. **Enroll in a Course:** He enrolls in "AI & ML Skill Develpment" and begins learning.  
 4. **Interactive Learning:** Engages with structured video lessons, exercises, and quizzes.  
 5. **Track Progress:** Earns badges, XP points, and tracks milestones.  
 6. **Receive Reminders:** Gets daily notifications to maintain streaks and explore new courses.  
 7. **Earn Certificate:** Completes a course and downloads a digital Certificate of Achievement.  
 8. **Feedback:** Leaves a rating and review to improve course quality.  
 
-### **Admin Journey**
-
-1. **Admin Login:** Admin logs into their secure dashboard.  
-2. **Manage Learners:** Views registered users and their progress.  
-3. **Course Management:** Uploads and updates new learning programs.  
-4. **Monitor Analytics:** Tracks learner engagement and performance.  
-5. **Send Notifications:** Announces new courses, reminders, and updates.  
-6. **Generate Reports:** Reviews monthly reports summarizing engagement and growth.  
-
 ---
 
-## 🧩 Proposed Tech Stack
+## 🧩 Tech Stack
 
 | Component              | Technology Used      |
 | ---------------------- | -------------------- |
@@ -135,6 +179,16 @@ The purpose of this app is to create an engaging, all-in-one learning platform t
 | **Storage**            | Firebase Storage     |
 | **Version Control**    | Git & GitHub         |
 | **Wireframes/Design**  | Figma                |
+
+---
+
+## ⚙️ Technical Implementation
+
+### 🧩 Architecture
+StudySquare follows a **clean architecture** structure separating:
+- **Presentation Layer:** UI and state management  
+- **Domain Layer:** Business logic, providers, and data flow  
+- **Data Layer:** JSON and local persistence logic  
 
 ---
 
@@ -416,10 +470,32 @@ StudySquare/
 ├── setup.bat                         # Windows development setup script
 └── readMe.md                         # Project documentation and setup guide
 ```
+---
+
+### 🧠 State Management
+- `EnrollmentProvider` — Handles user enrollment and unenrollment logic.  
+- `ProgressProvider` — Tracks and updates learning progress.  
+- `AuthProvider` — Manages Firebase login states and authentication flow.  
+
+### 💾 Persistence Layer
+- **SharedPreferences** used for user-specific data storage:
+  - `enrollments_{uid}`
+  - `progress_{uid}_{programId}`
+- Data auto-syncs upon login and logout.
 
 ---
 
-## 🧠 Expected Outcomes
+## 🧹 Final Improvements & Stability Fixes
+
+- Fixed **app freeze** issue on login by refactoring `main.dart` to use `ChangeNotifierProxyProvider`.  
+- Resolved **crashes from unmounted context** using `if (!mounted) return;` checks.  
+- Removed deprecated **Admin Login** routes and providers to improve security.  
+- Refined **UI transitions** and defaulted the app to open directly on the user login screen.  
+- Simplified routing and improved performance across pages.
+  
+  ---
+  
+## 🧠 Outcomes
 
 - **Improved Learning Access:** Easy exploration and enrollment in learning programs.  
 - **Enhanced Engagement:** Interactive, motivating, and learner-centered experiences.  
@@ -431,154 +507,14 @@ StudySquare/
 
 ---
 
-## 🗓️ Week 1 summary
+## 🧠 Challenges & Learnings
 
-- ✅ App Proposal Document — Defines purpose, users, and features.  
-- ✅ Wireframes — Minimum of 4 low-fidelity screens.  
-- ✅ GitHub Setup — With Flutter structure and README.  
+- Implementing **persistent progress tracking** across sessions required deep understanding of local data handling.  
+- Ensuring **smooth navigation** between multiple pages using Flutter routes.  
+- Handling **JSON-driven UI updates** effectively for dynamic data.  
+- Debugging and refactoring **asynchronous errors** without breaking the flow.  
 
----
-### 📱 Week 2 Summary  
-During this phase, **the team transformed the Week 1 wireframes into an interactive Flutter prototype**.  
-The application now includes multiple functional screens with smooth navigation, representing the core flow of StudySquare’s learner experience.  
-Users can move seamlessly between pages, browse programs, and view progress in a responsive, visually consistent layout.
-
----
-
-### 🧩 Implemented Screens  
-
-#### 🔐 Login Screen  
-- Simple and secure sign-in interface.  
-- Clean color palette consistent with the StudySquare theme.
-
-#### 🏠 Home Screen  
-- Main hub post-login.  
-- Displays active courses, recommended programs, and quick-access icons for easy navigation.
-
-#### 📚 Program Listing Screen  
-- Organized list of available learning programs.  
-- Allows learners to browse and select programs of interest.
-
-#### 📄 Program Details Screen  
-- Displays full program information including descriptions and overview.  
--The program details screen contains weekly tasks, mini projects, quizzes and reading.
-
-#### 📈 Progress Screen  
-- Tracks learner activity and completion status.  
-- Highlights streaks, achievements, XP points, and milestones to reinforce the gamified learning experience.
-
-#### 👤 Profile Screen  
-- Displays user information such as name, email, and enrolled programs.    
-- Maintains a clean, user-friendly interface.
-
----
-
-### 🚀 Navigation and Interactivity  
-- All pages are connected using **Flutter’s navigation system** for a smooth, continuous experience.  
-- Buttons, icons, and menus are fully interactive, enabling easy movement between login, home, profile, progress, and program screens.  
-
----
-
-## 📆 Week 3 Updates Summary
-
-**Key Implementations:**
-- ✅ JSON-driven program data (5 complete programs)  
-- ✅ Per-user enrollment and progress persistence (SharedPreferences)  
-- ✅ Updated Profile Page connected to `profile.json`  
-- ✅ Error handling & account duplication flow in authentication  
-- ✅ New “Admin Login” page for hardcoded admin credentials  
-- ✅ Improved routing, clean UI refactor, and loading/error states  
-- ✅ Demo video and updated GitHub repository links
-
----
-
-## 📱 App Features
-
-### 1. **Login & Authentication**
-- Fully refactored authentication flow integrating **FirebaseAuth** for user login and registration.
-- Added **Admin Login** route (`admin_login_screen.dart`) for hardcoded admin credentials.
-- Single unified `registrationpage.dart` manages all modes (Register, Login, Admin Login).
-- Password validation requires:
-  - At least one uppercase & lowercase letter  
-  - At least one number  
-  - At least one special character (`@`, `.`, `_`)
-- Error messages display for invalid or duplicate credentials.
-
-  ---
-  ### Files Modified / Added
-
-  lib/features/auth/presentation/pages/admin_login_screen.dart
-lib/features/auth/presentation/pages/registrationpage.dart
-lib/main.dart (updated routes)
-
-
-
-### Key Improvements
-- Handles error states: *“Email already in use”*, *“Invalid credentials”*.
-- Redirects users to dashboard upon successful login or registration.
-- Cleaned up redundant files (old `welcome_screen`, `login_screen`, `signup_screen`).
-
----
-
-### 2. **User Dashboard**
-- Displays total **courses enrolled** and **total time spent**.  
-- Shows recommended courses for new users.
-- Responsive cards display enrolled programs dynamically.
-
----
-
-### 3. **Program Listing**
-- Fetches all available programs from `assets/data/programs.json`.
-- Each card displays the program name, duration, and progress bar.
-- State management via **Riverpod** ensures live updates on enrollment.
-
----
-
-### 4. **Program Details**
-- Shows detailed course structure — weeks, readings, quizzes, and projects.
-- Dynamic CTA changes from **“Enroll Now” → “Continue”** after enrollment.
-- Integrated with `EnrollmentProvider` and `ProgressProvider` for persistence.
-- Week gating: users must complete previous weeks before unlocking new ones.
-
----
-
-### 5. **Profile Page**
-- Implemented using a **mock JSON-based data system** from `assets/profile.json`.
-- Displays user details: name, email, membership, and preferences.
-- Editable fields with validation and JSON update simulation.
-- Clean architecture with separate layers:
-  - `profile_model.dart` — defines data structure  
-  - `profile_repository.dart` — handles JSON reading/parsing  
-  - `profilepage.dart` — renders profile details  
-  - `edit_profile_page.dart` — allows user updates  
-- Updates saved locally and reflected in UI instantly.
-
----
-
-### 6. **Progress Tracking**
-- Tracks task and week completion for each enrolled program.
-- Data persisted per user using `SharedPreferences`.
-- Progress bar updates dynamically across sessions.
-
----
-
-## ⚙️ Technical Implementation
-
-### Data & Assets
-
-assets/data/programs.json → Contains program structure (AI, Web, Cybersecurity, Mobile, Data Analytics)
-assets/profile.json → Mock user data for Profile page
-pubspec.yaml → Updated to include all assets paths
-
-
-### State Management
-- `EnrollmentProvider` → handles enrollment/un-enrollment logic  
-- `ProgressProvider` → manages user progress per program/task  
-- `AuthProvider` → manages Firebase authentication state  
-
-### Persistence Layer
-- Data saved under `SharedPreferences` using user-based keys (`enrollments_{uid}`, `progress_{uid}_{programId}`).
-- Auto-syncs on login/logout through `onAuthChanged(uid)` hook.
+This project strengthened our skills in **collaborative version control, state management, UI/UX consistency, and app scalability.**
 
 ---
 
@@ -624,16 +560,37 @@ Team 27 - Excelerate Flutter Internship (MAD Track)
 Developed by:Team 27
 Supervised by: Excelerate Internship Program Leads
 
-**Team Members:**  
-- [Regina Mutinda](mailto:rmmutinda02@gmail.com)  
-- [Sai Keerthana](mailto:saikeerthana1112@gmail.com)  
-- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)    
-- [Favoured Mwange](mailto:mwangefavoured@gmail.com)  
-- [Niloy Mutsuddy](mailto:niloymutsuddy2001@gmail.com)  
-- [Mathias Mutua](mailto:triplem706@gmail.com)
+- ## 👥 Team 27 — Roles & Contributions  
+
+| Team Member | Role | Key Contributions |
+|--------------|------|------------------|
+| **Regina Mutinda** | Team Lead | Developed the Dashboard screen, handled data reading from JSON and profile integration, co-authored documentation, coordinated team deliverables, and managed project workflow. |
+| **Mathias Mutua** | Developer | Implemented the Login screen and authentication logic, integrated Firebase authentication, and managed JSON-based user validation. |
+| **Niloy Mutsi** | Developer | Built the Program Listing and Program Detail screens, ensuring smooth data flow and UI consistency. |
+| **Sai** | Developer & Project Scribe | Developed the Profile page, co-authored documentation, and assisted in maintaining project structure. |
+| **Favad** | Developer | Created the Progress page, implementing the user progress tracking and UI updates. |
+| **Elton Mwangi** | Project Manager | Oversaw code reviews, maintained clean architecture, ensured adherence to coding standards, and coordinated beta testing. |
 
 
 **Department Associate:** Kolawole Oparinde  
+
+---
+
+## 🌟 Team Reflection  
+
+Throughout this internship journey, **Team 27** grew from a group of individual learners into a cohesive, highly collaborative development team.  
+From our very first design sketches to the final deployment of **StudySquare**, every challenge became a shared opportunity to learn, refine, and improve.
+
+We mastered version control through GitHub, strengthened our understanding of **Flutter**, **Firebase**, and **clean architecture**, and learned how to communicate effectively across different time zones and skill levels.  
+Every milestone—whether debugging crashes, refining the dashboard UI, or implementing JSON-based data—taught us the value of teamwork, patience, and persistence.
+
+Beyond coding, we discovered what it means to deliver real-world solutions under deadlines, document our progress clearly, and uphold professional standards in our workflows.  
+By the end of this project, we not only built a functional learning app but also built confidence, leadership, and collaboration skills that will guide us in our future professional journeys.
+
+> Together, we didn’t just complete a project — we built a product we’re proud of.  
+> — **Team 27 (StudySquare)**
+
+---
 
 ---
 
@@ -646,6 +603,29 @@ By combining structured learning, progress tracking, and community engagement, i
 
 ## 🛠️ Development Setup
 
+## 📋 Version Requirements
+
+- **Flutter**: 3.35.3 (managed by FVM)
+- **Java**: 21.0.8-tem (managed by SDKMAN)
+- **Dart SDK**: ^3.9.2
+
+## 🏛️ Architecture Overview
+
+This project follows **Clean Architecture** principles with **Provider** for state management:
+
+### **Architecture Layers:**
+
+1. **Presentation Layer** (`presentation/`): UI components, pages, and Provider state management
+2. **Domain Layer** (`domain/`): Business logic, entities, use cases, and repository interfaces  
+3. **Data Layer** (`data/`): Data sources, models, and repository implementations
+
+### **Key Benefits:**
+
+- **Separation of Concerns**: Each layer has distinct responsibilities
+- **Testability**: Easy to unit test business logic independently
+- **Maintainability**: Changes in one layer don't affect others
+- **Scalability**: New features can be added without disrupting existing code
+- **Provider Integration**: Simple state management with reactive UI updates
 ### Prerequisites
 
 - [SDKMAN](https://sdkman.io/) for Java version management
@@ -692,29 +672,4 @@ By combining structured learning, progress tracking, and community engagement, i
 ```bash
 flutter run
 ```
-
-## 📋 Version Requirements
-
-- **Flutter**: 3.35.3 (managed by FVM)
-- **Java**: 21.0.8-tem (managed by SDKMAN)
-- **Dart SDK**: ^3.9.2
-
-## 🏛️ Architecture Overview
-
-This project follows **Clean Architecture** principles with **Provider** for state management:
-
-### **Architecture Layers:**
-
-1. **Presentation Layer** (`presentation/`): UI components, pages, and Provider state management
-2. **Domain Layer** (`domain/`): Business logic, entities, use cases, and repository interfaces  
-3. **Data Layer** (`data/`): Data sources, models, and repository implementations
-
-### **Key Benefits:**
-
-- **Separation of Concerns**: Each layer has distinct responsibilities
-- **Testability**: Easy to unit test business logic independently
-- **Maintainability**: Changes in one layer don't affect others
-- **Scalability**: New features can be added without disrupting existing code
-- **Provider Integration**: Simple state management with reactive UI updates
-
 ---
