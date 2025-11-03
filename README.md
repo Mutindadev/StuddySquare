@@ -566,9 +566,9 @@ Supervised by: Excelerate Internship Program Leads
 |--------------|------|------------------|
 | **Regina Mutinda** | Team Lead | Developed the Dashboard screen, handled data reading from JSON and profile integration, co-authored documentation, coordinated team deliverables, and managed project workflow. |
 | **Mathias Mutua** | Developer | Implemented the Login screen and authentication logic, integrated Firebase authentication, and managed JSON-based user validation. |
-| **Niloy Mutsi** | Developer | Built the Program Listing and Program Detail screens, ensuring smooth data flow and UI consistency. |
-| **Sai** | Developer & Project Scribe | Developed the Profile page, co-authored documentation, and assisted in maintaining project structure. |
-| **Favad** | Developer | Created the Progress page, implementing the user progress tracking and UI updates. |
+| **Niloy Mutsuddy** | Developer | Built the Program Listing and Program Detail screens, ensuring smooth data flow and UI consistency. |
+| **Sai Keerthana** | Developer & Project Scribe | Developed the Profile page, co-authored documentation, and assisted in maintaining project structure. |
+| **Favoured Mwange** | Developer | Created the Progress page, implementing the user progress tracking and UI updates. |
 | **Elton Mwangi** | Project Manager | Oversaw code reviews, maintained clean architecture, ensured adherence to coding standards, and coordinated beta testing. |
 
 
