@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:studysquare/features/auth/presentation/provider/auth_provider.dart';
 import 'package:studysquare/features/profile/presentation/provider/profile_provider.dart';
 
 class ProgressRepository {
@@ -25,7 +26,7 @@ class ProgressRepository {
 
   Future<Map<String, dynamic>> getStatsData() async {
     try {
-      final profileProvider = ProfileProvider();
+      final profileProvider = ProfileProvider(AuthProvider());
       final stats = await profileProvider.getOverallStats();
 
       return {
