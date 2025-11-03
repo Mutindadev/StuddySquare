@@ -3,9 +3,9 @@
 **Mobile App Development with Flutter Virtual Internship — Group 27**  
 **Department Associate:** Kolawole Oparinde  
 **Team Members:**  
-- [Regina Mutinda](mailto:rmmutinda02@gmail.com)
+- [Regina Mutinda](mailto:rmmutinda02@gmail.com)  
 - [Sai Keerthana](mailto:saikeerthana1112@gmail.com)  
-- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)
+- [Elton Mwangi](mailto:eltonmwangi8@gmail.com)    
 - [Favoured Mwange](mailto:mwangefavoured@gmail.com)  
 - [Niloy Mutsuddy](mailto:niloymutsuddy2001@gmail.com)  
 - [Mathias Mutua](mailto:triplem706@gmail.com)
@@ -30,10 +30,10 @@
 
 ---
 
+
 ---
 
 ### 🎥 Demo Video  
-
 📹 [View Demo Video](https://drive.google.com/drive/folders/1Y2ENMF1j0Eo_nJBXmgCuTzGOtg-1a0yB?usp=drive_link)
 
 ---
@@ -101,17 +101,14 @@ The purpose of this app is to create an engaging, all-in-one learning platform t
 🔄 Process & Development Journey
 
 ### 🧭 Planning & Design
-
 - Defined the app’s purpose, target users, and features in the **App Proposal Document**.  
 - Designed low-fidelity **wireframes** for the core user flow (Login → Dashboard → Program Details → Progress → Profile).  
 - Set up a structured **GitHub repository** and base Flutter project layout.  
 
 ### 🏗️ Implementation Phase
-
 The team collaboratively translated the designs into functional Flutter screens with smooth navigation and interactive components.
 
 **Core Screens Implemented:**
-
 - 🔐 Login & Authentication Screen  
 - 🏠 Dashboard (Home) Screen  
 - 📚 Program Listing Screen  
@@ -126,41 +123,35 @@ Each screen followed clean design principles, ensuring responsiveness and a cons
 ## 🚀 App Features
 
 ### 1. **User Authentication**
-
 - Secure registration and login powered by **FirebaseAuth**.  
 - Includes a simplified flow for user login and registration within one interface.  
 - Validations ensure strong password requirements (uppercase, lowercase, number, special character).  
 - Real-time feedback for invalid or duplicate credentials.
 
 ### 2. **User Dashboard**
-
 - Displays enrolled courses, time spent, and learning streaks.  
 - Highlights recommended programs for new users.  
 - Automatically updates once users enroll in a program.
 
 ### 3. **Program Listing**
-
 - Fetches data dynamically from `assets/data/programs.json`.  
 - Each card shows course duration, progress, and quick “View Details” actions.  
 - Integrated with **Riverpod** for real-time state updates.  
 
 ### 4. **Program Details**
-
 - Displays complete curriculum with weekly tasks, readings, quizzes, and projects.  
 - Enroll/Continue button dynamically changes based on user enrollment status.  
 - Week progression locked until previous week completion (gating logic).  
 
 ### 5. **Profile Page**
-
 - Reads and updates data from `assets/profile.json`.  
 - Displays editable user information (name, email, preferences).  
 - Real-time updates reflected through JSON simulation and providers.  
 
 ### 6. **Progress Tracking**
-
 - Tracks user progress across all enrolled programs.  
 - Data persisted locally using `SharedPreferences`.  
-- Automatically loads progress upon login.
+- Automatically loads progress upon login. 
 
 ---
 
@@ -197,9 +188,7 @@ Each screen followed clean design principles, ensuring responsiveness and a cons
 ## ⚙️ Technical Implementation
 
 ### 🧩 Architecture
-
 StudySquare follows a **clean architecture** structure separating:
-
 - **Presentation Layer:** UI and state management  
 - **Domain Layer:** Business logic, providers, and data flow  
 - **Data Layer:** JSON and local persistence logic  
@@ -484,17 +473,14 @@ StudySquare/
 ├── setup.bat                         # Windows development setup script
 └── readMe.md                         # Project documentation and setup guide
 ```
-
 ---
 
 ### 🧠 State Management
-
 - `EnrollmentProvider` — Handles user enrollment and unenrollment logic.  
 - `ProgressProvider` — Tracks and updates learning progress.  
 - `AuthProvider` — Manages Firebase login states and authentication flow.  
 
 ### 💾 Persistence Layer
-
 - **SharedPreferences** used for user-specific data storage:
   - `enrollments_{uid}`
   - `progress_{uid}_{programId}`
@@ -522,7 +508,9 @@ StudySquare/
 - **Future Scope (Data-Driven Insights):** Analytics to improve learning outcomes.  
 - **Mission Alignment:** Supports Excelerate's vision of inclusive and accessible digital learning.  
 
----
+- `EnrollmentProvider` — Handles user enrollment and unenrollment logic.  
+- `ProgressProvider` — Tracks and updates learning progress.  
+- `AuthProvider` — Manages Firebase login states and authentication flow.  
 
 ## 🧠 Challenges & Learnings
 
@@ -650,7 +638,6 @@ This project follows **Clean Architecture** principles with **Provider** for sta
 - **Maintainability**: Changes in one layer don't affect others
 - **Scalability**: New features can be added without disrupting existing code
 - **Provider Integration**: Simple state management with reactive UI updates
-
 ### Prerequisites
 
 - [SDKMAN](https://sdkman.io/) for Java version management
@@ -697,5 +684,4 @@ This project follows **Clean Architecture** principles with **Provider** for sta
 ```bash
 flutter run
 ```
-
 ---
