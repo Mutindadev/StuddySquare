@@ -39,7 +39,9 @@
 ---
 
 ### 🎨 Reference  
+
 Figma Design: [StudySquare UI Design](https://www.figma.com/design/FyDv6MV9Q4w8eP5bsJ4JCy/app_dev)
+
 ## 🧩 App Wireframes
 
 **Core Screens:**
@@ -53,6 +55,7 @@ Figma Design: [StudySquare UI Design](https://www.figma.com/design/FyDv6MV9Q4w8e
 ---
 
 ### 💾 GitHub Repository  
+
 All source files are available in our shared repository:  
 🔗 [StudySquare GitHub Repository](https://github.com/Mutindadev/StuddySquare)
 
@@ -505,7 +508,9 @@ StudySquare/
 - **Future Scope (Data-Driven Insights):** Analytics to improve learning outcomes.  
 - **Mission Alignment:** Supports Excelerate's vision of inclusive and accessible digital learning.  
 
----
+- `EnrollmentProvider` — Handles user enrollment and unenrollment logic.  
+- `ProgressProvider` — Tracks and updates learning progress.  
+- `AuthProvider` — Manages Firebase login states and authentication flow.  
 
 ## 🧠 Challenges & Learnings
 
@@ -521,18 +526,25 @@ This project strengthened our skills in **collaborative version control, state m
 ## 🚀 Getting Started
 
 ### 1. Clone Repository
+
 ```bash
 git clone https://github.com/Mutindadev/StuddySquare.git
 cd StuddySquare
 ```
-2. Install Dependencies
+
+2.Install Dependencies
+
  ```bash
 flutter pub get
+
 ```
-4. Run App
+
+3.Run App
+
 ```bash
 flutter run
 ```
+
 ---
 
 ## 🧪 Testing
